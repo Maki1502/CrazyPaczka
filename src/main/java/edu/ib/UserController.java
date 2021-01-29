@@ -1,0 +1,119 @@
+package edu.ib;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+
+public class UserController {
+
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
+
+    @FXML
+    private TextField senderName;
+
+    @FXML
+    private TextField senderSurname;
+
+    @FXML
+    private TextField senderCity;
+
+    @FXML
+    private TextField senderTel;
+
+    @FXML
+    private TextField senderMail;
+
+    @FXML
+    private TextField recipientName;
+
+    @FXML
+    private TextField recipientSurname;
+
+    @FXML
+    private TextField recipientCity;
+
+    @FXML
+    private TextField recipientTel;
+
+    @FXML
+    private TextField recipientMail;
+
+    @FXML
+    private GridPane tableCheckBox;
+
+    @FXML
+    private CheckBox chkS;
+
+    @FXML
+    private CheckBox chkM;
+
+    @FXML
+    private CheckBox chkL;
+
+    @FXML
+    private TextArea seePrice;
+
+    @FXML
+    private Button btnSendPackage;
+
+    @FXML
+    private Button btnExit;
+
+    @FXML
+    void onBtnExit(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onBtnSend(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onChkL(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onChkM(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onChkS(ActionEvent event) {
+
+    }
+
+    @FXML
+    void initialize() {
+        assert senderName != null : "fx:id=\"senderName\" was not injected: check your FXML file 'screen.fxml'.";
+        assert senderSurname != null : "fx:id=\"senderSurname\" was not injected: check your FXML file 'screen.fxml'.";
+        assert senderCity != null : "fx:id=\"senderCity\" was not injected: check your FXML file 'screen.fxml'.";
+        assert senderTel != null : "fx:id=\"senderTel\" was not injected: check your FXML file 'screen.fxml'.";
+        assert senderMail != null : "fx:id=\"senderMail\" was not injected: check your FXML file 'screen.fxml'.";
+        assert recipientName != null : "fx:id=\"recipientName\" was not injected: check your FXML file 'screen.fxml'.";
+        assert recipientSurname != null : "fx:id=\"recipientSurname\" was not injected: check your FXML file 'screen.fxml'.";
+        assert recipientCity != null : "fx:id=\"recipientCity\" was not injected: check your FXML file 'screen.fxml'.";
+        assert recipientTel != null : "fx:id=\"recipientTel\" was not injected: check your FXML file 'screen.fxml'.";
+        assert recipientMail != null : "fx:id=\"recipientMail\" was not injected: check your FXML file 'screen.fxml'.";
+        assert tableCheckBox != null : "fx:id=\"tableCheckBox\" was not injected: check your FXML file 'screen.fxml'.";
+        assert chkS != null : "fx:id=\"chkS\" was not injected: check your FXML file 'screen.fxml'.";
+        assert chkM != null : "fx:id=\"chkM\" was not injected: check your FXML file 'screen.fxml'.";
+        assert chkL != null : "fx:id=\"chkL\" was not injected: check your FXML file 'screen.fxml'.";
+        assert seePrice != null : "fx:id=\"seePrice\" was not injected: check your FXML file 'screen.fxml'.";
+        assert btnSendPackage != null : "fx:id=\"btnSendPackage\" was not injected: check your FXML file 'screen.fxml'.";
+        assert btnExit != null : "fx:id=\"btnExit\" was not injected: check your FXML file 'screen.fxml'.";
+
+    }
+}
+
