@@ -3,14 +3,14 @@ package edu.ib;
 import javafx.beans.property.*;
 
 public class Automats {
-    private ObjectProperty address;
+    private StringProperty address;
     private IntegerProperty sAmount;
     private IntegerProperty mAmount;
     private IntegerProperty lAmount;
     private IntegerProperty shipId;
 
     public Automats(){
-        address = new SimpleObjectProperty();
+        address = new SimpleStringProperty();
         sAmount = new SimpleIntegerProperty();
         mAmount = new SimpleIntegerProperty();
         lAmount = new SimpleIntegerProperty();
@@ -21,11 +21,11 @@ public class Automats {
         return address.get();
     }
 
-    public ObjectProperty addressProperty() {
+    public StringProperty addressProperty() {
         return address;
     }
 
-    public void setAddress(Object address) {
+    public void setAddress(String address) {
         this.address.set(address);
     }
 
