@@ -20,31 +20,31 @@ public class AdminController {
     private URL location;
 
     @FXML
-    private TextField loginName;
+    private TextField adminName;
 
     @FXML
-    private PasswordField passwordCode;
+    private PasswordField AdminPasswordCode;
 
     @FXML
-    private Button btnLogIn;
+    private Button btnAdminLogIn;
 
     @FXML
-    private Button btnLogOut;
+    private Button btnAdminLogOut;
 
     @FXML
-    private TextArea consoleArea;
+    private TextArea AdminConsoleArea;
 
     @FXML
-    private TextField findId;
+    private TextField findIdPackage;
 
     @FXML
-    private TextField deleteId;
+    private TextField deleteIdPackage;
 
     @FXML
-    private Button btnFindId;
+    private Button btnFindIdPackage;
 
     @FXML
-    private Button btnDeleteId;
+    private Button btnDeleteIdPackage;
 
     @FXML
     private TableView<?> packageTable;
@@ -65,12 +65,55 @@ public class AdminController {
     private TableColumn<?, ?> autoIdCol;
 
     @FXML
-    void onBtnDelete(ActionEvent event) {
+    private TextField findIdUser;
+
+    @FXML
+    private TextField deleteIdUser;
+
+    @FXML
+    private Button btnFindIdUser;
+
+    @FXML
+    private Button btnDeleteIdUser;
+
+    @FXML
+    private TableView<?> packageTable1;
+
+    @FXML
+    private TableColumn<?, ?> userIdCol;
+
+    @FXML
+    private TableColumn<?, ?> nameCol;
+
+    @FXML
+    private TableColumn<?, ?> surnameCol;
+
+    @FXML
+    private TableColumn<?, ?> mailCol;
+
+    @FXML
+    private TableColumn<?, ?> phoneCol;
+
+    @FXML
+    private TableColumn<?, ?> cityCol;
+
+    @FXML
+    void onBtnDeleteIdPackage(ActionEvent event) {
 
     }
 
     @FXML
-    void onBtnFind(ActionEvent event) {
+    void onBtnDeleteIdUser(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onBtnFindIdPackage(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onBtnFindIdUser(ActionEvent event) {
 
     }
 
@@ -86,22 +129,32 @@ public class AdminController {
 
     @FXML
     void initialize() {
-        assert loginName != null : "fx:id=\"loginName\" was not injected: check your FXML file 'techScreen.fxml'.";
-        assert passwordCode != null : "fx:id=\"passwordCode\" was not injected: check your FXML file 'techScreen.fxml'.";
-        assert btnLogIn != null : "fx:id=\"btnLogIn\" was not injected: check your FXML file 'techScreen.fxml'.";
-        assert btnLogOut != null : "fx:id=\"btnLogOut\" was not injected: check your FXML file 'techScreen.fxml'.";
-        assert consoleArea != null : "fx:id=\"consoleArea\" was not injected: check your FXML file 'techScreen.fxml'.";
-        assert findId != null : "fx:id=\"findId\" was not injected: check your FXML file 'techScreen.fxml'.";
-        assert deleteId != null : "fx:id=\"deleteId\" was not injected: check your FXML file 'techScreen.fxml'.";
-        assert btnFindId != null : "fx:id=\"btnFindId\" was not injected: check your FXML file 'techScreen.fxml'.";
-        assert btnDeleteId != null : "fx:id=\"btnDeleteId\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert adminName != null : "fx:id=\"adminName\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert AdminPasswordCode != null : "fx:id=\"AdminPasswordCode\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert btnAdminLogIn != null : "fx:id=\"btnAdminLogIn\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert btnAdminLogOut != null : "fx:id=\"btnAdminLogOut\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert AdminConsoleArea != null : "fx:id=\"AdminConsoleArea\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert findIdPackage != null : "fx:id=\"findIdPackage\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert deleteIdPackage != null : "fx:id=\"deleteIdPackage\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert btnFindIdPackage != null : "fx:id=\"btnFindIdPackage\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert btnDeleteIdPackage != null : "fx:id=\"btnDeleteIdPackage\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert packageTable != null : "fx:id=\"packageTable\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert idCol != null : "fx:id=\"idCol\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert shipDateCol != null : "fx:id=\"shipDateCol\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert recDateCol != null : "fx:id=\"recDateCol\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert sizeCol != null : "fx:id=\"sizeCol\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert autoIdCol != null : "fx:id=\"autoIdCol\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert findIdUser != null : "fx:id=\"findIdUser\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert deleteIdUser != null : "fx:id=\"deleteIdUser\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert btnFindIdUser != null : "fx:id=\"btnFindIdUser\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert btnDeleteIdUser != null : "fx:id=\"btnDeleteIdUser\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert packageTable1 != null : "fx:id=\"packageTable1\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert userIdCol != null : "fx:id=\"userIdCol\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert nameCol != null : "fx:id=\"nameCol\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert surnameCol != null : "fx:id=\"surnameCol\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert mailCol != null : "fx:id=\"mailCol\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert phoneCol != null : "fx:id=\"phoneCol\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert cityCol != null : "fx:id=\"cityCol\" was not injected: check your FXML file 'techScreen.fxml'.";
 
     }
 }
-

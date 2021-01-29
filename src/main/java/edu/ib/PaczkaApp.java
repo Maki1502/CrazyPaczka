@@ -14,9 +14,9 @@ public class PaczkaApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        scene = new Scene(loadFXML("/fxml/screen"),800,600);
+        scene = new Scene(loadFXML("/fxml/mainScreen"),600,400);
         stage.setScene(scene);
-        stage.setTitle("User View");
+        stage.setTitle("Main");
         stage.show();
     }
 

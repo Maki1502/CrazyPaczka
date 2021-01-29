@@ -1,8 +1,6 @@
 package edu.ib;
 
-//import com.sun.rowset.CachedRowSetImpl;
 import com.sun.rowset.CachedRowSetImpl;
-
 import javax.sql.rowset.*;
 
 import javax.sql.RowSet;
