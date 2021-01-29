@@ -1,6 +1,7 @@
 package edu.ib;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -81,19 +82,37 @@ public class LoginUserController {
     @FXML
     private Button btnSeeAll;
 
+    private DBUtil dbUtil;
+    private PaczkiDAO paczkiDAO;
+
     @FXML
     void onBtnAdmin(ActionEvent event) {
 
     }
 
     @FXML
-    void onBtnLogIn(ActionEvent event) {
+    void onBtnLogIn(ActionEvent event) throws SQLException, ClassNotFoundException {
+
+        dbUtil = new DBUtil(loginName.getText(), passwordCode.getText(), consoleArea);
+        paczkiDAO = new PaczkiDAO(dbUtil, consoleArea);
+
+        dbUtil.dbDisconnect();
+
+        consoleArea.appendText("Access granted for user \""+loginName.getText()+"\"."+"\n");
+        btnLogIn.setDisable(true);
+        btnLogOut.setDisable(false);
+        //dodac wszytskie fieldy dla usera
 
     }
 
     @FXML
-    void onBtnLogOut(ActionEvent event) {
+    void onBtnLogOut(ActionEvent event) throws SQLException{
 
+        dbUtil.dbDisconnect();
+        btnLogIn.setDisable(false);
+        btnLogOut.setDisable(true);
+        //dodac wszystkie fieldy dla usera
+        //wyczyscic pola
     }
 
     @FXML
