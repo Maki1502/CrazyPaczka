@@ -2,19 +2,35 @@ package edu.ib;
 
 import javafx.beans.property.*;
 
-public class Recipients {
+public class Clients {
+    private IntegerProperty id;
     private StringProperty name;
     private StringProperty surname;
+    private StringProperty address;
     private StringProperty email;
     private StringProperty phone_number;
-    private IntegerProperty shipId;
+    private StringProperty password;
 
-    public Recipients(){
+    public Clients(){
+        id = new SimpleIntegerProperty();
         name = new SimpleStringProperty();
         surname = new SimpleStringProperty();
+        address = new SimpleStringProperty();
         email = new SimpleStringProperty();
         phone_number = new SimpleStringProperty();
-        shipId = new SimpleIntegerProperty();
+        password = new SimpleStringProperty();
+    }
+
+    public int getId() {
+        return id.get();
+    }
+
+    public IntegerProperty idProperty() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id.set(id);
     }
 
     public String getName() {
@@ -41,6 +57,18 @@ public class Recipients {
         this.surname.set(surname);
     }
 
+    public String getAddress() {
+        return address.get();
+    }
+
+    public StringProperty addressProperty() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address.set(address);
+    }
+
     public String getEmail() {
         return email.get();
     }
@@ -65,15 +93,15 @@ public class Recipients {
         this.phone_number.set(phone_number);
     }
 
-    public int getShipId() {
-        return shipId.get();
+    public String getPassword() {
+        return password.get();
     }
 
-    public IntegerProperty shipIdProperty() {
-        return shipId;
+    public StringProperty passwordProperty() {
+        return password;
     }
 
-    public void setShipId(int shipId) {
-        this.shipId.set(shipId);
+    public void setPassword(String password) {
+        this.password.set(password);
     }
 }

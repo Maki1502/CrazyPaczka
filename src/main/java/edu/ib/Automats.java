@@ -7,14 +7,12 @@ public class Automats {
     private IntegerProperty sAmount;
     private IntegerProperty mAmount;
     private IntegerProperty lAmount;
-    private IntegerProperty shipId;
 
     public Automats(){
         address = new SimpleStringProperty();
         sAmount = new SimpleIntegerProperty();
         mAmount = new SimpleIntegerProperty();
         lAmount = new SimpleIntegerProperty();
-        shipId = new SimpleIntegerProperty();
     }
 
     public Object getAddress() {
@@ -63,17 +61,5 @@ public class Automats {
 
     public void setlAmount(int lAmount) {
         this.lAmount.set(lAmount);
-    }
-
-    public int getShipId() {
-        return shipId.get();
-    }
-
-    public IntegerProperty shipIdProperty() {
-        return shipId;
-    }
-
-    public void setShipId(int shipId) {
-        this.shipId.set(shipId);
     }
 }
