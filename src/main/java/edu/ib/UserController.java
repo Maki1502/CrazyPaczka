@@ -1,14 +1,20 @@
 package edu.ib;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 public class UserController {
 
@@ -69,9 +75,16 @@ public class UserController {
     @FXML
     private Button btnExit;
 
-    @FXML
-    void onBtnExit(ActionEvent event) {
 
+    private static Scene scenePackage;
+    Stage stage = new Stage();
+    @FXML
+    void onBtnExit(ActionEvent event) throws IOException {
+        scenePackage = new Scene(loadFXML("/fxml/mainScreen"), 600, 400);
+        stage.setScene(scenePackage);
+        stage.setTitle("Main screen");
+        stage.show();
+        ((Node)(event.getSource())).getScene().getWindow().hide();
     }
 
     @FXML
@@ -114,6 +127,11 @@ public class UserController {
         assert btnSendPackage != null : "fx:id=\"btnSendPackage\" was not injected: check your FXML file 'screen.fxml'.";
         assert btnExit != null : "fx:id=\"btnExit\" was not injected: check your FXML file 'screen.fxml'.";
 
+    }
+
+    private static Parent loadFXML(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(PaczkaApp.class.getResource(fxml + ".fxml"));
+        return fxmlLoader.load();
     }
 }
 

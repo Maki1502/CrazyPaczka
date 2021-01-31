@@ -1,15 +1,22 @@
 package edu.ib;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class AdminController {
 
@@ -97,6 +104,12 @@ public class AdminController {
     @FXML
     private TableColumn<?, ?> cityCol;
 
+    private DBUtil dbUtil;
+    private PaczkiDAO paczkiDAO;
+
+    private static Scene scenePackage;
+    Stage stage = new Stage();
+
     @FXML
     void onBtnDeleteIdPackage(ActionEvent event) {
 
@@ -118,12 +131,54 @@ public class AdminController {
     }
 
     @FXML
-    void onBtnLogIn(ActionEvent event) {
+    void onBtnLogIn(ActionEvent event) throws SQLException, ClassNotFoundException {
+        dbUtil = new DBUtil(adminName.getText(), AdminPasswordCode.getText(), AdminConsoleArea);
+        paczkiDAO = new PaczkiDAO(dbUtil, AdminConsoleArea);
 
+        dbUtil.dbConnect();
+
+        AdminConsoleArea.appendText("Access granted for user \""+adminName.getText()+"\"."+"\n");
+        btnAdminLogIn.setDisable(true);
+        btnAdminLogOut.setDisable(false);
+
+        findIdPackage.setDisable(false);
+        deleteIdPackage.setDisable(false);
+        btnFindIdPackage.setDisable(false);
+        btnDeleteIdPackage.setDisable(false);
+        packageTable.setDisable(false);
+        findIdUser.setDisable(false);
+        deleteIdUser.setDisable(false);
+        btnFindIdUser.setDisable(false);
+        deleteIdUser.setDisable(false);
+        btnDeleteIdUser.setDisable(false);
+        packageTable1.setDisable(false);
     }
 
     @FXML
-    void onBtnLogOut(ActionEvent event) {
+    void onBtnLogOut(ActionEvent event) throws IOException, SQLException {
+
+        dbUtil.dbDisconnect();
+        btnAdminLogIn.setDisable(false);
+
+        btnAdminLogOut.setDisable(true);
+        findIdPackage.setDisable(true);
+        deleteIdPackage.setDisable(true);
+        btnFindIdPackage.setDisable(true);
+        btnDeleteIdPackage.setDisable(true);
+        packageTable.setDisable(true);
+        findIdUser.setDisable(true);
+        deleteIdUser.setDisable(true);
+        btnFindIdUser.setDisable(true);
+        deleteIdUser.setDisable(true);
+        btnDeleteIdUser.setDisable(true);
+        packageTable1.setDisable(true);
+
+
+        scenePackage = new Scene(loadFXML("/fxml/mainScreen"), 600, 400);
+        stage.setScene(scenePackage);
+        stage.setTitle("Main screen");
+        stage.show();
+        ((Node)(event.getSource())).getScene().getWindow().hide();
 
     }
 
@@ -156,5 +211,23 @@ public class AdminController {
         assert phoneCol != null : "fx:id=\"phoneCol\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert cityCol != null : "fx:id=\"cityCol\" was not injected: check your FXML file 'techScreen.fxml'.";
 
+        btnAdminLogOut.setDisable(true);
+        findIdPackage.setDisable(true);
+        deleteIdPackage.setDisable(true);
+        btnFindIdPackage.setDisable(true);
+        btnDeleteIdPackage.setDisable(true);
+        packageTable.setDisable(true);
+        findIdUser.setDisable(true);
+        deleteIdUser.setDisable(true);
+        btnFindIdUser.setDisable(true);
+        deleteIdUser.setDisable(true);
+        btnDeleteIdUser.setDisable(true);
+        packageTable1.setDisable(true);
+
+    }
+
+    private static Parent loadFXML(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(PaczkaApp.class.getResource(fxml + ".fxml"));
+        return fxmlLoader.load();
     }
 }

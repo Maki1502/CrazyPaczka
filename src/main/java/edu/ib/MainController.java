@@ -1,16 +1,22 @@
 package edu.ib;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class MainController {
 
@@ -83,22 +89,35 @@ public class MainController {
     private DBUtil dbUtil;
     private PaczkiDAO paczkiDAO;
 
-    @FXML
-    void onBtnAdmin(ActionEvent event) {
+    private static Scene scenePackage;
+    Stage stage = new Stage();
 
+    @FXML
+    void onBtnAdmin(ActionEvent event) throws IOException { //done
+        scenePackage = new Scene(loadFXML("/fxml/techScreen"), 800, 500);
+        stage.setScene(scenePackage);
+        stage.setTitle("Admin mode");
+        stage.show();
+        ((Node)(event.getSource())).getScene().getWindow().hide();
     }
 
     @FXML
-    void onBtnLogIn(ActionEvent event) throws SQLException, ClassNotFoundException {
+    void onBtnLogIn(ActionEvent event) throws SQLException, ClassNotFoundException { //done
         dbUtil = new DBUtil(loginName.getText(), passwordCode.getText(), consoleArea);
         paczkiDAO = new PaczkiDAO(dbUtil, consoleArea);
 
-        dbUtil.dbDisconnect();
+        dbUtil.dbConnect();
 
         consoleArea.appendText("Access granted for user \""+loginName.getText()+"\"."+"\n");
         btnLogIn.setDisable(true);
+
         btnLogOut.setDisable(false);
-        //dodac wszytskie fieldy dla usera
+        btnNewPackage.setDisable(false);
+        findDate.setDisable(false);
+        btnFindDate.setDisable(false);
+        findStatus.setDisable(false);
+        btnFindStatus.setDisable(false);
+        userDataTable.setDisable(false);
 
     }
 
@@ -108,12 +127,30 @@ public class MainController {
         dbUtil.dbDisconnect();
         btnLogIn.setDisable(false);
         btnLogOut.setDisable(true);
-        //dodac wszystkie fieldy dla usera
-        //wyczyscic pola
+
+        btnNewPackage.setDisable(true);
+        findDate.setDisable(true);
+        btnFindDate.setDisable(true);
+        findStatus.setDisable(true);
+        btnFindStatus.setDisable(true);
+        userDataTable.setDisable(true);
+
+        findDate.clear();
+        findStatus.clear();
+        userDataTable.getItems().clear();
+
+        loginName.clear();
+        passwordCode.clear();
     }
 
     @FXML
-    void onBtnNewPackage(ActionEvent event) {
+    void onBtnNewPackage(ActionEvent event) throws IOException {
+
+        scenePackage = new Scene(loadFXML("/fxml/screen"), 600, 400);
+        stage.setScene(scenePackage);
+        stage.setTitle("New package");
+        stage.show();
+        ((Node)(event.getSource())).getScene().getWindow().hide();
 
     }
 
@@ -155,5 +192,19 @@ public class MainController {
         assert findStatus != null : "fx:id=\"findStatus\" was not injected: check your FXML file 'mainScreen.fxml'.";
         assert btnNewPackage != null : "fx:id=\"btnNewPackage\" was not injected: check your FXML file 'mainScreen.fxml'.";
 
+
+        btnLogOut.setDisable(true);
+        btnNewPackage.setDisable(true);
+        findDate.setDisable(true);
+        btnFindDate.setDisable(true);
+        findStatus.setDisable(true);
+        btnFindStatus.setDisable(true);
+        userDataTable.setDisable(true);
+
+    }
+
+    private static Parent loadFXML(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(PaczkaApp.class.getResource(fxml + ".fxml"));
+        return fxmlLoader.load();
     }
 }
