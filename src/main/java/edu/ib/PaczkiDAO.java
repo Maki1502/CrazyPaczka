@@ -101,7 +101,7 @@ public class PaczkiDAO {
     private ObservableList<ObservableList> data;
 
     public ObservableList<ObservableList> clientView() throws SQLException, ClassNotFoundException{
-        String selectStmt = "SELECT * FROM ClientView;";
+        String selectStmt = "SELECT * FROM CustomerView;";
         try{
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
 
@@ -114,8 +114,8 @@ public class PaczkiDAO {
             }
             return data;
         }catch (SQLException e){
-            consoleTextArea.appendText("While searching, an error occurred. \n");
-            throw e;
+                consoleTextArea.appendText("While searching, an error occurred. \n");
+                throw e;
         }
     }
 }

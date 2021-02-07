@@ -171,8 +171,12 @@ public class MainController {
 
         try{
             userDataTable.getItems().clear();
-            clientView = paczkiDAO.clientView();
-            userDataTable.setItems(clientView);
+            if(clientView != null) {
+                clientView = paczkiDAO.clientView();
+                userDataTable.setItems(clientView);
+            }else{
+                consoleArea.appendText("No data found. \n");
+            }
         }catch (SQLException e){
             consoleArea.appendText("Error occurred while getting data from DB. \n");
         }
