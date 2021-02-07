@@ -58,25 +58,25 @@ public class MainController {
     private TableView<ObservableList> userDataTable;
 
     @FXML
-    private TableColumn<ClientView, Integer> idCol;
+    private TableColumn<ObservableList, Integer> idCol;
 
     @FXML
-    private TableColumn<ClientView, String> nameCol;
+    private TableColumn<ObservableList, String> nameCol;
 
     @FXML
-    private TableColumn<ClientView, Enum> statusCol;
+    private TableColumn<ObservableList, Enum> statusCol;
 
     @FXML
-    private TableColumn<ClientView, String> shipCol;
+    private TableColumn<ObservableList, String> shipCol;
 
     @FXML
-    private TableColumn<ClientView, String> recCol;
+    private TableColumn<ObservableList, String> recCol;
 
     @FXML
-    private TableColumn<ClientView, Enum> sizeCol;
+    private TableColumn<ObservableList, Enum> sizeCol;
 
     @FXML
-    private TableColumn<ClientView, String> automatCol;
+    private TableColumn<ObservableList, String> automatCol;
 
     @FXML
     private Button btnFindDate;

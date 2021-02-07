@@ -69,22 +69,6 @@ public class PaczkiDAO {
         return shipmentsList;
     }
 
-    private ObservableList<ClientView> getClientsView(ResultSet rs) throws SQLException{
-        ObservableList<ClientView> clientViews = FXCollections.observableArrayList();
-
-        while(rs.next()){
-            ClientView c = new ClientView();
-            c.setId(rs.getInt("ID"));
-            c.setName(rs.getString("recipient"));
-            c.setStatus(rs.getObject("yourStatus"));
-            c.setConDate(rs.getString("ConsignmentDate"));
-            c.setRecDate(rs.getString("ReceptionDate"));
-            c.setSize(rs.getObject("Size"));
-            c.setAddress(rs.getString("s.automat_address"));
-        }
-        return clientViews;
-    }
-
     public ObservableList<Automats> showAllAutomats() throws SQLException, ClassNotFoundException{
         String selectStmt = "SELECT * FROM automats;";
         try{
