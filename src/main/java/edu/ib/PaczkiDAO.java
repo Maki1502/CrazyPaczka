@@ -98,13 +98,21 @@ public class PaczkiDAO {
         }
     }
 
-    public ObservableList<ClientView> clientView() throws SQLException, ClassNotFoundException{
+    private ObservableList<ObservableList> data;
+
+    public ObservableList<ObservableList> clientView() throws SQLException, ClassNotFoundException{
         String selectStmt = "SELECT * FROM ClientView;";
         try{
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
-            ObservableList<ClientView> clientViews = getClientsView(resultSet);
-            consoleTextArea.appendText(selectStmt);
-            return clientViews;
+
+            while(resultSet.next()){
+                ObservableList<String> row = FXCollections.observableArrayList();
+                for(int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++){
+                    row.add(resultSet.getString(i));
+                }
+                data.add(row);
+            }
+            return data;
         }catch (SQLException e){
             consoleTextArea.appendText("While searching, an error occurred. \n");
             throw e;

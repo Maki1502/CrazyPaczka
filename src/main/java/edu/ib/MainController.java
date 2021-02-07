@@ -2,9 +2,12 @@ package edu.ib;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,9 +52,10 @@ public class MainController {
     @FXML
     private TextArea consoleArea;
 
+    private ObservableList<ObservableList> clientView;
 
     @FXML
-    private TableView userDataTable;
+    private TableView<ObservableList> userDataTable;
 
     @FXML
     private TableColumn<ClientView, Integer> idCol;
@@ -122,9 +126,6 @@ public class MainController {
         btnFindStatus.setDisable(false);
         userDataTable.setDisable(false);
 
-        userDataTable.getItems().clear();
-        ObservableList<ClientView> clientData = paczkiDAO.clientView();
-        userDataTable.setItems(clientData);
     }
 
     @FXML
@@ -166,7 +167,15 @@ public class MainController {
     }
 
     @FXML
-    void onFindDate(ActionEvent event) {
+    void onFindDate(ActionEvent event) throws SQLException, ClassNotFoundException {
+
+        try{
+            userDataTable.getItems().clear();
+            clientView = paczkiDAO.clientView();
+            userDataTable.setItems(clientView);
+        }catch (SQLException e){
+            consoleArea.appendText("Error occurred while getting data from DB. \n");
+        }
 
     }
 
