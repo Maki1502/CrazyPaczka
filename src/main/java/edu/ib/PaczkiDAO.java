@@ -2,6 +2,7 @@ package edu.ib;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
 import javafx.scene.control.TextArea;
 
 import java.sql.ResultSet;
@@ -66,5 +67,47 @@ public class PaczkiDAO {
             p.setAutoAddress(rs.getString("automat_address"));
         }
         return shipmentsList;
+    }
+
+    private ObservableList<ClientView> getClientsView(ResultSet rs) throws SQLException{
+        ObservableList<ClientView> clientViews = FXCollections.observableArrayList();
+
+        while(rs.next()){
+            ClientView c = new ClientView();
+            c.setId(rs.getInt("ID"));
+            c.setName(rs.getString("recipient"));
+            c.setStatus(rs.getObject("yourStatus"));
+            c.setConDate(rs.getString("ConsignmentDate"));
+            c.setRecDate(rs.getString("ReceptionDate"));
+            c.setSize(rs.getObject("Size"));
+            c.setAddress(rs.getString("s.automat_address"));
+        }
+        return clientViews;
+    }
+
+    public ObservableList<Automats> showAllAutomats() throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM automats;";
+        try{
+            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
+            ObservableList<Automats> automatsList = getAutomatsList(resultSet);
+            consoleTextArea.appendText(selectStmt);
+            return automatsList;
+        }catch (SQLException e){
+            consoleTextArea.appendText("While searching, an error occurred. \n");
+            throw e;
+        }
+    }
+
+    public ObservableList<ClientView> clientView() throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM ClientView;";
+        try{
+            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
+            ObservableList<ClientView> clientViews = getClientsView(resultSet);
+            consoleTextArea.appendText(selectStmt);
+            return clientViews;
+        }catch (SQLException e){
+            consoleTextArea.appendText("While searching, an error occurred. \n");
+            throw e;
+        }
     }
 }

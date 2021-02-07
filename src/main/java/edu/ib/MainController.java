@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,8 +49,12 @@ public class MainController {
     @FXML
     private TextArea consoleArea;
 
+
     @FXML
     private TableView<?> userDataTable;
+
+    @FXML
+    private TableColumn<?, ?> idCol;
 
     @FXML
     private TableColumn<?, ?> nameCol;
@@ -57,19 +63,16 @@ public class MainController {
     private TableColumn<?, ?> statusCol;
 
     @FXML
-    private TableColumn<?, ?> fromCol;
-
-    @FXML
-    private TableColumn<?, ?> toCol;
-
-    @FXML
     private TableColumn<?, ?> shipCol;
 
     @FXML
     private TableColumn<?, ?> recCol;
 
     @FXML
-    private TableColumn<?, ?> priceCol;
+    private TableColumn<?, ?> sizeCol;
+
+    @FXML
+    private TableColumn<?, ?> automatCol;
 
     @FXML
     private Button btnFindDate;
@@ -118,6 +121,8 @@ public class MainController {
         findStatus.setDisable(false);
         btnFindStatus.setDisable(false);
         userDataTable.setDisable(false);
+
+        userDataTable.getItems().clear();
 
     }
 
@@ -179,13 +184,13 @@ public class MainController {
         assert btnAdmin != null : "fx:id=\"btnAdmin\" was not injected: check your FXML file 'mainScreen.fxml'.";
         assert consoleArea != null : "fx:id=\"consoleArea\" was not injected: check your FXML file 'mainScreen.fxml'.";
         assert userDataTable != null : "fx:id=\"userDataTable\" was not injected: check your FXML file 'mainScreen.fxml'.";
+        assert idCol != null : "fx:id=\"idCol\" was not injected: check your FXML file 'mainScreen.fxml'.";
         assert nameCol != null : "fx:id=\"nameCol\" was not injected: check your FXML file 'mainScreen.fxml'.";
         assert statusCol != null : "fx:id=\"statusCol\" was not injected: check your FXML file 'mainScreen.fxml'.";
-        assert fromCol != null : "fx:id=\"fromCol\" was not injected: check your FXML file 'mainScreen.fxml'.";
-        assert toCol != null : "fx:id=\"toCol\" was not injected: check your FXML file 'mainScreen.fxml'.";
         assert shipCol != null : "fx:id=\"shipCol\" was not injected: check your FXML file 'mainScreen.fxml'.";
         assert recCol != null : "fx:id=\"recCol\" was not injected: check your FXML file 'mainScreen.fxml'.";
-        assert priceCol != null : "fx:id=\"priceCol\" was not injected: check your FXML file 'mainScreen.fxml'.";
+        assert sizeCol != null : "fx:id=\"sizeCol\" was not injected: check your FXML file 'mainScreen.fxml'.";
+        assert automatCol != null : "fx:id=\"automatCol\" was not injected: check your FXML file 'mainScreen.fxml'.";
         assert btnFindDate != null : "fx:id=\"btnFindDate\" was not injected: check your FXML file 'mainScreen.fxml'.";
         assert btnFindStatus != null : "fx:id=\"btnFindStatus\" was not injected: check your FXML file 'mainScreen.fxml'.";
         assert findDate != null : "fx:id=\"findDate\" was not injected: check your FXML file 'mainScreen.fxml'.";
