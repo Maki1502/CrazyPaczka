@@ -51,28 +51,28 @@ public class MainController {
 
 
     @FXML
-    private TableView<?> userDataTable;
+    private TableView userDataTable;
 
     @FXML
-    private TableColumn<?, ?> idCol;
+    private TableColumn<ClientView, Integer> idCol;
 
     @FXML
-    private TableColumn<?, ?> nameCol;
+    private TableColumn<ClientView, String> nameCol;
 
     @FXML
-    private TableColumn<?, ?> statusCol;
+    private TableColumn<ClientView, Enum> statusCol;
 
     @FXML
-    private TableColumn<?, ?> shipCol;
+    private TableColumn<ClientView, String> shipCol;
 
     @FXML
-    private TableColumn<?, ?> recCol;
+    private TableColumn<ClientView, String> recCol;
 
     @FXML
-    private TableColumn<?, ?> sizeCol;
+    private TableColumn<ClientView, Enum> sizeCol;
 
     @FXML
-    private TableColumn<?, ?> automatCol;
+    private TableColumn<ClientView, String> automatCol;
 
     @FXML
     private Button btnFindDate;
@@ -123,7 +123,8 @@ public class MainController {
         userDataTable.setDisable(false);
 
         userDataTable.getItems().clear();
-
+        ObservableList<ClientView> clientData = paczkiDAO.clientView();
+        userDataTable.setItems(clientData);
     }
 
     @FXML
