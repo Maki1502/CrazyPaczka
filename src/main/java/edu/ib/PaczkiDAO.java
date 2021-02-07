@@ -57,7 +57,9 @@ public class PaczkiDAO {
             p.setSendPlace(rs.getString("shipment_sending_place"));
             p.setRecPlace(rs.getString("shipment_reception_place"));
             p.setStatus(rs.getObject("shipment_status"));
+            p.setConsDate(rs.getString("shipment_consignment_date"));
             p.setShipDate(rs.getString("shipment_sending_date"));
+            p.setDeliDate(rs.getString("shipment_delivery_date"));
             p.setRecDate(rs.getString("shipment_reception_date"));
             p.setRecId(rs.getInt("shipment_recipient_id"));
             p.setClientId(rs.getInt("client_id"));

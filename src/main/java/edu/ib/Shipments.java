@@ -10,7 +10,9 @@ public class Shipments {
     private StringProperty sendPlace;
     private StringProperty recPlace;
     private ObjectProperty status; //?
+    private StringProperty consDate;
     private StringProperty shipDate;
+    private StringProperty deliDate;
     private StringProperty recDate;
     private IntegerProperty recId;
     private IntegerProperty clientId;
@@ -23,7 +25,9 @@ public class Shipments {
         sendPlace = new SimpleStringProperty();
         recPlace = new SimpleStringProperty();
         status = new SimpleObjectProperty();
+        consDate = new SimpleStringProperty();
         shipDate = new SimpleStringProperty();
+        deliDate = new SimpleStringProperty();
         recDate = new SimpleStringProperty();
         recId = new SimpleIntegerProperty();
         clientId = new SimpleIntegerProperty();
@@ -160,5 +164,29 @@ public class Shipments {
 
     public void setAutoAddress(String autoAddress) {
         this.autoAddress.set(autoAddress);
+    }
+
+    public String getConsDate() {
+        return consDate.get();
+    }
+
+    public StringProperty consDateProperty() {
+        return consDate;
+    }
+
+    public void setConsDate(String consDate) {
+        this.consDate.set(consDate);
+    }
+
+    public String getDeliDate() {
+        return deliDate.get();
+    }
+
+    public StringProperty deliDateProperty() {
+        return deliDate;
+    }
+
+    public void setDeliDate(String deliDate) {
+        this.deliDate.set(deliDate);
     }
 }
