@@ -139,4 +139,85 @@ public class PaczkiDAO {
             throw e;
         }
     }
+
+    public ObservableList<ObservableList> findPackage(String findPackage) throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM AdminViewPackage WHERE ID like "+findPackage+";";
+        try{
+            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
+
+            while(resultSet.next()){
+                ObservableList<String> row = FXCollections.observableArrayList();
+                for(int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++){
+                    row.add(resultSet.getString(i));
+                }
+                data.add(row);
+            }
+            return data;
+        }catch (SQLException e){
+            consoleTextArea.appendText("While searching, an error occurred. \n");
+            throw e;
+        }
+    }
+
+    public ObservableList<ObservableList> findUser(String findUser) throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM AdminViewUser WHERE ID like "+findUser+";";
+        try{
+            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
+
+            while(resultSet.next()){
+                ObservableList<String> row = FXCollections.observableArrayList();
+                for(int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++){
+                    row.add(resultSet.getString(i));
+                }
+                data.add(row);
+            }
+            return data;
+        }catch (SQLException e){
+            consoleTextArea.appendText("While searching, an error occurred. \n");
+            throw e;
+        }
+    }
+    private ObservableList<ObservableList> pack;
+
+    public ObservableList<ObservableList> adminGetPackage() throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM adminviewpackage;";
+        try{
+            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
+
+            while(resultSet.next()){
+                ObservableList<String> row = FXCollections.observableArrayList();
+                for(int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++){
+                    row.add(resultSet.getString(i));
+                }
+                pack.add(row);
+            }
+
+        }catch (SQLException e){
+            consoleTextArea.appendText("While searching, an error occurred. \n");
+            throw e;
+        }
+        System.out.println("Working");
+        return pack;
+    }
+
+    public ObservableList<ObservableList> adminGetUser() throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM adminviewuser;";
+        try{
+            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
+
+            while(resultSet.next()){
+                ObservableList<String> row = FXCollections.observableArrayList();
+                for(int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++){
+                    row.add(resultSet.getString(i));
+                }
+                data.add(row);
+            }
+
+        }catch (SQLException e){
+            consoleTextArea.appendText("While searching, an error occurred. \n");
+            throw e;
+        }
+        System.out.println("Working");
+        return data;
+    }
 }

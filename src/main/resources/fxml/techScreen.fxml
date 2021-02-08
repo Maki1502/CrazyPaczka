@@ -108,12 +108,12 @@
                                         <TableColumn fx:id="idCol" prefWidth="78.40002137422562" text="PackageID" />
                                           <TableColumn fx:id="shipDateCol" prefWidth="72.800048828125" text="Ship. Date" />
                                         <TableColumn fx:id="recDateCol" prefWidth="77.5999755859375" text="Rec. Date" />
-                                          <TableColumn fx:id="sizeCol" prefWidth="96.80000305175781" text="SenderID" />
-                                          <TableColumn fx:id="autoIdCol" prefWidth="95.2000732421875" text="ReceiverID" />
-                                          <TableColumn prefWidth="52.7999267578125" text="From" />
-                                          <TableColumn prefWidth="232.0001220703125" text="To" />
-                                          <TableColumn prefWidth="75.0" text="Price" />
-                                          <TableColumn prefWidth="75.0" text="Status" />
+                                          <TableColumn fx:id="sendCol" prefWidth="96.80000305175781" text="SenderID" />
+                                          <TableColumn fx:id="recCol" prefWidth="95.2000732421875" text="ReceiverID" />
+                                          <TableColumn fx:id="fromCol" prefWidth="52.7999267578125" text="From" />
+                                          <TableColumn fx:id="toCol" prefWidth="232.0001220703125" text="To" />
+                                          <TableColumn fx:id="priceCol" prefWidth="75.0" text="Price" />
+                                          <TableColumn fx:id="statusCol" prefWidth="75.0" text="Status" />
                                       </columns>
                                        <columnResizePolicy>
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -171,9 +171,9 @@
                                     <TableColumn fx:id="userIdCol" prefWidth="78.40002137422562" text="UserID" />
                                     <TableColumn fx:id="nameCol" prefWidth="95.2000732421875" text="Name" />
                                     <TableColumn fx:id="surnameCol" prefWidth="52.7999267578125" text="Surname" />
-                                    <TableColumn fx:id="mailCol" prefWidth="72.800048828125" text="E-mail" />
-                                    <TableColumn fx:id="phoneCol" prefWidth="77.5999755859375" text="Tel. Number" />
                                     <TableColumn fx:id="cityCol" prefWidth="96.80000305175781" text="City" />
+                                    <TableColumn fx:id="mailCol" prefWidth="72.800048828125" text="E-mail" />
+                                    <TableColumn fx:id="phoneCol" prefWidth="77.5999755859375" text="Phone Number" />
                                  </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

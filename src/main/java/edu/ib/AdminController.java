@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -53,23 +55,37 @@ public class AdminController {
     @FXML
     private Button btnDeleteIdPackage;
 
-    @FXML
-    private TableView<?> packageTable;
+    private ObservableList<ObservableList> adminViewPackage;
 
     @FXML
-    private TableColumn<?, ?> idCol;
+    private TableView<ObservableList> packageTable;
 
     @FXML
-    private TableColumn<?, ?> shipDateCol;
+    private TableColumn<ObservableList, Integer> idCol;
 
     @FXML
-    private TableColumn<?, ?> recDateCol;
+    private TableColumn<ObservableList, String> shipDateCol;
 
     @FXML
-    private TableColumn<?, ?> sizeCol;
+    private TableColumn<ObservableList, String> recDateCol;
 
     @FXML
-    private TableColumn<?, ?> autoIdCol;
+    private TableColumn<ObservableList, Integer> sendCol;
+
+    @FXML
+    private TableColumn<ObservableList, Integer> recCol;
+
+    @FXML
+    private TableColumn<ObservableList, String> fromCol;
+
+    @FXML
+    private TableColumn<ObservableList, String> toCol;
+
+    @FXML
+    private TableColumn<ObservableList, Double> priceCol;
+
+    @FXML
+    private TableColumn<ObservableList, Enum> statusCol;
 
     @FXML
     private TextField findIdUser;
@@ -83,26 +99,28 @@ public class AdminController {
     @FXML
     private Button btnDeleteIdUser;
 
-    @FXML
-    private TableView<?> packageTable1;
+    private ObservableList<ObservableList> adminViewUser;
 
     @FXML
-    private TableColumn<?, ?> userIdCol;
+    private TableView<ObservableList> packageTable1;
 
     @FXML
-    private TableColumn<?, ?> nameCol;
+    private TableColumn<ObservableList, Integer> userIdCol;
 
     @FXML
-    private TableColumn<?, ?> surnameCol;
+    private TableColumn<ObservableList, String> nameCol;
 
     @FXML
-    private TableColumn<?, ?> mailCol;
+    private TableColumn<ObservableList, String> surnameCol;
 
     @FXML
-    private TableColumn<?, ?> phoneCol;
+    private TableColumn<ObservableList, String> cityCol;
 
     @FXML
-    private TableColumn<?, ?> cityCol;
+    private TableColumn<ObservableList, String> mailCol;
+
+    @FXML
+    private TableColumn<ObservableList, String> phoneCol;
 
     private DBUtil dbUtil;
     private PaczkiDAO paczkiDAO;
@@ -152,6 +170,26 @@ public class AdminController {
         deleteIdUser.setDisable(false);
         btnDeleteIdUser.setDisable(false);
         packageTable1.setDisable(false);
+
+        try{
+            packageTable.getItems().clear();
+            packageTable1.getItems().clear();
+            if(adminViewPackage != null) {
+                adminViewPackage = paczkiDAO.adminGetPackage();
+                packageTable.setItems(adminViewPackage);
+            }else{
+                AdminConsoleArea.appendText("No data about packages found. \n");
+            }
+
+            if(adminViewUser != null) {
+                adminViewUser = paczkiDAO.adminGetUser();
+                packageTable1.setItems(adminViewUser);
+            }else{
+                AdminConsoleArea.appendText("No data about users found. \n");
+            }
+        }catch (SQLException e){
+            AdminConsoleArea.appendText("Error occurred while getting data from DB. \n");
+        }
     }
 
     @FXML
@@ -197,8 +235,12 @@ public class AdminController {
         assert idCol != null : "fx:id=\"idCol\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert shipDateCol != null : "fx:id=\"shipDateCol\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert recDateCol != null : "fx:id=\"recDateCol\" was not injected: check your FXML file 'techScreen.fxml'.";
-        assert sizeCol != null : "fx:id=\"sizeCol\" was not injected: check your FXML file 'techScreen.fxml'.";
-        assert autoIdCol != null : "fx:id=\"autoIdCol\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert sendCol != null : "fx:id=\"sendCol\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert recCol != null : "fx:id=\"recCol\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert fromCol != null : "fx:id=\"fromCol\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert toCol != null : "fx:id=\"toCol\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert priceCol != null : "fx:id=\"priceCol\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert statusCol != null : "fx:id=\"statusCol\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert findIdUser != null : "fx:id=\"findIdUser\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert deleteIdUser != null : "fx:id=\"deleteIdUser\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert btnFindIdUser != null : "fx:id=\"btnFindIdUser\" was not injected: check your FXML file 'techScreen.fxml'.";
@@ -207,9 +249,9 @@ public class AdminController {
         assert userIdCol != null : "fx:id=\"userIdCol\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert nameCol != null : "fx:id=\"nameCol\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert surnameCol != null : "fx:id=\"surnameCol\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert cityCol != null : "fx:id=\"cityCol\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert mailCol != null : "fx:id=\"mailCol\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert phoneCol != null : "fx:id=\"phoneCol\" was not injected: check your FXML file 'techScreen.fxml'.";
-        assert cityCol != null : "fx:id=\"cityCol\" was not injected: check your FXML file 'techScreen.fxml'.";
 
         btnAdminLogOut.setDisable(true);
         findIdPackage.setDisable(true);
