@@ -99,28 +99,26 @@ public class AdminController {
     @FXML
     private Button btnDeleteIdUser;
 
-    private ObservableList<ObservableList> adminViewUser;
+    @FXML
+    private TableView<Clients> packageTable1;
 
     @FXML
-    private TableView<ObservableList> packageTable1;
+    private TableColumn<Clients, Integer> userIdCol;
 
     @FXML
-    private TableColumn<ObservableList, Integer> userIdCol;
+    private TableColumn<Clients, String> nameCol;
 
     @FXML
-    private TableColumn<ObservableList, String> nameCol;
+    private TableColumn<Clients, String> surnameCol;
 
     @FXML
-    private TableColumn<ObservableList, String> surnameCol;
+    private TableColumn<Clients, String> cityCol;
 
     @FXML
-    private TableColumn<ObservableList, String> cityCol;
+    private TableColumn<Clients, String> mailCol;
 
     @FXML
-    private TableColumn<ObservableList, String> mailCol;
-
-    @FXML
-    private TableColumn<ObservableList, String> phoneCol;
+    private TableColumn<Clients, String> phoneCol;
 
     private DBUtil dbUtil;
     private PaczkiDAO paczkiDAO;
@@ -144,7 +142,16 @@ public class AdminController {
     }
 
     @FXML
-    void onBtnFindIdUser(ActionEvent event) {
+    void onBtnFindIdUser(ActionEvent event) throws SQLException, ClassNotFoundException{
+
+        try{
+            packageTable1.getItems().clear();
+            ObservableList<Clients> clientList = paczkiDAO.showAdminClients();
+            packageTable1.setItems(clientList);
+        }catch (SQLException e){
+            AdminConsoleArea.appendText("Error2 \n");
+            throw e;
+        }
 
     }
 
@@ -171,9 +178,12 @@ public class AdminController {
         btnDeleteIdUser.setDisable(false);
         packageTable1.setDisable(false);
 
-        try{
+       /* try{
             packageTable.getItems().clear();
             packageTable1.getItems().clear();
+            adminViewUser = paczkiDAO.showAdminClients();
+            packageTable1.setItems(adminViewUser);
+
             if(adminViewPackage != null) {
                 adminViewPackage = paczkiDAO.adminGetPackage();
                 packageTable.setItems(adminViewPackage);
@@ -189,7 +199,7 @@ public class AdminController {
             }
         }catch (SQLException e){
             AdminConsoleArea.appendText("Error occurred while getting data from DB. \n");
-        }
+        }*/
     }
 
     @FXML

@@ -19,7 +19,7 @@ public class DBUtil {
         this.consoleTextArea = consoleTextArea;
     }
 
-    public void dbConnect() throws SQLException, ClassNotFoundException{
+    public void dbConnect() throws SQLException, ClassNotFoundException{ //ladowanie
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
         }catch (ClassNotFoundException e){
@@ -48,7 +48,7 @@ public class DBUtil {
         }
     }
 
-    private String createURL(){
+    public String createURL(){
         StringBuilder sbURL = new StringBuilder("jdbc:mysql://");
         sbURL.append("localhost:3306/");
         sbURL.append("paczkomat?");
@@ -74,7 +74,7 @@ public class DBUtil {
             cachedRowSet = new CachedRowSetWrapper();
             cachedRowSet.populate(resultSet);
         }catch (SQLException e){
-            consoleTextArea.appendText("Problem occurred at executeQuery operation."+"\n");
+            consoleTextArea.appendText("Problem occurred at executeQuery operation. \n");
             throw e;
         }finally {
             if(resultSet!= null) resultSet.close();

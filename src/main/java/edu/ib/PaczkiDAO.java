@@ -4,8 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TextArea;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class PaczkiDAO {
 
@@ -31,9 +30,11 @@ public class PaczkiDAO {
     }
 
     private ObservableList<Clients> getSendersList(ResultSet rs) throws SQLException{
+
         ObservableList<Clients> sendersList = FXCollections.observableArrayList();
 
         while(rs.next()){
+
             Clients s = new Clients();
             s.setId(rs.getInt("client_id"));
             s.setName(rs.getString("client_name"));
@@ -42,6 +43,7 @@ public class PaczkiDAO {
             s.setEmail(rs.getString("client_email"));
             s.setPhone_number(rs.getString("client_phone_number"));
             s.setPassword(rs.getString("client_password"));
+            sendersList.add(s);
         }
         return sendersList;
     }
@@ -84,10 +86,12 @@ public class PaczkiDAO {
     private ObservableList<ObservableList> data;
 
     public ObservableList<ObservableList> clientView() throws SQLException, ClassNotFoundException{
-        String selectStmt = "SELECT * FROM CustomerView;";
+        Connection conn = DriverManager.getConnection(dbUtil.createURL());
+        PreparedStatement selectStmt = conn.prepareStatement("SELECT * FROM CustomerView;");
         try{
-            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
-
+            ResultSet resultSet = selectStmt.executeQuery();
+            printResultSet(resultSet);
+            System.out.println("Wyniki");
             while(resultSet.next()){
                 ObservableList<String> row = FXCollections.observableArrayList();
                 for(int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++){
@@ -180,7 +184,7 @@ public class PaczkiDAO {
     private ObservableList<ObservableList> pack;
 
     public ObservableList<ObservableList> adminGetPackage() throws SQLException, ClassNotFoundException{
-        String selectStmt = "SELECT * FROM adminviewpackage;";
+        String selectStmt = "SELECT * FROM AdminViewPackage;";
         try{
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
 
@@ -191,33 +195,68 @@ public class PaczkiDAO {
                 }
                 pack.add(row);
             }
-
+            return pack;
         }catch (SQLException e){
             consoleTextArea.appendText("While searching, an error occurred. \n");
             throw e;
         }
-        System.out.println("Working");
-        return pack;
     }
 
+    private ObservableList<ObservableList> user;
+
     public ObservableList<ObservableList> adminGetUser() throws SQLException, ClassNotFoundException{
-        String selectStmt = "SELECT * FROM adminviewuser;";
+        String selectStmt = "SELECT * FROM AdminViewUser;";
         try{
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
-
+            ObservableList<String> row = FXCollections.observableArrayList();
             while(resultSet.next()){
-                ObservableList<String> row = FXCollections.observableArrayList();
                 for(int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++){
                     row.add(resultSet.getString(i));
                 }
-                data.add(row);
+                user.add(row);
             }
-
+            return user;
         }catch (SQLException e){
             consoleTextArea.appendText("While searching, an error occurred. \n");
             throw e;
         }
-        System.out.println("Working");
-        return data;
+    }
+
+    public ObservableList<Clients> showAdminClients() throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM AdminViewUser;";
+        try{
+            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
+            printResultSet(resultSet);
+            ObservableList<Clients> clientsList = getSendersList(resultSet);
+            consoleTextArea.appendText(selectStmt);
+
+            return clientsList;
+        }catch (SQLException e){
+            consoleTextArea.appendText("Error1 \n");
+            throw e;
+        }
+    }
+
+    public static void printResultSet(ResultSet resultSet) throws SQLException {
+
+        ResultSetMetaData rsmd = resultSet.getMetaData(); // metadane o zapytaniu
+        int columnsNumber = rsmd.getColumnCount(); // liczba kolumn
+
+        while (resultSet.next()) {  // wyswietlenie nazw kolumn i wartosci w rzedach
+
+            for (int i = 1; i <= columnsNumber; i++) {
+
+                if (i > 1)
+                    System.out.print(",  ");
+
+                String columnValue = resultSet.getString(i);
+                System.out.print(rsmd.getColumnName(i) + ": " + columnValue);
+            }
+
+            System.out.println("");
+        }
+
+        System.out.println("");
+
     }
 }
