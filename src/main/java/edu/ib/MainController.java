@@ -126,6 +126,19 @@ public class MainController {
         btnFindStatus.setDisable(false);
         userDataTable.setDisable(false);
 
+
+        try{
+            userDataTable.getItems().clear();
+            if(clientView != null) {
+                clientView = paczkiDAO.clientView();
+                userDataTable.setItems(clientView);
+            }else{
+                consoleArea.appendText("No data found. \n");
+            }
+        }catch (SQLException e){
+            consoleArea.appendText("Error occurred while getting data from DB. \n");
+        }
+
     }
 
     @FXML
@@ -162,30 +175,49 @@ public class MainController {
     }
 
     @FXML
-    void onBtnSaveUser(ActionEvent event) {
-
+    void onBtnSaveUser(ActionEvent event) throws IOException{
+        scenePackage = new Scene(loadFXML("/fxml/signIn"), 600, 400);
+        stage.setScene(scenePackage);
+        stage.setTitle("Sign In");
+        stage.show();
+        ((Node)(event.getSource())).getScene().getWindow().hide();
     }
 
     @FXML
     void onFindDate(ActionEvent event) throws SQLException, ClassNotFoundException {
 
         try{
-            userDataTable.getItems().clear();
-            if(clientView != null) {
-                clientView = paczkiDAO.clientView();
-                userDataTable.setItems(clientView);
-            }else{
-                consoleArea.appendText("No data found. \n");
+            if(!findDate.getText().equals(null)) {
+                userDataTable.getItems().clear();
+                if (clientView != null) {
+                    clientView = paczkiDAO.findDataClientView(findDate.getText());
+                    userDataTable.setItems(clientView);
+                } else {
+                    consoleArea.appendText("No data found. \n");
+                }
             }
         }catch (SQLException e){
-            consoleArea.appendText("Error occurred while getting data from DB. \n");
+            consoleArea.appendText("Error occurred while getting data from BD. \n");
         }
 
     }
 
     @FXML
-    void onFindStatus(ActionEvent event) {
+    void onFindStatus(ActionEvent event) throws SQLException, ClassNotFoundException{
 
+        try{
+            if(!findStatus.getText().equals(null)){
+                userDataTable.getItems().clear();
+                if (clientView != null){
+                    clientView = paczkiDAO.findStatusClientView(findStatus.getText());
+                    userDataTable.setItems(clientView);
+                }else {
+                    consoleArea.appendText("No data found. \n");
+                }
+            }
+        }catch (SQLException e){
+            consoleArea.appendText("Error occurred while getting data from BD. \n");
+        }
     }
 
     @FXML

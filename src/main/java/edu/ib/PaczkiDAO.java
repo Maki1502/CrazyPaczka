@@ -2,7 +2,6 @@ package edu.ib;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
 import javafx.scene.control.TextArea;
 
 import java.sql.ResultSet;
@@ -69,7 +68,7 @@ public class PaczkiDAO {
         return shipmentsList;
     }
 
-    public ObservableList<Automats> showAllAutomats() throws SQLException, ClassNotFoundException{
+    /*public ObservableList<Automats> showAllAutomats() throws SQLException, ClassNotFoundException{
         String selectStmt = "SELECT * FROM automats;";
         try{
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
@@ -80,7 +79,7 @@ public class PaczkiDAO {
             consoleTextArea.appendText("While searching, an error occurred. \n");
             throw e;
         }
-    }
+    }*/
 
     private ObservableList<ObservableList> data;
 
@@ -100,6 +99,44 @@ public class PaczkiDAO {
         }catch (SQLException e){
                 consoleTextArea.appendText("While searching, an error occurred. \n");
                 throw e;
+        }
+    }
+
+    public ObservableList<ObservableList> findDataClientView(String findData) throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM CustomerView WHERE ConsignmentDate like '%"+findData+"%' OR ReceptionDate like '%"+findData+"%';";
+        try{
+            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
+
+            while(resultSet.next()){
+                ObservableList<String> row = FXCollections.observableArrayList();
+                for(int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++){
+                    row.add(resultSet.getString(i));
+                }
+                data.add(row);
+            }
+            return data;
+        }catch (SQLException e){
+            consoleTextArea.appendText("While searching, an error occurred. \n");
+            throw e;
+        }
+    }
+
+    public ObservableList<ObservableList> findStatusClientView(String findStatus) throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM CustomerView WHERE yourStatus like "+findStatus+";";
+        try{
+            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
+
+            while(resultSet.next()){
+                ObservableList<String> row = FXCollections.observableArrayList();
+                for(int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++){
+                    row.add(resultSet.getString(i));
+                }
+                data.add(row);
+            }
+            return data;
+        }catch (SQLException e){
+            consoleTextArea.appendText("While searching, an error occurred. \n");
+            throw e;
         }
     }
 }
