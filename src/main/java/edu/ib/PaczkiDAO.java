@@ -48,6 +48,41 @@ public class PaczkiDAO {
         return sendersList;
     }
 
+    private ObservableList<UserView> getUsers(ResultSet rs) throws SQLException{
+
+        ObservableList<UserView> sendersList = FXCollections.observableArrayList();
+
+        while(rs.next()){
+
+           UserView u = new UserView();
+            u.setId(rs.getInt("ID"));
+            u.setName(rs.getString("clName"));
+            u.setSurname(rs.getString("clSurname"));
+            u.setAddress(rs.getString("address"));
+            u.setEmail(rs.getString("mail"));
+            u.setPhone_number(rs.getString("PhNumber"));
+            sendersList.add(u);
+        }
+        return sendersList;
+    }
+
+    private ObservableList<PackageView> getPackages(ResultSet rs) throws SQLException{
+
+        ObservableList<PackageView> packageViews = FXCollections.observableArrayList();
+        while (rs.next()){
+            PackageView p = new PackageView();
+            p.setId(rs.getInt("ID"));
+            p.setConsDate(rs.getString("ConsDate"));
+            p.setRecDate(rs.getString("RecDate"));
+            p.setClId(rs.getInt("SenderId"));
+            p.setRecId(rs.getInt("ReceiverId"));
+            p.setPrice(rs.getDouble("Price"));
+            p.setStatus(rs.getObject("packStatus"));
+            packageViews.add(p);
+        }
+        return packageViews;
+    }
+
     private ObservableList<Shipments> getShipmentsList(ResultSet rs) throws SQLException{
         ObservableList<Shipments> shipmentsList = FXCollections.observableArrayList();
 
@@ -70,164 +105,12 @@ public class PaczkiDAO {
         return shipmentsList;
     }
 
-    /*public ObservableList<Automats> showAllAutomats() throws SQLException, ClassNotFoundException{
-        String selectStmt = "SELECT * FROM automats;";
-        try{
-            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
-            ObservableList<Automats> automatsList = getAutomatsList(resultSet);
-            consoleTextArea.appendText(selectStmt);
-            return automatsList;
-        }catch (SQLException e){
-            consoleTextArea.appendText("While searching, an error occurred. \n");
-            throw e;
-        }
-    }*/
 
-    private ObservableList<ObservableList> data;
-
-    public ObservableList<ObservableList> clientView() throws SQLException, ClassNotFoundException{
-        Connection conn = DriverManager.getConnection(dbUtil.createURL());
-        PreparedStatement selectStmt = conn.prepareStatement("SELECT * FROM CustomerView;");
-        try{
-            ResultSet resultSet = selectStmt.executeQuery();
-            printResultSet(resultSet);
-            System.out.println("Wyniki");
-            while(resultSet.next()){
-                ObservableList<String> row = FXCollections.observableArrayList();
-                for(int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++){
-                    row.add(resultSet.getString(i));
-                }
-                data.add(row);
-            }
-            return data;
-        }catch (SQLException e){
-                consoleTextArea.appendText("While searching, an error occurred. \n");
-                throw e;
-        }
-    }
-
-    public ObservableList<ObservableList> findDataClientView(String findData) throws SQLException, ClassNotFoundException{
-        String selectStmt = "SELECT * FROM CustomerView WHERE ConsignmentDate like '%"+findData+"%' OR ReceptionDate like '%"+findData+"%';";
-        try{
-            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
-
-            while(resultSet.next()){
-                ObservableList<String> row = FXCollections.observableArrayList();
-                for(int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++){
-                    row.add(resultSet.getString(i));
-                }
-                data.add(row);
-            }
-            return data;
-        }catch (SQLException e){
-            consoleTextArea.appendText("While searching, an error occurred. \n");
-            throw e;
-        }
-    }
-
-    public ObservableList<ObservableList> findStatusClientView(String findStatus) throws SQLException, ClassNotFoundException{
-        String selectStmt = "SELECT * FROM CustomerView WHERE yourStatus like "+findStatus+";";
-        try{
-            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
-
-            while(resultSet.next()){
-                ObservableList<String> row = FXCollections.observableArrayList();
-                for(int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++){
-                    row.add(resultSet.getString(i));
-                }
-                data.add(row);
-            }
-            return data;
-        }catch (SQLException e){
-            consoleTextArea.appendText("While searching, an error occurred. \n");
-            throw e;
-        }
-    }
-
-    public ObservableList<ObservableList> findPackage(String findPackage) throws SQLException, ClassNotFoundException{
-        String selectStmt = "SELECT * FROM AdminViewPackage WHERE ID like "+findPackage+";";
-        try{
-            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
-
-            while(resultSet.next()){
-                ObservableList<String> row = FXCollections.observableArrayList();
-                for(int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++){
-                    row.add(resultSet.getString(i));
-                }
-                data.add(row);
-            }
-            return data;
-        }catch (SQLException e){
-            consoleTextArea.appendText("While searching, an error occurred. \n");
-            throw e;
-        }
-    }
-
-    public ObservableList<ObservableList> findUser(String findUser) throws SQLException, ClassNotFoundException{
-        String selectStmt = "SELECT * FROM AdminViewUser WHERE ID like "+findUser+";";
-        try{
-            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
-
-            while(resultSet.next()){
-                ObservableList<String> row = FXCollections.observableArrayList();
-                for(int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++){
-                    row.add(resultSet.getString(i));
-                }
-                data.add(row);
-            }
-            return data;
-        }catch (SQLException e){
-            consoleTextArea.appendText("While searching, an error occurred. \n");
-            throw e;
-        }
-    }
-    private ObservableList<ObservableList> pack;
-
-    public ObservableList<ObservableList> adminGetPackage() throws SQLException, ClassNotFoundException{
-        String selectStmt = "SELECT * FROM AdminViewPackage;";
-        try{
-            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
-
-            while(resultSet.next()){
-                ObservableList<String> row = FXCollections.observableArrayList();
-                for(int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++){
-                    row.add(resultSet.getString(i));
-                }
-                pack.add(row);
-            }
-            return pack;
-        }catch (SQLException e){
-            consoleTextArea.appendText("While searching, an error occurred. \n");
-            throw e;
-        }
-    }
-
-    private ObservableList<ObservableList> user;
-
-    public ObservableList<ObservableList> adminGetUser() throws SQLException, ClassNotFoundException{
+    public ObservableList<UserView> showAdminClients() throws SQLException, ClassNotFoundException{
         String selectStmt = "SELECT * FROM AdminViewUser;";
         try{
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
-            ObservableList<String> row = FXCollections.observableArrayList();
-            while(resultSet.next()){
-                for(int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++){
-                    row.add(resultSet.getString(i));
-                }
-                user.add(row);
-            }
-            return user;
-        }catch (SQLException e){
-            consoleTextArea.appendText("While searching, an error occurred. \n");
-            throw e;
-        }
-    }
-
-    public ObservableList<Clients> showAdminClients() throws SQLException, ClassNotFoundException{
-        String selectStmt = "SELECT * FROM AdminViewUser;";
-        try{
-            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
-            printResultSet(resultSet);
-            ObservableList<Clients> clientsList = getSendersList(resultSet);
+            ObservableList<UserView> clientsList = getUsers(resultSet);
             consoleTextArea.appendText(selectStmt);
 
             return clientsList;
@@ -236,6 +119,52 @@ public class PaczkiDAO {
             throw e;
         }
     }
+
+    public ObservableList<UserView> findAdminClients(String findUser) throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM AdminViewUser WHERE ID like '%"+findUser+"%';";
+        try{
+            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
+            ObservableList<UserView> clientsList = getUsers(resultSet);
+            consoleTextArea.appendText(selectStmt+"\n");
+
+            return clientsList;
+        }catch (SQLException e){
+            consoleTextArea.appendText("Error1.2 \n");
+            throw e;
+        }
+    }
+
+    public ObservableList<PackageView> showAdminPackage() throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM AdminViewPackage;";
+        try{
+            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
+            ObservableList<PackageView> packageViews = getPackages(resultSet);
+            consoleTextArea.appendText(selectStmt);
+
+            return packageViews;
+        }catch (SQLException e){
+            consoleTextArea.appendText("Error2 \n");
+            throw e;
+        }
+    }
+
+    public ObservableList<PackageView> findAdminPackage(String findPackage) throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM AdminViewPackage WHERE ID like '%"+findPackage+"%';";
+        try{
+            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
+            ObservableList<PackageView> packageViews = getPackages(resultSet);
+            consoleTextArea.appendText(selectStmt);
+
+            return packageViews;
+        }catch (SQLException e){
+            consoleTextArea.appendText("Error2.2 \n");
+            throw e;
+        }
+    }
+
+
+
+
 
     public static void printResultSet(ResultSet resultSet) throws SQLException {
 

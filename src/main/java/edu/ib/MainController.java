@@ -123,19 +123,6 @@ public class MainController {
         btnFindStatus.setDisable(false);
         userDataTable.setDisable(false);
 
-
-        try{
-            userDataTable.getItems().clear();
-            if(clientView != null) {
-                clientView = paczkiDAO.clientView();
-                userDataTable.setItems(clientView);
-            }else{
-                consoleArea.appendText("No data found. \n");
-            }
-        }catch (SQLException e){
-            consoleArea.appendText("Error occurred while getting data from DB. \n");
-        }
-
     }
 
     @FXML
@@ -183,7 +170,7 @@ public class MainController {
     @FXML
     void onFindDate(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        try{
+        /*try{
             if(!findDate.getText().equals(null)) {
                 userDataTable.getItems().clear();
                 if (clientView != null) {
@@ -195,14 +182,14 @@ public class MainController {
             }
         }catch (SQLException e){
             consoleArea.appendText("Error occurred while getting data from BD. \n");
-        }
+        }*/
 
     }
 
     @FXML
     void onFindStatus(ActionEvent event) throws SQLException, ClassNotFoundException{
 
-        try{
+        /*try{
             if(!findStatus.getText().equals(null)){
                 userDataTable.getItems().clear();
                 if (clientView != null){
@@ -214,7 +201,7 @@ public class MainController {
             }
         }catch (SQLException e){
             consoleArea.appendText("Error occurred while getting data from BD. \n");
-        }
+        }*/
     }
 
     @FXML

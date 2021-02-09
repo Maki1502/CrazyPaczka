@@ -55,37 +55,37 @@ public class AdminController {
     @FXML
     private Button btnDeleteIdPackage;
 
-    private ObservableList<ObservableList> adminViewPackage;
+    private ObservableList<PackageView> adminViewPackage;
 
     @FXML
-    private TableView<ObservableList> packageTable;
+    private TableView<PackageView> packageTable;
 
     @FXML
-    private TableColumn<ObservableList, Integer> idCol;
+    private TableColumn<PackageView, Integer> idCol;
 
     @FXML
-    private TableColumn<ObservableList, String> shipDateCol;
+    private TableColumn<PackageView, String> shipDateCol;
 
     @FXML
-    private TableColumn<ObservableList, String> recDateCol;
+    private TableColumn<PackageView, String> recDateCol;
 
     @FXML
-    private TableColumn<ObservableList, Integer> sendCol;
+    private TableColumn<PackageView, Integer> sendCol;
 
     @FXML
-    private TableColumn<ObservableList, Integer> recCol;
+    private TableColumn<PackageView, Integer> recCol;
 
     @FXML
-    private TableColumn<ObservableList, String> fromCol;
+    private TableColumn<PackageView, String> fromCol;
 
     @FXML
-    private TableColumn<ObservableList, String> toCol;
+    private TableColumn<PackageView, String> toCol;
 
     @FXML
-    private TableColumn<ObservableList, Double> priceCol;
+    private TableColumn<PackageView, Double> priceCol;
 
     @FXML
-    private TableColumn<ObservableList, Enum> statusCol;
+    private TableColumn<PackageView, Enum> statusCol;
 
     @FXML
     private TextField findIdUser;
@@ -99,26 +99,28 @@ public class AdminController {
     @FXML
     private Button btnDeleteIdUser;
 
-    @FXML
-    private TableView<Clients> packageTable1;
+    private ObservableList<UserView> adminViewUser;
 
     @FXML
-    private TableColumn<Clients, Integer> userIdCol;
+    private TableView<UserView> packageTable1;
 
     @FXML
-    private TableColumn<Clients, String> nameCol;
+    private TableColumn<UserView, Integer> userIdCol;
 
     @FXML
-    private TableColumn<Clients, String> surnameCol;
+    private TableColumn<UserView, String> nameCol;
 
     @FXML
-    private TableColumn<Clients, String> cityCol;
+    private TableColumn<UserView, String> surnameCol;
 
     @FXML
-    private TableColumn<Clients, String> mailCol;
+    private TableColumn<UserView, String> cityCol;
 
     @FXML
-    private TableColumn<Clients, String> phoneCol;
+    private TableColumn<UserView, String> mailCol;
+
+    @FXML
+    private TableColumn<UserView, String> phoneCol;
 
     private DBUtil dbUtil;
     private PaczkiDAO paczkiDAO;
@@ -137,22 +139,31 @@ public class AdminController {
     }
 
     @FXML
-    void onBtnFindIdPackage(ActionEvent event) {
-
+    void onBtnFindIdPackage(ActionEvent event) throws SQLException, ClassNotFoundException{
+        try{
+            if(!findIdPackage.getText().equals(null)){
+                packageTable.getItems().clear();
+                ObservableList<PackageView> wineData = paczkiDAO.findAdminPackage(findIdUser.getText());
+                packageTable.setItems(wineData);
+            }
+        }catch (SQLException e){
+            AdminConsoleArea.appendText("Error 200 \n");
+            throw e;
+        }
     }
 
     @FXML
     void onBtnFindIdUser(ActionEvent event) throws SQLException, ClassNotFoundException{
-
         try{
-            packageTable1.getItems().clear();
-            ObservableList<Clients> clientList = paczkiDAO.showAdminClients();
-            packageTable1.setItems(clientList);
+            if(!findIdUser.getText().equals(null)){
+                packageTable1.getItems().clear();
+                ObservableList<UserView> wineData = paczkiDAO.findAdminClients(findIdUser.getText());
+                packageTable1.setItems(wineData);
+            }
         }catch (SQLException e){
-            AdminConsoleArea.appendText("Error2 \n");
+            AdminConsoleArea.appendText("Error 100 \n");
             throw e;
         }
-
     }
 
     @FXML
@@ -178,28 +189,28 @@ public class AdminController {
         btnDeleteIdUser.setDisable(false);
         packageTable1.setDisable(false);
 
-       /* try{
+       try{
             packageTable.getItems().clear();
             packageTable1.getItems().clear();
             adminViewUser = paczkiDAO.showAdminClients();
             packageTable1.setItems(adminViewUser);
 
-            if(adminViewPackage != null) {
+            /*if(adminViewPackage != null) {
                 adminViewPackage = paczkiDAO.adminGetPackage();
                 packageTable.setItems(adminViewPackage);
             }else{
                 AdminConsoleArea.appendText("No data about packages found. \n");
-            }
+            }*/
 
             if(adminViewUser != null) {
-                adminViewUser = paczkiDAO.adminGetUser();
+                adminViewUser = paczkiDAO.showAdminClients();
                 packageTable1.setItems(adminViewUser);
             }else{
                 AdminConsoleArea.appendText("No data about users found. \n");
             }
         }catch (SQLException e){
             AdminConsoleArea.appendText("Error occurred while getting data from DB. \n");
-        }*/
+        }
     }
 
     @FXML
@@ -232,6 +243,7 @@ public class AdminController {
 
     @FXML
     void initialize() {
+
         assert adminName != null : "fx:id=\"adminName\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert AdminPasswordCode != null : "fx:id=\"AdminPasswordCode\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert btnAdminLogIn != null : "fx:id=\"btnAdminLogIn\" was not injected: check your FXML file 'techScreen.fxml'.";
