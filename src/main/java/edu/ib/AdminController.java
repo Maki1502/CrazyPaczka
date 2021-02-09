@@ -12,12 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 public class AdminController {
@@ -145,6 +140,7 @@ public class AdminController {
                 packageTable.getItems().clear();
                 ObservableList<PackageView> wineData = paczkiDAO.findAdminPackage(findIdUser.getText());
                 packageTable.setItems(wineData);
+                packageTable.setPlaceholder(new Label("No data to display"));
             }
         }catch (SQLException e){
             AdminConsoleArea.appendText("Error 200 \n");
@@ -159,12 +155,14 @@ public class AdminController {
                 packageTable1.getItems().clear();
                 ObservableList<UserView> wineData = paczkiDAO.findAdminClients(findIdUser.getText());
                 packageTable1.setItems(wineData);
+                packageTable1.setPlaceholder(new Label("No data to display"));
             }
         }catch (SQLException e){
             AdminConsoleArea.appendText("Error 100 \n");
             throw e;
         }
     }
+    UserView userView = new UserView();
 
     @FXML
     void onBtnLogIn(ActionEvent event) throws SQLException, ClassNotFoundException {
@@ -192,12 +190,12 @@ public class AdminController {
        try{
             packageTable.getItems().clear();
             packageTable1.getItems().clear();
+            adminViewPackage = paczkiDAO.showAdminPackage();
             adminViewUser = paczkiDAO.showAdminClients();
+            packageTable.setItems(adminViewPackage);
             packageTable1.setItems(adminViewUser);
-
-            if(adminViewUser.equals(null)){
-                AdminConsoleArea.appendText("No data found. \n");
-            }
+            packageTable.setPlaceholder(new Label("No data to display"));
+            packageTable1.setPlaceholder(new Label("No data to display"));
 
         }catch (SQLException e){
             AdminConsoleArea.appendText("Error occurred while getting data from DB. \n");

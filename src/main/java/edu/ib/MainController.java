@@ -170,38 +170,13 @@ public class MainController {
     @FXML
     void onFindDate(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        /*try{
-            if(!findDate.getText().equals(null)) {
-                userDataTable.getItems().clear();
-                if (clientView != null) {
-                    clientView = paczkiDAO.findDataClientView(findDate.getText());
-                    userDataTable.setItems(clientView);
-                } else {
-                    consoleArea.appendText("No data found. \n");
-                }
-            }
-        }catch (SQLException e){
-            consoleArea.appendText("Error occurred while getting data from BD. \n");
-        }*/
-
     }
 
     @FXML
     void onFindStatus(ActionEvent event) throws SQLException, ClassNotFoundException{
 
-        /*try{
-            if(!findStatus.getText().equals(null)){
-                userDataTable.getItems().clear();
-                if (clientView != null){
-                    clientView = paczkiDAO.findStatusClientView(findStatus.getText());
-                    userDataTable.setItems(clientView);
-                }else {
-                    consoleArea.appendText("No data found. \n");
-                }
-            }
-        }catch (SQLException e){
-            consoleArea.appendText("Error occurred while getting data from BD. \n");
-        }*/
+
+
     }
 
     @FXML

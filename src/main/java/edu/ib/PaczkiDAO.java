@@ -16,7 +16,7 @@ public class PaczkiDAO {
         this.consoleTextArea = consoleTextArea;
     }
 
-    private ObservableList<Automats> getAutomatsList(ResultSet rs) throws SQLException{
+    /*private ObservableList<Automats> getAutomatsList(ResultSet rs) throws SQLException{
         ObservableList<Automats> automatsList = FXCollections.observableArrayList();
 
         while(rs.next()){
@@ -27,9 +27,9 @@ public class PaczkiDAO {
             a.setlAmount(rs.getInt("L_lockers_amount"));
         }
         return automatsList;
-    }
+    }*/
 
-    private ObservableList<Clients> getSendersList(ResultSet rs) throws SQLException{
+    /*private ObservableList<Clients> getSendersList(ResultSet rs) throws SQLException{
 
         ObservableList<Clients> sendersList = FXCollections.observableArrayList();
 
@@ -46,12 +46,12 @@ public class PaczkiDAO {
             sendersList.add(s);
         }
         return sendersList;
-    }
+    }*/
 
     private ObservableList<UserView> getUsers(ResultSet rs) throws SQLException{
 
         ObservableList<UserView> sendersList = FXCollections.observableArrayList();
-
+        rs.beforeFirst();
         while(rs.next()){
 
            UserView u = new UserView();
@@ -83,7 +83,7 @@ public class PaczkiDAO {
         return packageViews;
     }
 
-    private ObservableList<Shipments> getShipmentsList(ResultSet rs) throws SQLException{
+    /*private ObservableList<Shipments> getShipmentsList(ResultSet rs) throws SQLException{
         ObservableList<Shipments> shipmentsList = FXCollections.observableArrayList();
 
         while(rs.next()){
@@ -103,7 +103,7 @@ public class PaczkiDAO {
             p.setAutoAddress(rs.getString("automat_address"));
         }
         return shipmentsList;
-    }
+    }*/
 
 
     public ObservableList<UserView> showAdminClients() throws SQLException, ClassNotFoundException{
