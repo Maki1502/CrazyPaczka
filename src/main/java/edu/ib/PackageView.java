@@ -8,7 +8,7 @@ public class PackageView {
     private StringProperty consDate;
     private StringProperty recDate;
     private IntegerProperty clId;
-    private IntegerProperty recId;
+    private StringProperty recId;
     private DoubleProperty price;
     private ObjectProperty status;
 
@@ -17,7 +17,7 @@ public class PackageView {
         consDate = new SimpleStringProperty();
         recDate = new SimpleStringProperty();
         clId = new SimpleIntegerProperty();
-        recId = new SimpleIntegerProperty();
+        recId = new SimpleStringProperty();
         price = new SimpleDoubleProperty();
         status = new SimpleObjectProperty();
     }
@@ -70,15 +70,15 @@ public class PackageView {
         this.clId.set(clId);
     }
 
-    public int getRecId() {
+    public String getRecId() {
         return recId.get();
     }
 
-    public IntegerProperty recIdProperty() {
+    public StringProperty recIdProperty() {
         return recId;
     }
 
-    public void setRecId(int recId) {
+    public void setRecId(String recId) {
         this.recId.set(recId);
     }
 

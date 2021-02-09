@@ -68,7 +68,7 @@ public class AdminController {
     private TableColumn<PackageView, Integer> sendCol;
 
     @FXML
-    private TableColumn<PackageView, Integer> recCol;
+    private TableColumn<PackageView, String> recCol;
 
     @FXML
     private TableColumn<PackageView, String> fromCol;

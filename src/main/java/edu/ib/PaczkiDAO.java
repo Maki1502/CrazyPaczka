@@ -75,7 +75,7 @@ public class PaczkiDAO {
             p.setConsDate(rs.getString("ConsDate"));
             p.setRecDate(rs.getString("RecDate"));
             p.setClId(rs.getInt("SenderId"));
-            p.setRecId(rs.getInt("ReceiverId"));
+            p.setRecId(rs.getString("ReceiverId"));
             p.setPrice(rs.getDouble("Price"));
             p.setStatus(rs.getObject("packStatus"));
             packageViews.add(p);
