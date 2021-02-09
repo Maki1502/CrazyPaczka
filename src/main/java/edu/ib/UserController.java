@@ -78,6 +78,7 @@ public class UserController {
 
     private static Scene scenePackage;
     Stage stage = new Stage();
+
     @FXML
     void onBtnExit(ActionEvent event) throws IOException {
         scenePackage = new Scene(loadFXML("/fxml/mainScreen"), 600, 400);
@@ -90,10 +91,14 @@ public class UserController {
     @FXML
     void onBtnSend(ActionEvent event) {
 
+        //tutaj podpiac sendPackage
+
     }
 
     @FXML
     void onChkL(ActionEvent event) {
+
+        //tych chyba nie trzeba uzywac, tylko w send dac, ze jak ten wcisniety to taki rozmiar
 
     }
 
