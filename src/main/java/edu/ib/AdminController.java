@@ -195,19 +195,10 @@ public class AdminController {
             adminViewUser = paczkiDAO.showAdminClients();
             packageTable1.setItems(adminViewUser);
 
-            /*if(adminViewPackage != null) {
-                adminViewPackage = paczkiDAO.adminGetPackage();
-                packageTable.setItems(adminViewPackage);
-            }else{
-                AdminConsoleArea.appendText("No data about packages found. \n");
-            }*/
-
-            if(adminViewUser != null) {
-                adminViewUser = paczkiDAO.showAdminClients();
-                packageTable1.setItems(adminViewUser);
-            }else{
-                AdminConsoleArea.appendText("No data about users found. \n");
+            if(adminViewUser.equals(null)){
+                AdminConsoleArea.appendText("No data found. \n");
             }
+
         }catch (SQLException e){
             AdminConsoleArea.appendText("Error occurred while getting data from DB. \n");
         }

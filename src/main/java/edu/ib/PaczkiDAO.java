@@ -112,7 +112,7 @@ public class PaczkiDAO {
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
             ObservableList<UserView> clientsList = getUsers(resultSet);
             consoleTextArea.appendText(selectStmt+"\n");
-            //printResultSet(resultSet);
+            printResultSet(resultSet);
 
             return clientsList;
         }catch (SQLException e){
