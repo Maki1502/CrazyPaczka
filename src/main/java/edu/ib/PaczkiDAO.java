@@ -51,7 +51,7 @@ public class PaczkiDAO {
     private ObservableList<UserView> getUsers(ResultSet rs) throws SQLException{
 
         ObservableList<UserView> sendersList = FXCollections.observableArrayList();
-        rs.beforeFirst();
+
         while(rs.next()){
 
            UserView u = new UserView();
@@ -110,8 +110,10 @@ public class PaczkiDAO {
         String selectStmt = "SELECT * FROM AdminViewUser;";
         try{
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
+
             ObservableList<UserView> clientsList = getUsers(resultSet);
             consoleTextArea.appendText(selectStmt+"\n");
+
             printResultSet(resultSet);
 
             return clientsList;

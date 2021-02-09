@@ -54,8 +54,6 @@ public class AdminController {
     @FXML
     private Button btnDeleteIdPackage;
 
-    private ObservableList<PackageView> adminViewPackage;
-
     @FXML
     private TableView<PackageView> packageTable;
 
@@ -97,8 +95,6 @@ public class AdminController {
 
     @FXML
     private Button btnDeleteIdUser;
-
-    private ObservableList<UserView> adminViewUser;
 
     @FXML
     private TableView<UserView> packageTable1;
@@ -194,10 +190,13 @@ public class AdminController {
        try{
             packageTable.getItems().clear();
             packageTable1.getItems().clear();
-            adminViewPackage = paczkiDAO.showAdminPackage();
-            adminViewUser = paczkiDAO.showAdminClients();
-            packageTable.setItems(adminViewPackage);
-            packageTable1.setItems(adminViewUser);
+
+            ObservableList<UserView> viewUserAdmin = paczkiDAO.showAdminClients();
+            ObservableList<PackageView> viewPackageAdmin = paczkiDAO.showAdminPackage();
+
+            packageTable.setItems(viewPackageAdmin);
+            packageTable1.setItems(viewUserAdmin);
+
             packageTable.setPlaceholder(new Label("No data to display"));
             packageTable1.setPlaceholder(new Label("No data to display"));
 
@@ -236,7 +235,6 @@ public class AdminController {
 
     @FXML
     void initialize() {
-
         assert adminName != null : "fx:id=\"adminName\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert AdminPasswordCode != null : "fx:id=\"AdminPasswordCode\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert btnAdminLogIn != null : "fx:id=\"btnAdminLogIn\" was not injected: check your FXML file 'techScreen.fxml'.";
@@ -267,6 +265,7 @@ public class AdminController {
         assert cityCol != null : "fx:id=\"cityCol\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert mailCol != null : "fx:id=\"mailCol\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert phoneCol != null : "fx:id=\"phoneCol\" was not injected: check your FXML file 'techScreen.fxml'.";
+
 
         btnAdminLogOut.setDisable(true);
         findIdPackage.setDisable(true);

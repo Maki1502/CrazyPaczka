@@ -19,6 +19,10 @@ public class DBUtil {
         this.consoleTextArea = consoleTextArea;
     }
 
+    public String getUserName(){
+        return userName;
+    }
+
     public void dbConnect() throws SQLException, ClassNotFoundException{ //ladowanie
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -63,13 +67,13 @@ public class DBUtil {
     }
 
     public ResultSet dbExecuteQuery(String queryStmt) throws SQLException, ClassNotFoundException{
-        Statement stms = null;
+        PreparedStatement stms = null;
         ResultSet resultSet = null;
         CachedRowSet cachedRowSet;
 
         try{
             dbConnect();
-            stms = connection.createStatement();
+            stms = connection.prepareStatement(queryStmt);
             resultSet = stms.executeQuery(queryStmt);
             cachedRowSet = new CachedRowSetWrapper();
             cachedRowSet.populate(resultSet);

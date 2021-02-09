@@ -103,7 +103,7 @@
                                           <Button fx:id="btnDeleteIdPackage" mnemonicParsing="false" onAction="#onBtnDeleteIdPackage" text="DELETE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
                                        </children>
                                     </GridPane>
-                                    <TableView fx:id="packageTable" layoutX="-1.0" layoutY="155.0" prefHeight="90.0" prefWidth="658.0">
+                                    <TableView fx:id="packageTable" editable="true" layoutX="-1.0" layoutY="155.0" prefHeight="90.0" prefWidth="658.0">
                                       <columns>
                                         <TableColumn fx:id="idCol" prefWidth="78.40002137422562" text="PackageID" />
                                           <TableColumn fx:id="shipDateCol" prefWidth="72.800048828125" text="Ship. Date" />
@@ -166,7 +166,7 @@
                                  </children>
                               </AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
-                              <TableView fx:id="packageTable1" prefHeight="90.0" prefWidth="658.0">
+                              <TableView fx:id="packageTable1" editable="true" prefHeight="90.0" prefWidth="658.0">
                                  <columns>
                                     <TableColumn fx:id="userIdCol" prefWidth="78.40002137422562" text="UserID" />
                                     <TableColumn fx:id="nameCol" prefWidth="95.2000732421875" text="Name" />
