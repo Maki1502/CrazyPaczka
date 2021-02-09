@@ -5,10 +5,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -138,7 +135,7 @@ public class AdminController {
         try{
             if(!findIdPackage.getText().equals(null)){
                 packageTable.getItems().clear();
-                ObservableList<PackageView> wineData = paczkiDAO.findAdminPackage(findIdUser.getText());
+                ObservableList<PackageView> wineData = paczkiDAO.findAdminPackage(findIdPackage.getText());
                 packageTable.setItems(wineData);
                 packageTable.setPlaceholder(new Label("No data to display"));
             }

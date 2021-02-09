@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,12 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 public class MainController {
@@ -49,31 +45,29 @@ public class MainController {
     @FXML
     private TextArea consoleArea;
 
-    private ObservableList<ObservableList> clientView;
+    @FXML
+    private TableView<CustomerView> userDataTable;
 
     @FXML
-    private TableView<ObservableList> userDataTable;
+    private TableColumn<CustomerView, IntegerProperty> idCol;
 
     @FXML
-    private TableColumn<ObservableList, Integer> idCol;
+    private TableColumn<CustomerView, StringProperty> nameCol;
 
     @FXML
-    private TableColumn<ObservableList, String> nameCol;
+    private TableColumn<CustomerView, ObjectProperty> statusCol;
 
     @FXML
-    private TableColumn<ObservableList, Enum> statusCol;
+    private TableColumn<CustomerView, StringProperty> shipCol;
 
     @FXML
-    private TableColumn<ObservableList, String> shipCol;
+    private TableColumn<CustomerView, StringProperty> recCol;
 
     @FXML
-    private TableColumn<ObservableList, String> recCol;
+    private TableColumn<CustomerView, ObjectProperty> sizeCol;
 
     @FXML
-    private TableColumn<ObservableList, Enum> sizeCol;
-
-    @FXML
-    private TableColumn<ObservableList, String> automatCol;
+    private TableColumn<CustomerView, StringProperty> automatCol;
 
     @FXML
     private Button btnFindDate;
@@ -123,6 +117,15 @@ public class MainController {
         btnFindStatus.setDisable(false);
         userDataTable.setDisable(false);
 
+        try{
+            userDataTable.getItems().clear();
+            ObservableList<CustomerView> viewCustomer = paczkiDAO.showClientData();
+            userDataTable.setItems(viewCustomer);
+            userDataTable.setPlaceholder(new Label("No data to display"));
+        }catch (SQLException e){
+            consoleArea.appendText("Error occurred while getting data from DB. \n");
+        }
+
     }
 
     @FXML
@@ -147,8 +150,12 @@ public class MainController {
         passwordCode.clear();
     }
 
+    private boolean isLogged = false;
+
     @FXML
     void onBtnNewPackage(ActionEvent event) throws IOException {
+
+        isLogged = true; //nwm czm nie dziala
 
         scenePackage = new Scene(loadFXML("/fxml/screen"), 600, 400);
         stage.setScene(scenePackage);
@@ -170,17 +177,38 @@ public class MainController {
     @FXML
     void onFindDate(ActionEvent event) throws SQLException, ClassNotFoundException {
 
+        try {
+            if(!findDate.getText().equals(null)){
+                userDataTable.getItems().clear();
+                ObservableList<CustomerView> wineData = paczkiDAO.findClientByData(findDate.getText());
+                userDataTable.setItems(wineData);
+                userDataTable.setPlaceholder(new Label("No data to display"));
+            }
+        }catch (SQLException e) {
+            consoleArea.appendText("Error 200 \n");
+            throw e;
+        }
     }
 
     @FXML
     void onFindStatus(ActionEvent event) throws SQLException, ClassNotFoundException{
 
-
+        try {
+            if(!findStatus.getText().equals(null)){
+                userDataTable.getItems().clear();
+                ObservableList<CustomerView> wineData = paczkiDAO.findClientByStatus(findStatus.getText());
+                userDataTable.setItems(wineData);
+                userDataTable.setPlaceholder(new Label("No data to display"));
+            }
+        }catch (SQLException e) {
+            consoleArea.appendText("Error 200 \n");
+            throw e;
+        }
 
     }
 
     @FXML
-    void initialize() {
+    void initialize() throws SQLException, ClassNotFoundException {
         assert loginName != null : "fx:id=\"loginName\" was not injected: check your FXML file 'mainScreen.fxml'.";
         assert passwordCode != null : "fx:id=\"passwordCode\" was not injected: check your FXML file 'mainScreen.fxml'.";
         assert btnLogIn != null : "fx:id=\"btnLogIn\" was not injected: check your FXML file 'mainScreen.fxml'.";
@@ -210,6 +238,36 @@ public class MainController {
         findStatus.setDisable(true);
         btnFindStatus.setDisable(true);
         userDataTable.setDisable(true);
+
+        consoleArea.appendText(String.valueOf(isLogged));
+
+        if(isLogged == true){
+
+            dbUtil = new DBUtil(loginName.getText(), passwordCode.getText(), consoleArea);
+            paczkiDAO = new PaczkiDAO(dbUtil, consoleArea);
+
+            dbUtil.dbConnect();
+
+            consoleArea.appendText("Logged as "+loginName.getText()+".\n");
+            btnLogIn.setDisable(true);
+
+            btnLogOut.setDisable(false);
+            btnNewPackage.setDisable(false);
+            findDate.setDisable(false);
+            btnFindDate.setDisable(false);
+            findStatus.setDisable(false);
+            btnFindStatus.setDisable(false);
+            userDataTable.setDisable(false);
+
+            try{
+                userDataTable.getItems().clear();
+                ObservableList<CustomerView> viewCustomer = paczkiDAO.showClientData();
+                userDataTable.setItems(viewCustomer);
+                userDataTable.setPlaceholder(new Label("No data to display"));
+            }catch (SQLException e){
+                consoleArea.appendText("Error occurred while getting data from DB. \n");
+            }
+        }
 
     }
 
