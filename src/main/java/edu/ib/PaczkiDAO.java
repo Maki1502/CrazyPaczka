@@ -48,6 +48,25 @@ public class PaczkiDAO {
         return sendersList;
     }*/
 
+    private ObservableList<CustomerView> getCustomerView(ResultSet rs) throws SQLException{
+
+        ObservableList<CustomerView> customerViews = FXCollections.observableArrayList();
+
+        while (rs.next()){
+
+            CustomerView cv = new CustomerView();
+            cv.setId(rs.getInt("ID"));
+            cv.setName(rs.getString("recipient"));
+            cv.setStatus(rs.getObject("ShipmentStatus"));
+            cv.setConsDate(rs.getString("ConsignmentDate"));
+            cv.setRecDate(rs.getString("ReceptionDate"));
+            cv.setSize(rs.getObject("Size"));
+            cv.setAddress(rs.getString("s.automat_address"));
+            customerViews.add(cv);
+        }
+        return customerViews;
+    }
+
     private ObservableList<UserView> getUsers(ResultSet rs) throws SQLException{
 
         ObservableList<UserView> sendersList = FXCollections.observableArrayList();
@@ -105,6 +124,57 @@ public class PaczkiDAO {
         return shipmentsList;
     }*/
 
+
+    public ObservableList<CustomerView> showClientData() throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM CustomerView;";
+        try{
+            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
+
+            ObservableList<CustomerView> customerViews = getCustomerView(resultSet);
+            consoleTextArea.appendText(selectStmt+"\n");
+
+            printResultSet(resultSet);
+
+            return customerViews;
+        }catch (SQLException e){
+            consoleTextArea.appendText("Error \n");
+            throw e;
+        }
+    }
+
+    public ObservableList<CustomerView> findClientByData(String findData) throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM CustomerView WHERE ConsignmentDate like %'"+findData+"%' OR ReceptionDate like %'"+findData+"%';";
+        try{
+            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
+
+            ObservableList<CustomerView> customerViews = getCustomerView(resultSet);
+            consoleTextArea.appendText(selectStmt+"\n");
+
+            printResultSet(resultSet);
+
+            return customerViews;
+        }catch (SQLException e){
+            consoleTextArea.appendText("Error \n");
+            throw e;
+        }
+    }
+
+    public ObservableList<CustomerView> findClientByStatus(String findStatus) throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM CustomerView WHERE ShipmentStatus like %'"+findStatus+"%';";
+        try{
+            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
+
+            ObservableList<CustomerView> customerViews = getCustomerView(resultSet);
+            consoleTextArea.appendText(selectStmt+"\n");
+
+            printResultSet(resultSet);
+
+            return customerViews;
+        }catch (SQLException e){
+            consoleTextArea.appendText("Error \n");
+            throw e;
+        }
+    }
 
     public ObservableList<UserView> showAdminClients() throws SQLException, ClassNotFoundException{
         String selectStmt = "SELECT * FROM AdminViewUser;";

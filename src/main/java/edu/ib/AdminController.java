@@ -125,12 +125,12 @@ public class AdminController {
 
     @FXML
     void onBtnDeleteIdPackage(ActionEvent event) {
-
+        //work in progress
     }
 
     @FXML
     void onBtnDeleteIdUser(ActionEvent event) {
-
+        //work in progress
     }
 
     @FXML
