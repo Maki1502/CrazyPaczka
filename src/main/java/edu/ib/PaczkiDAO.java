@@ -122,11 +122,12 @@ public class PaczkiDAO {
     }
 
     public ObservableList<UserView> findAdminClients(String findUser) throws SQLException, ClassNotFoundException{
-        String selectStmt = "SELECT * FROM AdminViewUser WHERE ID like '%"+findUser+"%';";
+        String selectStmt = "SELECT * FROM AdminViewUser WHERE ID like "+findUser+";";
         try{
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
             ObservableList<UserView> clientsList = getUsers(resultSet);
             consoleTextArea.appendText(selectStmt+"\n");
+            printResultSet(resultSet);
 
             return clientsList;
         }catch (SQLException e){
@@ -171,7 +172,7 @@ public class PaczkiDAO {
 
         ResultSetMetaData rsmd = resultSet.getMetaData(); // metadane o zapytaniu
         int columnsNumber = rsmd.getColumnCount(); // liczba kolumn
-
+        resultSet.beforeFirst();
         while (resultSet.next()) {  // wyswietlenie nazw kolumn i wartosci w rzedach
 
             for (int i = 1; i <= columnsNumber; i++) {

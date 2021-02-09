@@ -63,14 +63,14 @@ public class DBUtil {
     }
 
     public ResultSet dbExecuteQuery(String queryStmt) throws SQLException, ClassNotFoundException{
-        PreparedStatement stms = null;
+        Statement stms = null;
         ResultSet resultSet = null;
         CachedRowSet cachedRowSet;
 
         try{
             dbConnect();
-            stms = connection.prepareStatement(queryStmt);
-            resultSet = stms.executeQuery();
+            stms = connection.createStatement();
+            resultSet = stms.executeQuery(queryStmt);
             cachedRowSet = new CachedRowSetWrapper();
             cachedRowSet.populate(resultSet);
         }catch (SQLException e){
