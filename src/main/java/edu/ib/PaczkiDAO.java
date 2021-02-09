@@ -111,7 +111,8 @@ public class PaczkiDAO {
         try{
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
             ObservableList<UserView> clientsList = getUsers(resultSet);
-            consoleTextArea.appendText(selectStmt);
+            consoleTextArea.appendText(selectStmt+"\n");
+            //printResultSet(resultSet);
 
             return clientsList;
         }catch (SQLException e){
@@ -139,7 +140,7 @@ public class PaczkiDAO {
         try{
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
             ObservableList<PackageView> packageViews = getPackages(resultSet);
-            consoleTextArea.appendText(selectStmt);
+            consoleTextArea.appendText(selectStmt+"\n");
 
             return packageViews;
         }catch (SQLException e){
@@ -153,7 +154,7 @@ public class PaczkiDAO {
         try{
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
             ObservableList<PackageView> packageViews = getPackages(resultSet);
-            consoleTextArea.appendText(selectStmt);
+            consoleTextArea.appendText(selectStmt+"\n");
 
             return packageViews;
         }catch (SQLException e){

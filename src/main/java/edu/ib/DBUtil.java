@@ -70,7 +70,7 @@ public class DBUtil {
         try{
             dbConnect();
             stms = connection.prepareStatement(queryStmt);
-            resultSet = stms.executeQuery(queryStmt);
+            resultSet = stms.executeQuery();
             cachedRowSet = new CachedRowSetWrapper();
             cachedRowSet.populate(resultSet);
         }catch (SQLException e){
@@ -79,7 +79,6 @@ public class DBUtil {
         }finally {
             if(resultSet!= null) resultSet.close();
             if(stms != null) stms.close();
-            dbDisconnect();
         }
         return cachedRowSet;
     }
