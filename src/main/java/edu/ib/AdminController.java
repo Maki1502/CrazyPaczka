@@ -5,6 +5,10 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -56,31 +60,31 @@ public class AdminController {
     private TableView<PackageView> packageTable;
 
     @FXML
-    private TableColumn<PackageView, Integer> idCol;
+    private TableColumn<PackageView, IntegerProperty> idCol;
 
     @FXML
-    private TableColumn<PackageView, String> shipDateCol;
+    private TableColumn<PackageView, StringProperty> shipDateCol;
 
     @FXML
-    private TableColumn<PackageView, String> recDateCol;
+    private TableColumn<PackageView, StringProperty> recDateCol;
 
     @FXML
-    private TableColumn<PackageView, Integer> sendCol;
+    private TableColumn<PackageView, IntegerProperty> sendCol;
 
     @FXML
-    private TableColumn<PackageView, String> recCol;
+    private TableColumn<PackageView, StringProperty> recCol;
 
     @FXML
-    private TableColumn<PackageView, String> fromCol;
+    private TableColumn<PackageView, StringProperty> fromCol;
 
     @FXML
-    private TableColumn<PackageView, String> toCol;
+    private TableColumn<PackageView, StringProperty> toCol;
 
     @FXML
-    private TableColumn<PackageView, Double> priceCol;
+    private TableColumn<PackageView, DoubleProperty> priceCol;
 
     @FXML
-    private TableColumn<PackageView, Enum> statusCol;
+    private TableColumn<PackageView, ObjectProperty> statusCol;
 
     @FXML
     private TextField findIdUser;
@@ -100,22 +104,22 @@ public class AdminController {
     private TableView<UserView> packageTable1;
 
     @FXML
-    private TableColumn<UserView, Integer> userIdCol;
+    private TableColumn<UserView, IntegerProperty> userIdCol;
 
     @FXML
-    private TableColumn<UserView, String> nameCol;
+    private TableColumn<UserView, StringProperty> nameCol;
 
     @FXML
-    private TableColumn<UserView, String> surnameCol;
+    private TableColumn<UserView, StringProperty> surnameCol;
 
     @FXML
-    private TableColumn<UserView, String> cityCol;
+    private TableColumn<UserView, StringProperty> cityCol;
 
     @FXML
-    private TableColumn<UserView, String> mailCol;
+    private TableColumn<UserView, StringProperty> mailCol;
 
     @FXML
-    private TableColumn<UserView, String> phoneCol;
+    private TableColumn<UserView, StringProperty> phoneCol;
 
     private DBUtil dbUtil;
     private PaczkiDAO paczkiDAO;
