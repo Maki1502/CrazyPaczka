@@ -2,6 +2,7 @@ package edu.ib;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 
 import java.sql.*;
@@ -235,9 +236,6 @@ public class PaczkiDAO {
             throw e;
         }
     }
-
-
-
 
 
     public static void printResultSet(ResultSet resultSet) throws SQLException {

@@ -148,12 +148,11 @@ public class AdminController {
     @FXML
     void onBtnFindIdUser(ActionEvent event) throws SQLException, ClassNotFoundException{
         try{
-            if(!findIdUser.getText().equals(null)){
                 packageTable1.getItems().clear();
                 ObservableList<UserView> wineData = paczkiDAO.findAdminClients(findIdUser.getText());
                 packageTable1.setItems(wineData);
                 packageTable1.setPlaceholder(new Label("No data to display"));
-            }
+
         }catch (SQLException e){
             AdminConsoleArea.appendText("Error 100 \n");
             throw e;
@@ -229,7 +228,12 @@ public class AdminController {
         ((Node)(event.getSource())).getScene().getWindow().hide();
 
     }
-
+    private void populateOrdersToFirstTable(ObservableList<PackageView> packageData) {
+        packageTable.setItems(packageData);
+    }
+    private void populateOrdersToSecondTable(ObservableList<UserView> userData) {
+        packageTable1.setItems(userData);
+    }
     @FXML
     void initialize() {
         assert adminName != null : "fx:id=\"adminName\" was not injected: check your FXML file 'techScreen.fxml'.";
