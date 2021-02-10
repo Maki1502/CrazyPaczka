@@ -5,7 +5,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,28 +46,28 @@ public class MainController {
     private TextArea consoleArea;
 
     @FXML
-    private TableView<Shipments> userDataTable;
+    private TableView<CustomerView> userDataTable;
 
     @FXML
-    private TableColumn<Shipments, Integer> idCol;
+    private TableColumn<CustomerView, Integer> idCol;
 
     @FXML
-    private TableColumn<Shipments, String> nameCol;
+    private TableColumn<CustomerView, String> nameCol;
 
     @FXML
-    private TableColumn<Shipments, Enum> statusCol;
+    private TableColumn<CustomerView, String> statusCol;
 
     @FXML
-    private TableColumn<Shipments, String> shipCol;
+    private TableColumn<CustomerView, String> shipCol;
 
     @FXML
-    private TableColumn<Shipments, String> recCol;
+    private TableColumn<CustomerView, String> recCol;
 
     @FXML
-    private TableColumn<Shipments, Enum> sizeCol;
+    private TableColumn<CustomerView, String> sizeCol;
 
     @FXML
-    private TableColumn<Shipments, String> automatCol;
+    private TableColumn<CustomerView, String> automatCol;
 
     @FXML
     private Button btnFindDate;
@@ -120,7 +119,7 @@ public class MainController {
 
         try{
             userDataTable.getItems().clear();
-            ObservableList<Shipments> viewCustomer = paczkiDAO.showClientData();
+            ObservableList<CustomerView> viewCustomer = paczkiDAO.showClientData();
             userDataTable.setItems(viewCustomer);
             userDataTable.setPlaceholder(new Label("No data to display"));
         }catch (SQLException e){
@@ -181,7 +180,7 @@ public class MainController {
         try {
             if(!findDate.getText().equals(null)){
                 userDataTable.getItems().clear();
-                ObservableList<Shipments> wineData = paczkiDAO.findClientByData(findDate.getText());
+                ObservableList<CustomerView> wineData = paczkiDAO.findClientByData(findDate.getText());
                 userDataTable.setItems(wineData);
                 userDataTable.setPlaceholder(new Label("No data to display"));
             }
@@ -197,7 +196,7 @@ public class MainController {
         try {
             if(!findStatus.getText().equals(null)){
                 userDataTable.getItems().clear();
-                ObservableList<Shipments> wineData = paczkiDAO.findClientByStatus(findStatus.getText());
+                ObservableList<CustomerView> wineData = paczkiDAO.findClientByStatus(findStatus.getText());
                 userDataTable.setItems(wineData);
                 userDataTable.setPlaceholder(new Label("No data to display"));
             }
@@ -232,25 +231,25 @@ public class MainController {
         assert btnNewPackage != null : "fx:id=\"btnNewPackage\" was not injected: check your FXML file 'mainScreen.fxml'.";
 
         idCol.setCellValueFactory(
-                new PropertyValueFactory<Shipments, Integer>("id")
+                new PropertyValueFactory<CustomerView, Integer>("id")
         );
         nameCol.setCellValueFactory(
-                new PropertyValueFactory<Shipments, String>("name")
+                new PropertyValueFactory<CustomerView, String>("name")
         );
         statusCol.setCellValueFactory(
-                new PropertyValueFactory<Shipments, Enum>("status")
+                new PropertyValueFactory<CustomerView, String>("status")
         );
         shipCol.setCellValueFactory(
-                new PropertyValueFactory<Shipments, String>("consDate")
+                new PropertyValueFactory<CustomerView, String>("consDate")
         );
         recCol.setCellValueFactory(
-                new PropertyValueFactory<Shipments, String>("recDate")
+                new PropertyValueFactory<CustomerView, String>("recDate")
         );
         sizeCol.setCellValueFactory(
-                new PropertyValueFactory<Shipments, Enum>("size")
+                new PropertyValueFactory<CustomerView, String>("size")
         );
         automatCol.setCellValueFactory(
-                new PropertyValueFactory<Shipments, String>("address")
+                new PropertyValueFactory<CustomerView, String>("address")
         );
 
         btnLogOut.setDisable(true);
@@ -283,7 +282,7 @@ public class MainController {
 
             try{
                 userDataTable.getItems().clear();
-                ObservableList<Shipments> viewCustomer = paczkiDAO.showClientData();
+                ObservableList<CustomerView> viewCustomer = paczkiDAO.showClientData();
                 userDataTable.setItems(viewCustomer);
                 userDataTable.setPlaceholder(new Label("No data to display"));
             }catch (SQLException e){

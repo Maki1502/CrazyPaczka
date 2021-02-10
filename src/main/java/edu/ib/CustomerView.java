@@ -6,19 +6,19 @@ public class CustomerView {
 
     private IntegerProperty id;
     private StringProperty name;
-    private ObjectProperty status;
+    private StringProperty status;
     private StringProperty consDate;
     private StringProperty recDate;
-    private ObjectProperty size;
+    private StringProperty size;
     private StringProperty address;
 
     public CustomerView(){
         id = new SimpleIntegerProperty();
         name = new SimpleStringProperty();
-        status = new SimpleObjectProperty();
+        status = new SimpleStringProperty();
         consDate = new SimpleStringProperty();
         recDate = new SimpleStringProperty();
-        size = new SimpleObjectProperty();
+        size = new SimpleStringProperty();
         address = new SimpleStringProperty();
     }
 
@@ -46,15 +46,15 @@ public class CustomerView {
         this.name.set(name);
     }
 
-    public Object getStatus() {
+    public String getStatus() {
         return status.get();
     }
 
-    public ObjectProperty statusProperty() {
+    public StringProperty statusProperty() {
         return status;
     }
 
-    public void setStatus(Object status) {
+    public void setStatus(String status) {
         this.status.set(status);
     }
 
@@ -82,15 +82,15 @@ public class CustomerView {
         this.recDate.set(recDate);
     }
 
-    public Object getSize() {
+    public String getSize() {
         return size.get();
     }
 
-    public ObjectProperty sizeProperty() {
+    public StringProperty sizeProperty() {
         return size;
     }
 
-    public void setSize(Object size) {
+    public void setSize(String size) {
         this.size.set(size);
     }
 
