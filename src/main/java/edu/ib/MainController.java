@@ -14,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class MainController {
@@ -49,25 +50,25 @@ public class MainController {
     private TableView<CustomerView> userDataTable;
 
     @FXML
-    private TableColumn<CustomerView, IntegerProperty> idCol;
+    private TableColumn<CustomerView, Integer> idCol;
 
     @FXML
-    private TableColumn<CustomerView, StringProperty> nameCol;
+    private TableColumn<CustomerView, String> nameCol;
 
     @FXML
-    private TableColumn<CustomerView, ObjectProperty> statusCol;
+    private TableColumn<CustomerView, Enum> statusCol;
 
     @FXML
-    private TableColumn<CustomerView, StringProperty> shipCol;
+    private TableColumn<CustomerView, String> shipCol;
 
     @FXML
-    private TableColumn<CustomerView, StringProperty> recCol;
+    private TableColumn<CustomerView, String> recCol;
 
     @FXML
-    private TableColumn<CustomerView, ObjectProperty> sizeCol;
+    private TableColumn<CustomerView, Enum> sizeCol;
 
     @FXML
-    private TableColumn<CustomerView, StringProperty> automatCol;
+    private TableColumn<CustomerView, String> automatCol;
 
     @FXML
     private Button btnFindDate;
@@ -230,6 +231,27 @@ public class MainController {
         assert findStatus != null : "fx:id=\"findStatus\" was not injected: check your FXML file 'mainScreen.fxml'.";
         assert btnNewPackage != null : "fx:id=\"btnNewPackage\" was not injected: check your FXML file 'mainScreen.fxml'.";
 
+        idCol.setCellValueFactory(
+                new PropertyValueFactory<CustomerView, Integer>("id")
+        );
+        nameCol.setCellValueFactory(
+                new PropertyValueFactory<CustomerView, String>("name")
+        );
+        statusCol.setCellValueFactory(
+                new PropertyValueFactory<CustomerView, Enum>("status")
+        );
+        shipCol.setCellValueFactory(
+                new PropertyValueFactory<CustomerView, String>("consDate")
+        );
+        recCol.setCellValueFactory(
+                new PropertyValueFactory<CustomerView, String>("recDate")
+        );
+        sizeCol.setCellValueFactory(
+                new PropertyValueFactory<CustomerView, Enum>("size")
+        );
+        automatCol.setCellValueFactory(
+                new PropertyValueFactory<CustomerView, String>("address")
+        );
 
         btnLogOut.setDisable(true);
         btnNewPackage.setDisable(true);
