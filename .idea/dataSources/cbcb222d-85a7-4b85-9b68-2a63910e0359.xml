@@ -919,7 +919,7 @@ SELECT|sys.sys_config
     <table id="287" parent="4" name="shipments"/>
     <table id="288" parent="4" name="temporaryclients"/>
     <view id="289" parent="4" name="adminviewpackage">
-      <SourceTextLength>434</SourceTextLength>
+      <SourceTextLength>464</SourceTextLength>
       <Definer>root@localhost</Definer>
     </view>
     <view id="290" parent="4" name="adminviewuser">
@@ -927,26 +927,26 @@ SELECT|sys.sys_config
       <Definer>root@localhost</Definer>
     </view>
     <view id="291" parent="4" name="customerview">
-      <SourceTextLength>425</SourceTextLength>
+      <SourceTextLength>485</SourceTextLength>
       <Definer>root@localhost</Definer>
     </view>
     <routine id="292" parent="4" name="DeliverPackage">
-      <SourceTextLength>855</SourceTextLength>
+      <SourceTextLength>1127</SourceTextLength>
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
     </routine>
     <routine id="293" parent="4" name="OrderAShipment">
-      <SourceTextLength>2086</SourceTextLength>
+      <SourceTextLength>2448</SourceTextLength>
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
     </routine>
     <routine id="294" parent="4" name="PickUpPackage">
-      <SourceTextLength>519</SourceTextLength>
+      <SourceTextLength>842</SourceTextLength>
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
     </routine>
     <routine id="295" parent="4" name="SendPackage">
-      <SourceTextLength>623</SourceTextLength>
+      <SourceTextLength>902</SourceTextLength>
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
     </routine>
@@ -956,7 +956,7 @@ SELECT|sys.sys_config
       <RoutineKind>procedure</RoutineKind>
     </routine>
     <routine id="297" parent="4" name="addClient">
-      <SourceTextLength>579</SourceTextLength>
+      <SourceTextLength>796</SourceTextLength>
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
     </routine>
@@ -1210,7 +1210,7 @@ SELECT|sys.sys_config
     </column>
     <column id="354" parent="289" name="packStatus">
       <Position>7</Position>
-      <DataType>enum(&apos;Sent&apos;, &apos;OnMyWay&apos;, &apos;Arrived&apos;, &apos;Received&apos;)|0e</DataType>
+      <DataType>varchar(8)|0s</DataType>
     </column>
     <column id="355" parent="290" name="ID">
       <Position>1</Position>
@@ -1248,7 +1248,7 @@ SELECT|sys.sys_config
     </column>
     <column id="363" parent="291" name="ShipmentStatus">
       <Position>3</Position>
-      <DataType>enum(&apos;Sent&apos;, &apos;OnMyWay&apos;, &apos;Arrived&apos;, &apos;Received&apos;)|0e</DataType>
+      <DataType>varchar(8)|0s</DataType>
     </column>
     <column id="364" parent="291" name="ConsignmentDate">
       <Position>4</Position>
@@ -1260,7 +1260,7 @@ SELECT|sys.sys_config
     </column>
     <column id="366" parent="291" name="Size">
       <Position>6</Position>
-      <DataType>enum(&apos;S&apos;, &apos;M&apos;, &apos;L&apos;)|0e</DataType>
+      <DataType>varchar(1)|0s</DataType>
     </column>
     <column id="367" parent="291" name="automat_address">
       <Position>7</Position>

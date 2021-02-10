@@ -75,7 +75,7 @@ public class PaczkiDAO {
             p.setId(rs.getInt("shipment_id"));
             p.setSize(rs.getObject("shipment_package_size"));
             p.setPrice(rs.getDouble("shipment_price"));
-            p.setSendPlace(rs.getString("shipment_sending_place"));
+            p.setSendPlace(rs.getString("shipment_consignment_place"));
             p.setRecPlace(rs.getString("shipment_reception_place"));
             p.setStatus(rs.getObject("shipment_status"));
             p.setConsDate(rs.getString("shipment_consignment_date"));
@@ -85,8 +85,28 @@ public class PaczkiDAO {
             p.setRecId(rs.getInt("shipment_recipient_id"));
             p.setClientId(rs.getInt("client_id"));
             p.setAutoAddress(rs.getString("automat_address"));
+            shipmentsList.add(p);
         }
         return shipmentsList;
+    }
+
+    private ObservableList<AdminViewPackage> getShipAdmin(ResultSet rs) throws SQLException{
+        ObservableList<AdminViewPackage> shipmentsView = FXCollections.observableArrayList();
+
+        while(rs.next()){
+            AdminViewPackage adm = new AdminViewPackage();
+            adm.setId(rs.getInt("ID"));
+            adm.setPrice(rs.getDouble("Price"));
+            adm.setSendPlace(rs.getString("fromPlace"));
+            adm.setRecPlace(rs.getString("toPlace"));
+            adm.setStatus(rs.getString("packStatus"));
+            adm.setConsDate(rs.getString("ConsDate"));
+            adm.setRecDate(rs.getString("RecDate"));
+            adm.setRecId(rs.getString("ReceiverId"));
+            adm.setClientId(rs.getInt("SenderId"));
+            shipmentsView.add(adm);
+        }
+        return shipmentsView;
     }
 
     public ObservableList<Shipments> showClientData() throws SQLException, ClassNotFoundException{
@@ -141,7 +161,7 @@ public class PaczkiDAO {
     }
 
     public ObservableList<Clients> showAdminClients() throws SQLException, ClassNotFoundException{
-        String selectStmt = "SELECT * from clients;";
+        String selectStmt = "SELECT * from Clients;";
         try{
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
 
@@ -172,13 +192,14 @@ public class PaczkiDAO {
         }
     }
 
-    public ObservableList<Shipments> showAdminPackage() throws SQLException, ClassNotFoundException{
-        String selectStmt = "SELECT * FROM Shipments;";
+    public ObservableList<AdminViewPackage> showAdminPackage() throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM AdminViewPackage;";
         try{
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
-            ObservableList<Shipments> packageViews = getShipmentsList(resultSet);
+            ObservableList<AdminViewPackage> packageViews = getShipAdmin(resultSet);
             consoleTextArea.appendText(selectStmt+"\n");
 
+            printResultSet(resultSet);
             return packageViews;
         }catch (SQLException e){
             consoleTextArea.appendText("Error2 \n");
@@ -186,12 +207,13 @@ public class PaczkiDAO {
         }
     }
 
-    public ObservableList<Shipments> findAdminPackage(String findPackage) throws SQLException, ClassNotFoundException{
-        String selectStmt = "SELECT * FROM Shipments WHERE shipment_id like '%"+findPackage+"%';";
+    public ObservableList<AdminViewPackage> findAdminPackage(String findPackage) throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM AdminViewPackage WHERE ID like "+findPackage+";";
         try{
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
-            ObservableList<Shipments> packageViews = getShipmentsList(resultSet);
+            ObservableList<AdminViewPackage> packageViews = getShipAdmin(resultSet);
             consoleTextArea.appendText(selectStmt+"\n");
+            printResultSet(resultSet);
 
             return packageViews;
         }catch (SQLException e){
@@ -199,9 +221,6 @@ public class PaczkiDAO {
             throw e;
         }
     }
-
-
-
 
 
     public static void printResultSet(ResultSet resultSet) throws SQLException {

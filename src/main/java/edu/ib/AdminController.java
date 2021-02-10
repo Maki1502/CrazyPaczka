@@ -40,6 +40,12 @@ public class AdminController {
     private TextArea AdminConsoleArea;
 
     @FXML
+    private Button btnStats;
+
+    @FXML
+    private Button btnPackages;
+
+    @FXML
     private TextField findIdPackage;
 
     @FXML
@@ -52,34 +58,34 @@ public class AdminController {
     private Button btnDeleteIdPackage;
 
     @FXML
-    private TableView<Shipments> packageTable;
+    private TableView<AdminViewPackage> packageTable;
 
     @FXML
-    private TableColumn<Shipments, Integer> idCol;
+    private TableColumn<AdminViewPackage, Integer> idCol;
 
     @FXML
-    private TableColumn<Shipments, String> shipDateCol;
+    private TableColumn<AdminViewPackage, String> shipDateCol;
 
     @FXML
-    private TableColumn<Shipments, String> recDateCol;
+    private TableColumn<AdminViewPackage, String> recDateCol;
 
     @FXML
-    private TableColumn<Shipments, Integer> sendCol;
+    private TableColumn<AdminViewPackage, Integer> sendCol;
 
     @FXML
-    private TableColumn<Shipments, String> recCol;
+    private TableColumn<AdminViewPackage, String> recCol;
 
     @FXML
-    private TableColumn<Shipments, String> fromCol;
+    private TableColumn<AdminViewPackage, String> fromCol;
 
     @FXML
-    private TableColumn<Shipments, String> toCol;
+    private TableColumn<AdminViewPackage, String> toCol;
 
     @FXML
-    private TableColumn<Shipments, Double> priceCol;
+    private TableColumn<AdminViewPackage, Double> priceCol;
 
     @FXML
-    private TableColumn<Shipments, Enum> statusCol;
+    private TableColumn<AdminViewPackage, String> statusCol;
 
     @FXML
     private TextField findIdUser;
@@ -135,7 +141,7 @@ public class AdminController {
         try{
             if(!findIdPackage.getText().equals(null)){
                 packageTable.getItems().clear();
-                ObservableList<Shipments> wineData = paczkiDAO.findAdminPackage(findIdPackage.getText());
+                ObservableList<AdminViewPackage> wineData = paczkiDAO.findAdminPackage(findIdPackage.getText());
                 packageTable.setItems(wineData);
                 packageTable.setPlaceholder(new Label("No data to display"));
             }
@@ -188,7 +194,7 @@ public class AdminController {
             packageTable1.getItems().clear();
 
             ObservableList<Clients> viewUserAdmin = paczkiDAO.showAdminClients();
-            ObservableList<Shipments> viewPackageAdmin = paczkiDAO.showAdminPackage();
+            ObservableList<AdminViewPackage> viewPackageAdmin = paczkiDAO.showAdminPackage();
 
             packageTable.setItems(viewPackageAdmin);
             packageTable1.setItems(viewUserAdmin);
@@ -230,12 +236,24 @@ public class AdminController {
     }
 
     @FXML
+    void onBtnPackages(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onBtnStats(ActionEvent event) {
+
+    }
+
+    @FXML
     void initialize() {
         assert adminName != null : "fx:id=\"adminName\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert AdminPasswordCode != null : "fx:id=\"AdminPasswordCode\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert btnAdminLogIn != null : "fx:id=\"btnAdminLogIn\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert btnAdminLogOut != null : "fx:id=\"btnAdminLogOut\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert AdminConsoleArea != null : "fx:id=\"AdminConsoleArea\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert btnStats != null : "fx:id=\"btnStats\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert btnPackages != null : "fx:id=\"btnPackages\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert findIdPackage != null : "fx:id=\"findIdPackage\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert deleteIdPackage != null : "fx:id=\"deleteIdPackage\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert btnFindIdPackage != null : "fx:id=\"btnFindIdPackage\" was not injected: check your FXML file 'techScreen.fxml'.";
@@ -262,33 +280,36 @@ public class AdminController {
         assert mailCol != null : "fx:id=\"mailCol\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert phoneCol != null : "fx:id=\"phoneCol\" was not injected: check your FXML file 'techScreen.fxml'.";
 
+
         idCol.setCellValueFactory(
-                new PropertyValueFactory<Shipments, Integer>("id")
+                new PropertyValueFactory<AdminViewPackage, Integer>("id")
         );
         shipDateCol.setCellValueFactory(
-                new PropertyValueFactory<Shipments, String>("consDate")
+                new PropertyValueFactory<AdminViewPackage, String>("consDate")
         );
         recDateCol.setCellValueFactory(
-                new PropertyValueFactory<Shipments, String>("recDate")
+                new PropertyValueFactory<AdminViewPackage, String>("recDate")
         );
         sendCol.setCellValueFactory(
-                new PropertyValueFactory<Shipments, Integer>("clId")
+                new PropertyValueFactory<AdminViewPackage, Integer>("clientId")
         );
         recCol.setCellValueFactory(
-                new PropertyValueFactory<Shipments, String>("recId")
+                new PropertyValueFactory<AdminViewPackage, String>("recId")
         );
         fromCol.setCellValueFactory(
-                new PropertyValueFactory<Shipments, String>("")
+                new PropertyValueFactory<AdminViewPackage, String>("sendPlace")
         );
         toCol.setCellValueFactory(
-                new PropertyValueFactory<Shipments, String>("")
+                new PropertyValueFactory<AdminViewPackage, String>("recPlace")
         );
         priceCol.setCellValueFactory(
-                new PropertyValueFactory<Shipments, Double>("price")
+                new PropertyValueFactory<AdminViewPackage, Double>("price")
         );
         statusCol.setCellValueFactory(
-                new PropertyValueFactory<Shipments, Enum>("status")
+                new PropertyValueFactory<AdminViewPackage, String>("status")
         );
+
+
         userIdCol.setCellValueFactory(
                 new PropertyValueFactory<Clients, Integer>("id")
         );
