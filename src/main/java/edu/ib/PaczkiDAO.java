@@ -16,7 +16,7 @@ public class PaczkiDAO {
         this.consoleTextArea = consoleTextArea;
     }
 
-    /*private ObservableList<Automats> getAutomatsList(ResultSet rs) throws SQLException{
+    private ObservableList<Automats> getAutomatsList(ResultSet rs) throws SQLException{
         ObservableList<Automats> automatsList = FXCollections.observableArrayList();
 
         while(rs.next()){
@@ -27,9 +27,9 @@ public class PaczkiDAO {
             a.setlAmount(rs.getInt("L_lockers_amount"));
         }
         return automatsList;
-    }*/
+    }
 
-    /*private ObservableList<Clients> getSendersList(ResultSet rs) throws SQLException{
+    private ObservableList<Clients> getSendersList(ResultSet rs) throws SQLException{
 
         ObservableList<Clients> sendersList = FXCollections.observableArrayList();
 
@@ -46,7 +46,7 @@ public class PaczkiDAO {
             sendersList.add(s);
         }
         return sendersList;
-    }*/
+    }
 
     private ObservableList<CustomerView> getCustomerView(ResultSet rs) throws SQLException{
 
@@ -67,24 +67,6 @@ public class PaczkiDAO {
         return customerViews;
     }
 
-    private ObservableList<UserView> getUsers(ResultSet rs) throws SQLException{
-
-        ObservableList<UserView> sendersList = FXCollections.observableArrayList();
-
-        while(rs.next()){
-
-           UserView u = new UserView();
-            u.setId(rs.getInt("ID"));
-            u.setName(rs.getString("clName"));
-            u.setSurname(rs.getString("clSurname"));
-            u.setAddress(rs.getString("address"));
-            u.setEmail(rs.getString("mail"));
-            u.setPhone_number(rs.getString("PhNumber"));
-            sendersList.add(u);
-        }
-        return sendersList;
-    }
-
     private ObservableList<PackageView> getPackages(ResultSet rs) throws SQLException{
 
         ObservableList<PackageView> packageViews = FXCollections.observableArrayList();
@@ -102,7 +84,7 @@ public class PaczkiDAO {
         return packageViews;
     }
 
-    /*private ObservableList<Shipments> getShipmentsList(ResultSet rs) throws SQLException{
+    private ObservableList<Shipments> getShipmentsList(ResultSet rs) throws SQLException{
         ObservableList<Shipments> shipmentsList = FXCollections.observableArrayList();
 
         while(rs.next()){
@@ -122,8 +104,7 @@ public class PaczkiDAO {
             p.setAutoAddress(rs.getString("automat_address"));
         }
         return shipmentsList;
-    }*/
-
+    }
 
     public ObservableList<CustomerView> showClientData() throws SQLException, ClassNotFoundException{
         String selectStmt = "SELECT * FROM CustomerView;";
@@ -176,12 +157,12 @@ public class PaczkiDAO {
         }
     }
 
-    public ObservableList<UserView> showAdminClients() throws SQLException, ClassNotFoundException{
-        String selectStmt = "SELECT * FROM AdminViewUser;";
+    public ObservableList<Clients> showAdminClients() throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * from clients;";
         try{
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
 
-            ObservableList<UserView> clientsList = getUsers(resultSet);
+            ObservableList<Clients> clientsList = getSendersList(resultSet);
             consoleTextArea.appendText(selectStmt+"\n");
 
             printResultSet(resultSet);
@@ -193,11 +174,11 @@ public class PaczkiDAO {
         }
     }
 
-    public ObservableList<UserView> findAdminClients(String findUser) throws SQLException, ClassNotFoundException{
-        String selectStmt = "SELECT * FROM AdminViewUser WHERE ID like "+findUser+";";
+   public ObservableList<Clients> findAdminClients(String findUser) throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM Clients WHERE client_id like "+findUser+";";
         try{
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
-            ObservableList<UserView> clientsList = getUsers(resultSet);
+            ObservableList<Clients> clientsList = getSendersList(resultSet);
             consoleTextArea.appendText(selectStmt+"\n");
             printResultSet(resultSet);
 
