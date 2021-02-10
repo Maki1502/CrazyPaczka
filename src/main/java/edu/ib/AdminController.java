@@ -52,34 +52,34 @@ public class AdminController {
     private Button btnDeleteIdPackage;
 
     @FXML
-    private TableView<PackageView> packageTable;
+    private TableView<Shipments> packageTable;
 
     @FXML
-    private TableColumn<PackageView, Integer> idCol;
+    private TableColumn<Shipments, Integer> idCol;
 
     @FXML
-    private TableColumn<PackageView, String> shipDateCol;
+    private TableColumn<Shipments, String> shipDateCol;
 
     @FXML
-    private TableColumn<PackageView, String> recDateCol;
+    private TableColumn<Shipments, String> recDateCol;
 
     @FXML
-    private TableColumn<PackageView, Integer> sendCol;
+    private TableColumn<Shipments, Integer> sendCol;
 
     @FXML
-    private TableColumn<PackageView, String> recCol;
+    private TableColumn<Shipments, String> recCol;
 
     @FXML
-    private TableColumn<PackageView, String> fromCol;
+    private TableColumn<Shipments, String> fromCol;
 
     @FXML
-    private TableColumn<PackageView, String> toCol;
+    private TableColumn<Shipments, String> toCol;
 
     @FXML
-    private TableColumn<PackageView, Double> priceCol;
+    private TableColumn<Shipments, Double> priceCol;
 
     @FXML
-    private TableColumn<PackageView, Enum> statusCol;
+    private TableColumn<Shipments, Enum> statusCol;
 
     @FXML
     private TextField findIdUser;
@@ -94,25 +94,25 @@ public class AdminController {
     private Button btnDeleteIdUser;
 
     @FXML
-    private TableView<UserView> packageTable1;
+    private TableView<Clients> packageTable1;
 
     @FXML
-    private TableColumn<UserView, Integer> userIdCol;
+    private TableColumn<Clients, Integer> userIdCol;
 
     @FXML
-    private TableColumn<UserView, String> nameCol;
+    private TableColumn<Clients, String> nameCol;
 
     @FXML
-    private TableColumn<UserView, String> surnameCol;
+    private TableColumn<Clients, String> surnameCol;
 
     @FXML
-    private TableColumn<UserView, String> cityCol;
+    private TableColumn<Clients, String> cityCol;
 
     @FXML
-    private TableColumn<UserView, String> mailCol;
+    private TableColumn<Clients, String> mailCol;
 
     @FXML
-    private TableColumn<UserView, String> phoneCol;
+    private TableColumn<Clients, String> phoneCol;
 
     private DBUtil dbUtil;
     private PaczkiDAO paczkiDAO;
@@ -135,7 +135,7 @@ public class AdminController {
         try{
             if(!findIdPackage.getText().equals(null)){
                 packageTable.getItems().clear();
-                ObservableList<PackageView> wineData = paczkiDAO.findAdminPackage(findIdPackage.getText());
+                ObservableList<Shipments> wineData = paczkiDAO.findAdminPackage(findIdPackage.getText());
                 packageTable.setItems(wineData);
                 packageTable.setPlaceholder(new Label("No data to display"));
             }
@@ -149,7 +149,7 @@ public class AdminController {
     void onBtnFindIdUser(ActionEvent event) throws SQLException, ClassNotFoundException{
         try{
                 packageTable1.getItems().clear();
-                ObservableList<UserView> wineData = paczkiDAO.findAdminClients(findIdUser.getText());
+                ObservableList<Clients> wineData = paczkiDAO.findAdminClients(findIdUser.getText());
                 packageTable1.setItems(wineData);
                 packageTable1.setPlaceholder(new Label("No data to display"));
 
@@ -158,7 +158,6 @@ public class AdminController {
             throw e;
         }
     }
-    UserView userView = new UserView();
 
     @FXML
     void onBtnLogIn(ActionEvent event) throws SQLException, ClassNotFoundException {
@@ -187,8 +186,8 @@ public class AdminController {
             packageTable.getItems().clear();
             packageTable1.getItems().clear();
 
-            ObservableList<UserView> viewUserAdmin = paczkiDAO.showAdminClients();
-            ObservableList<PackageView> viewPackageAdmin = paczkiDAO.showAdminPackage();
+            ObservableList<Clients> viewUserAdmin = paczkiDAO.showAdminClients();
+            ObservableList<Shipments> viewPackageAdmin = paczkiDAO.showAdminPackage();
 
             packageTable.setItems(viewPackageAdmin);
             packageTable1.setItems(viewUserAdmin);
@@ -268,49 +267,49 @@ public class AdminController {
         assert phoneCol != null : "fx:id=\"phoneCol\" was not injected: check your FXML file 'techScreen.fxml'.";
 
         idCol.setCellValueFactory(
-                new PropertyValueFactory<PackageView, Integer>("id")
+                new PropertyValueFactory<Shipments, Integer>("id")
         );
         shipDateCol.setCellValueFactory(
-                new PropertyValueFactory<PackageView, String>("consDate")
+                new PropertyValueFactory<Shipments, String>("consDate")
         );
         recDateCol.setCellValueFactory(
-                new PropertyValueFactory<PackageView, String>("recDate")
+                new PropertyValueFactory<Shipments, String>("recDate")
         );
         sendCol.setCellValueFactory(
-                new PropertyValueFactory<PackageView, Integer>("clId")
+                new PropertyValueFactory<Shipments, Integer>("clId")
         );
         recCol.setCellValueFactory(
-                new PropertyValueFactory<PackageView, String>("recId")
+                new PropertyValueFactory<Shipments, String>("recId")
         );
         fromCol.setCellValueFactory(
-                new PropertyValueFactory<PackageView, String>("")
+                new PropertyValueFactory<Shipments, String>("")
         );
         toCol.setCellValueFactory(
-                new PropertyValueFactory<PackageView, String>("")
+                new PropertyValueFactory<Shipments, String>("")
         );
         priceCol.setCellValueFactory(
-                new PropertyValueFactory<PackageView, Double>("price")
+                new PropertyValueFactory<Shipments, Double>("price")
         );
         statusCol.setCellValueFactory(
-                new PropertyValueFactory<PackageView, Enum>("status")
+                new PropertyValueFactory<Shipments, Enum>("status")
         );
         userIdCol.setCellValueFactory(
-                new PropertyValueFactory<UserView, Integer>("id")
+                new PropertyValueFactory<Clients, Integer>("id")
         );
         nameCol.setCellValueFactory(
-                new PropertyValueFactory<UserView, String>("name")
+                new PropertyValueFactory<Clients, String>("name")
         );
         surnameCol.setCellValueFactory(
-                new PropertyValueFactory<UserView, String>("surname")
+                new PropertyValueFactory<Clients, String>("surname")
         );
         cityCol.setCellValueFactory(
-                new PropertyValueFactory<UserView, String>("address")
+                new PropertyValueFactory<Clients, String>("address")
         );
         mailCol.setCellValueFactory(
-                new PropertyValueFactory<UserView, String>("email")
+                new PropertyValueFactory<Clients, String>("email")
         );
         phoneCol.setCellValueFactory(
-                new PropertyValueFactory<UserView, String>("phone_number")
+                new PropertyValueFactory<Clients, String>("phone_number")
         );
 
 

@@ -5,11 +5,11 @@ import javafx.beans.property.*;
 public class Shipments {
 
     private IntegerProperty id;
-    private ObjectProperty size; //?
+    private ObjectProperty size;
     private DoubleProperty price;
     private StringProperty sendPlace;
     private StringProperty recPlace;
-    private ObjectProperty status; //?
+    private ObjectProperty status;
     private StringProperty consDate;
     private StringProperty shipDate;
     private StringProperty deliDate;
