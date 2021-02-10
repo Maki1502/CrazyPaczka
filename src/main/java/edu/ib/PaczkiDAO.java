@@ -189,11 +189,11 @@ public class PaczkiDAO {
         }
     }
 
-    public ObservableList<PackageView> showAdminPackage() throws SQLException, ClassNotFoundException{
-        String selectStmt = "SELECT * FROM AdminViewPackage;";
+    public ObservableList<Shipments> showAdminPackage() throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM Shipments;";
         try{
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
-            ObservableList<PackageView> packageViews = getPackages(resultSet);
+            ObservableList<Shipments> packageViews = getShipmentsList(resultSet);
             consoleTextArea.appendText(selectStmt+"\n");
 
             return packageViews;
@@ -203,11 +203,11 @@ public class PaczkiDAO {
         }
     }
 
-    public ObservableList<PackageView> findAdminPackage(String findPackage) throws SQLException, ClassNotFoundException{
-        String selectStmt = "SELECT * FROM AdminViewPackage WHERE ID like '%"+findPackage+"%';";
+    public ObservableList<Shipments> findAdminPackage(String findPackage) throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM Shipments WHERE shipment_id like '%"+findPackage+"%';";
         try{
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
-            ObservableList<PackageView> packageViews = getPackages(resultSet);
+            ObservableList<Shipments> packageViews = getShipmentsList(resultSet);
             consoleTextArea.appendText(selectStmt+"\n");
 
             return packageViews;

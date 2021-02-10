@@ -52,34 +52,34 @@ public class AdminController {
     private Button btnDeleteIdPackage;
 
     @FXML
-    private TableView<PackageView> packageTable;
+    private TableView<Shipments> packageTable;
 
     @FXML
-    private TableColumn<PackageView, Integer> idCol;
+    private TableColumn<Shipments, Integer> idCol;
 
     @FXML
-    private TableColumn<PackageView, String> shipDateCol;
+    private TableColumn<Shipments, String> shipDateCol;
 
     @FXML
-    private TableColumn<PackageView, String> recDateCol;
+    private TableColumn<Shipments, String> recDateCol;
 
     @FXML
-    private TableColumn<PackageView, Integer> sendCol;
+    private TableColumn<Shipments, Integer> sendCol;
 
     @FXML
-    private TableColumn<PackageView, String> recCol;
+    private TableColumn<Shipments, String> recCol;
 
     @FXML
-    private TableColumn<PackageView, String> fromCol;
+    private TableColumn<Shipments, String> fromCol;
 
     @FXML
-    private TableColumn<PackageView, String> toCol;
+    private TableColumn<Shipments, String> toCol;
 
     @FXML
-    private TableColumn<PackageView, Double> priceCol;
+    private TableColumn<Shipments, Double> priceCol;
 
     @FXML
-    private TableColumn<PackageView, Enum> statusCol;
+    private TableColumn<Shipments, Enum> statusCol;
 
     @FXML
     private TextField findIdUser;
@@ -135,7 +135,7 @@ public class AdminController {
         try{
             if(!findIdPackage.getText().equals(null)){
                 packageTable.getItems().clear();
-                ObservableList<PackageView> wineData = paczkiDAO.findAdminPackage(findIdPackage.getText());
+                ObservableList<Shipments> wineData = paczkiDAO.findAdminPackage(findIdPackage.getText());
                 packageTable.setItems(wineData);
                 packageTable.setPlaceholder(new Label("No data to display"));
             }
@@ -188,7 +188,7 @@ public class AdminController {
             packageTable1.getItems().clear();
 
             ObservableList<Clients> viewUserAdmin = paczkiDAO.showAdminClients();
-            ObservableList<PackageView> viewPackageAdmin = paczkiDAO.showAdminPackage();
+            ObservableList<Shipments> viewPackageAdmin = paczkiDAO.showAdminPackage();
 
             packageTable.setItems(viewPackageAdmin);
             packageTable1.setItems(viewUserAdmin);
@@ -263,31 +263,31 @@ public class AdminController {
         assert phoneCol != null : "fx:id=\"phoneCol\" was not injected: check your FXML file 'techScreen.fxml'.";
 
         idCol.setCellValueFactory(
-                new PropertyValueFactory<PackageView, Integer>("id")
+                new PropertyValueFactory<Shipments, Integer>("id")
         );
         shipDateCol.setCellValueFactory(
-                new PropertyValueFactory<PackageView, String>("consDate")
+                new PropertyValueFactory<Shipments, String>("consDate")
         );
         recDateCol.setCellValueFactory(
-                new PropertyValueFactory<PackageView, String>("recDate")
+                new PropertyValueFactory<Shipments, String>("recDate")
         );
         sendCol.setCellValueFactory(
-                new PropertyValueFactory<PackageView, Integer>("clId")
+                new PropertyValueFactory<Shipments, Integer>("clId")
         );
         recCol.setCellValueFactory(
-                new PropertyValueFactory<PackageView, String>("recId")
+                new PropertyValueFactory<Shipments, String>("recId")
         );
         fromCol.setCellValueFactory(
-                new PropertyValueFactory<PackageView, String>("")
+                new PropertyValueFactory<Shipments, String>("")
         );
         toCol.setCellValueFactory(
-                new PropertyValueFactory<PackageView, String>("")
+                new PropertyValueFactory<Shipments, String>("")
         );
         priceCol.setCellValueFactory(
-                new PropertyValueFactory<PackageView, Double>("price")
+                new PropertyValueFactory<Shipments, Double>("price")
         );
         statusCol.setCellValueFactory(
-                new PropertyValueFactory<PackageView, Enum>("status")
+                new PropertyValueFactory<Shipments, Enum>("status")
         );
         userIdCol.setCellValueFactory(
                 new PropertyValueFactory<Clients, Integer>("id")
