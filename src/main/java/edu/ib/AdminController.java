@@ -233,12 +233,7 @@ public class AdminController {
         ((Node)(event.getSource())).getScene().getWindow().hide();
 
     }
-    private void populateOrdersToFirstTable(ObservableList<PackageView> packageData) {
-        packageTable.setItems(packageData);
-    }
-    private void populateOrdersToSecondTable(ObservableList<UserView> userData) {
-        packageTable1.setItems(userData);
-    }
+
     @FXML
     void onBtnPackages(ActionEvent event) {
 

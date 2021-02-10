@@ -2,7 +2,10 @@ package edu.ib;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class loginScreen {
+public class LoginScreen {
 
     @FXML
     private ResourceBundle resources;
@@ -48,8 +51,11 @@ public class loginScreen {
     @FXML
     private Button exitNew;
 
+    private PaczkiDAO paczkiDAO;
+    private DBUtil dbUtil;
+
     @FXML
-    void makeNewAcc(ActionEvent event) throws IOException {
+    void makeNewAcc(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 
         String newName = name.getText();
         String newSurname = surname.getText();
@@ -61,7 +67,8 @@ public class loginScreen {
 
         if(pswrd1.equals(pswrd2)){
 
-            //tutaj podpiac addClient i stworzyc konto nowe z uprawnieniami customera
+            String selectStmt = "CALL addClient("+name.getText()+", "+surname.getText()+", "+city.getText()+", "+mail.getText()+", "+phone.getText()+", "+password.getText()+");";
+            dbUtil.dbExecuteUpdate(selectStmt);
 
             scenePackage = new Scene(loadFXML("/fxml/mainScreen"), 600, 400); //nwm czy tego jakos nie zmienic, na pewno niech od razu loguje
             stage.setScene(scenePackage);

@@ -4,7 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8edd7339-9291-44f7-8314-b01bd8987617" name="Default Changelist" comment="" />
+    <list default="true" id="8edd7339-9291-44f7-8314-b01bd8987617" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ib/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ib/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ib/PaczkiDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ib/PaczkiDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ib/loginScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ib/LoginScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/mainScreen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/mainScreen.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/signIn.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/signIn.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/ib/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/ib/AdminController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/ib/PaczkiDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/ib/PaczkiDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/ib/loginScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/ib/loginScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fxml/mainScreen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fxml/mainScreen.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fxml/signIn.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fxml/signIn.fxml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -93,7 +107,7 @@
       <workItem from="1612519055073" duration="358000" />
       <workItem from="1612651421370" duration="78696000" />
       <workItem from="1612953244688" duration="15635000" />
-      <workItem from="1612969592255" duration="12837000" />
+      <workItem from="1612969592255" duration="18339000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <created>1611860243625</created>
@@ -389,14 +403,20 @@
       <option name="project" value="LOCAL" />
       <updated>1612992751583</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="another commit">
+      <created>1612993348998</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1612993348998</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Database util" />
     <MESSAGE value="Tablice" />
     <MESSAGE value="cachedRowSetWrapper class" />
     <MESSAGE value="very basic starting app" />
@@ -421,7 +441,8 @@
     <MESSAGE value="AdminUserView - done" />
     <MESSAGE value="admin is working" />
     <MESSAGE value="clientView" />
-    <option name="LAST_COMMIT_MESSAGE" value="clientView" />
+    <MESSAGE value="another commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="another commit" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
