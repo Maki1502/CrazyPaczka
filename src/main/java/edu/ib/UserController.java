@@ -117,6 +117,8 @@ public class UserController {
             dbUtil.dbExecuteUpdate(selectStmt);
         }
 
+        ((Node)(event.getSource())).getScene().getWindow().hide();
+
     }
 
     @FXML

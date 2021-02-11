@@ -73,16 +73,10 @@ public class LoginScreen {
             String selectStmt = "CALL addClient('"+newName+"', '"+newSurname+"', '"+newAddress+"', '"+newMail+"', '"+newPhone+"', '"+pswrd1+"');";
             dbUtil.dbExecuteUpdate(selectStmt);
 
-            selectStmt = "CREATE USER '"+ newMail + "'@'localhost' IDENTIFIED BY '" + newMail + "';";
+            selectStmt = "CREATE USER '"+ newMail + "'@'localhost' IDENTIFIED BY '" + pswrd1 + "';";
             dbUtil.dbExecuteUpdate(selectStmt);
 
-            selectStmt = "GRANT select on paczkomat.* TO '" + newMail + "'@'localhost';";
-            dbUtil.dbExecuteUpdate(selectStmt);
-
-            selectStmt = "GRANT EXECUTE ON PROCEDURE paczkomat.OrderAShipment TO '" + newMail + "'@'localhost';";
-            dbUtil.dbExecuteUpdate(selectStmt);
-
-            selectStmt = "GRANT EXECUTE ON PROCEDURE paczkomat.PickUpPackage TO '" + newMail + "'@'localhost';";
+            selectStmt = "GRANT SELECT, EXECUTE, CREATE ROUTINE, ALTER ROUTINE on *.* TO '" + newMail + "'@'localhost';";
             dbUtil.dbExecuteUpdate(selectStmt);
 
             scenePackage = new Scene(loadFXML("/fxml/mainScreen"), 600, 400);
@@ -114,7 +108,7 @@ public class LoginScreen {
     @FXML
     void initialize() throws SQLException, ClassNotFoundException {
 
-        dbUtil = new DBUtil("root2", "qwerty", textArea);
+        dbUtil = new DBUtil("root", "A5bd62z0abc", textArea);
         dbUtil.dbConnect();
 
         assert name != null : "fx:id=\"name\" was not injected: check your FXML file 'signIn.fxml'.";
