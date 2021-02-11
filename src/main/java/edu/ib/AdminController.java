@@ -2,6 +2,7 @@ package edu.ib;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
@@ -169,38 +170,46 @@ public class AdminController {
     void onBtnLogIn(ActionEvent event) throws SQLException, ClassNotFoundException {
         dbUtil = new DBUtil(adminName.getText(), AdminPasswordCode.getText(), AdminConsoleArea);
         paczkiDAO = new PaczkiDAO(dbUtil, AdminConsoleArea);
+        boolean isAdmin = dbUtil.getUserName().contains("AdminSCP");
+        String selectStmt = "SELECT client_password FROM clients WHERE client_email like '%"+adminName.getText()+"%';";
+        try{
+            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
+            if((isAdmin)&&(resultSet == AdminPasswordCode)) {
+                dbUtil.dbConnect();
 
-        dbUtil.dbConnect();
+                AdminConsoleArea.appendText("Access granted for user \"" + adminName.getText() + "\"." + "\n");
+                btnAdminLogIn.setDisable(true);
+                btnAdminLogOut.setDisable(false);
 
-        AdminConsoleArea.appendText("Access granted for user \""+adminName.getText()+"\"."+"\n");
-        btnAdminLogIn.setDisable(true);
-        btnAdminLogOut.setDisable(false);
+                findIdPackage.setDisable(false);
+                deleteIdPackage.setDisable(false);
+                btnFindIdPackage.setDisable(false);
+                btnDeleteIdPackage.setDisable(false);
+                packageTable.setDisable(false);
+                findIdUser.setDisable(false);
+                deleteIdUser.setDisable(false);
+                btnFindIdUser.setDisable(false);
+                deleteIdUser.setDisable(false);
+                btnDeleteIdUser.setDisable(false);
+                packageTable1.setDisable(false);
 
-        findIdPackage.setDisable(false);
-        deleteIdPackage.setDisable(false);
-        btnFindIdPackage.setDisable(false);
-        btnDeleteIdPackage.setDisable(false);
-        packageTable.setDisable(false);
-        findIdUser.setDisable(false);
-        deleteIdUser.setDisable(false);
-        btnFindIdUser.setDisable(false);
-        deleteIdUser.setDisable(false);
-        btnDeleteIdUser.setDisable(false);
-        packageTable1.setDisable(false);
+                try {
+                    packageTable.getItems().clear();
+                    packageTable1.getItems().clear();
 
-       try{
-            packageTable.getItems().clear();
-            packageTable1.getItems().clear();
+                    ObservableList<Clients> viewUserAdmin = paczkiDAO.showAdminClients();
+                    ObservableList<AdminViewPackage> viewPackageAdmin = paczkiDAO.showAdminPackage();
 
-            ObservableList<Clients> viewUserAdmin = paczkiDAO.showAdminClients();
-            ObservableList<AdminViewPackage> viewPackageAdmin = paczkiDAO.showAdminPackage();
+                    packageTable.setItems(viewPackageAdmin);
+                    packageTable1.setItems(viewUserAdmin);
 
-            packageTable.setItems(viewPackageAdmin);
-            packageTable1.setItems(viewUserAdmin);
+                    packageTable.setPlaceholder(new Label("No data to display"));
+                    packageTable1.setPlaceholder(new Label("No data to display"));
 
-            packageTable.setPlaceholder(new Label("No data to display"));
-            packageTable1.setPlaceholder(new Label("No data to display"));
-
+                } catch (SQLException e) {
+                    AdminConsoleArea.appendText("Error occurred while getting data from DB. \n");
+                }
+            }
         }catch (SQLException e){
             AdminConsoleArea.appendText("Error occurred while getting data from DB. \n");
         }

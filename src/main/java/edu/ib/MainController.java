@@ -92,6 +92,7 @@ public class MainController {
 
     @FXML
     void onBtnAdmin(ActionEvent event) throws IOException { //done
+
         scenePackage = new Scene(loadFXML("/fxml/techScreen"), 800, 500);
         stage.setScene(scenePackage);
         stage.setTitle("Admin mode");
@@ -266,6 +267,7 @@ public class MainController {
 
             dbUtil = new DBUtil(loginName.getText(), passwordCode.getText(), consoleArea);
             paczkiDAO = new PaczkiDAO(dbUtil, consoleArea);
+
 
             dbUtil.dbConnect();
 
