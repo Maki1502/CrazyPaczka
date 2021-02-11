@@ -3,7 +3,6 @@ package edu.ib;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -13,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -51,6 +51,9 @@ public class LoginScreen {
     @FXML
     private Button exitNew;
 
+    @FXML
+    private TextArea textArea;
+
     private PaczkiDAO paczkiDAO;
     private DBUtil dbUtil;
 
@@ -67,10 +70,10 @@ public class LoginScreen {
 
         if(pswrd1.equals(pswrd2)){
 
-            String selectStmt = "CALL addClient("+name.getText()+", "+surname.getText()+", "+city.getText()+", "+mail.getText()+", "+phone.getText()+", "+password.getText()+");";
+            String selectStmt = "CALL addClient("+newName+", "+newSurname+", "+newAddress+", "+newMail+", "+newPhone+", "+pswrd1+");";
             dbUtil.dbExecuteUpdate(selectStmt);
 
-            scenePackage = new Scene(loadFXML("/fxml/mainScreen"), 600, 400); //nwm czy tego jakos nie zmienic, na pewno niech od razu loguje
+            scenePackage = new Scene(loadFXML("/fxml/mainScreen"), 600, 400);
             stage.setScene(scenePackage);
             stage.setTitle("Main screen");
             stage.show();
@@ -98,7 +101,11 @@ public class LoginScreen {
     }
 
     @FXML
-    void initialize() {
+    void initialize() throws SQLException, ClassNotFoundException {
+
+        dbUtil = new DBUtil("username", "password", textArea);
+        dbUtil.dbConnect();
+
         assert name != null : "fx:id=\"name\" was not injected: check your FXML file 'signIn.fxml'.";
         assert surname != null : "fx:id=\"surname\" was not injected: check your FXML file 'signIn.fxml'.";
         assert city != null : "fx:id=\"city\" was not injected: check your FXML file 'signIn.fxml'.";
@@ -108,6 +115,7 @@ public class LoginScreen {
         assert confPassword != null : "fx:id=\"confPassword\" was not injected: check your FXML file 'signIn.fxml'.";
         assert newAcc != null : "fx:id=\"newAcc\" was not injected: check your FXML file 'signIn.fxml'.";
         assert exitNew != null : "fx:id=\"exitNew\" was not injected: check your FXML file 'signIn.fxml'.";
+        assert textArea != null : "fx:id=\"textArea\" was not injected: check your FXML file 'signIn.fxml'.";
 
     }
 

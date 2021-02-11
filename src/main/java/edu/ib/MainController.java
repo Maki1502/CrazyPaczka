@@ -84,7 +84,7 @@ public class MainController {
     @FXML
     private Button btnNewPackage;
 
-    private DBUtil dbUtil;
+    public static DBUtil dbUtil;
     private PaczkiDAO paczkiDAO;
 
     private static Scene scenePackage;

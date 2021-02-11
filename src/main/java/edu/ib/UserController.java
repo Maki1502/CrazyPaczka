@@ -75,6 +75,8 @@ public class UserController {
     @FXML
     private Button btnExit;
 
+    private DBUtil dbUtil;
+    private PaczkiDAO paczkiDAO;
 
     private static Scene scenePackage;
     Stage stage = new Stage();
@@ -132,6 +134,8 @@ public class UserController {
         assert btnSendPackage != null : "fx:id=\"btnSendPackage\" was not injected: check your FXML file 'screen.fxml'.";
         assert btnExit != null : "fx:id=\"btnExit\" was not injected: check your FXML file 'screen.fxml'.";
 
+        dbUtil = MainController.dbUtil;
+        paczkiDAO = new PaczkiDAO(dbUtil,seePrice);
     }
 
     private static Parent loadFXML(String fxml) throws IOException {

@@ -223,18 +223,6 @@ public class PaczkiDAO {
         }
     }
 
-    /*public ResultSet addClient(String name, String surname, String addres, String email, String phone, String password) throws SQLException, ClassNotFoundException{
-        String selectStmt = "CALL addClient("+name+", "+surname+", "+addres+", "+email+", "+phone+", "+password+");";
-        try{
-            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
-            return resultSet;
-        }catch (SQLException e){
-            consoleTextArea.appendText("Error \n");
-            throw e;
-        }
-    }*/
-
-
     public static void printResultSet(ResultSet resultSet) throws SQLException {
 
         ResultSetMetaData rsmd = resultSet.getMetaData(); // metadane o zapytaniu
