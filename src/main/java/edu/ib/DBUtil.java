@@ -5,6 +5,9 @@ import javafx.scene.control.TextArea;
 import java.sql.*;
 import javax.sql.rowset.CachedRowSet;
 
+/**
+ * Connects project to the database
+ */
 public class DBUtil {
 
     private String userName;
@@ -19,10 +22,11 @@ public class DBUtil {
         this.consoleTextArea = consoleTextArea;
     }
 
-    public String getUserName(){
-        return userName;
-    }
-
+    /**
+     * Connects to the database
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void dbConnect() throws SQLException, ClassNotFoundException{ //ladowanie
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -41,6 +45,10 @@ public class DBUtil {
         }
     }
 
+    /**
+     * Disconnects from the database
+     * @throws SQLException
+     */
     public void dbDisconnect() throws SQLException{
         try{
             if(connection != null && !connection.isClosed()){
@@ -66,6 +74,13 @@ public class DBUtil {
         return sbURL.toString();
     }
 
+    /**
+     * Executes statments from MySQL
+     * @param queryStmt
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public ResultSet dbExecuteQuery(String queryStmt) throws SQLException, ClassNotFoundException{
         PreparedStatement stms = null;
         ResultSet resultSet = null;
@@ -87,6 +102,12 @@ public class DBUtil {
         return cachedRowSet;
     }
 
+    /**
+     * Updates data base based on statements
+     * @param sqlStm
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void dbExecuteUpdate(String sqlStm) throws SQLException, ClassNotFoundException{
         Statement statement = null;
         try{

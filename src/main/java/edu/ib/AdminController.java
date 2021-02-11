@@ -16,6 +16,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+/**
+ * Represents window where admin can log in and see data
+ */
 public class AdminController {
 
     @FXML
@@ -120,6 +123,13 @@ public class AdminController {
     private static Scene scenePackage;
     Stage stage = new Stage();
 
+    /**
+     *Find package with chosen ID
+     * @param event - on click find package with chosen ID
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+
     @FXML
     void onBtnFindIdPackage(ActionEvent event) throws SQLException, ClassNotFoundException{
         try{
@@ -135,6 +145,12 @@ public class AdminController {
         }
     }
 
+    /**
+     *Find user with chosen ID
+     * @param event - on click find user with chosen ID
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @FXML
     void onBtnFindIdUser(ActionEvent event) throws SQLException, ClassNotFoundException{
         try{
@@ -149,6 +165,12 @@ public class AdminController {
         }
     }
 
+    /**
+     * Connects admin to his account and gives him access to data
+     * @param event - logs in admin
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @FXML
     void onBtnLogIn(ActionEvent event) throws SQLException, ClassNotFoundException {
         dbUtil = new DBUtil(adminName.getText(), AdminPasswordCode.getText(), AdminConsoleArea);
@@ -195,6 +217,12 @@ public class AdminController {
         }
     }
 
+    /**
+     * Disconects from database
+     * @param event - disconnect
+     * @throws IOException
+     * @throws SQLException
+     */
     @FXML
     void onBtnLogOut(ActionEvent event) throws IOException, SQLException {
 
@@ -222,6 +250,12 @@ public class AdminController {
 
     }
 
+    /**
+     * 3 buttons call procedures to change status of a package
+     * @param event - change status by using stored procedure
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @FXML
     void onBtnOnMyWay(ActionEvent event) throws SQLException, ClassNotFoundException {
         if(!findIdPackage.getText().equals(null)) {
@@ -246,6 +280,11 @@ public class AdminController {
         }
     }
 
+    /**
+     * Shows new window
+     * @param event - new window
+     * @throws IOException
+     */
     @FXML
     void onBtnStats(ActionEvent event) throws IOException {
         scenePackage = new Scene(loadFXML("/fxml/stats"), 600, 400);
@@ -254,6 +293,9 @@ public class AdminController {
         stage.show();
     }
 
+    /**
+     * Disables every button and table until admin is logged
+     */
     @FXML
     void initialize() {
         assert adminName != null : "fx:id=\"adminName\" was not injected: check your FXML file 'techScreen.fxml'.";

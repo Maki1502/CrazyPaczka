@@ -16,6 +16,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+/**
+ * Shows window where admin can see statistics
+ */
 public class StatsController {
 
     @FXML
@@ -57,6 +60,11 @@ public class StatsController {
     private DBUtil dbUtil;
     private PaczkiDAO paczkiDAO;
 
+    /**
+     * @param event - shows daily profit for given date
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @FXML
     void onBtnDailyProfit(ActionEvent event) throws SQLException, ClassNotFoundException {
 
@@ -70,6 +78,11 @@ public class StatsController {
 
     }
 
+    /**
+     * @param event - counts daily shipments for given date
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @FXML
     void onBtnDailyShip(ActionEvent event) throws SQLException, ClassNotFoundException {
 
@@ -83,14 +96,17 @@ public class StatsController {
 
     }
 
-    private static Scene scenePackage;
-    Stage stage = new Stage();
-
     @FXML
     void onBtnExit(ActionEvent event){
         ((Node)(event.getSource())).getScene().getWindow().hide();
     }
 
+    /**
+     * Buttons show total percentage of given size of package
+     * @param event
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @FXML
     void onBtnL(ActionEvent event) throws SQLException, ClassNotFoundException {
         String selectStmt = "select totalPercentageOfL();";

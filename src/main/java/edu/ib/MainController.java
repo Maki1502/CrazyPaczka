@@ -16,6 +16,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+/**
+ * Controls Main screen where user can log in or sign in
+ */
 public class MainController {
 
     @FXML
@@ -90,6 +93,11 @@ public class MainController {
     private static Scene scenePackage;
     Stage stage = new Stage();
 
+    /**
+     * Goes to window where admin can log in
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void onBtnAdmin(ActionEvent event) throws IOException { //done
 
@@ -100,6 +108,13 @@ public class MainController {
         ((Node)(event.getSource())).getScene().getWindow().hide();
     }
 
+    /**
+     * Logs in user with an account
+     * Connects to database
+     * @param event
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @FXML
     void onBtnLogIn(ActionEvent event) throws SQLException, ClassNotFoundException { //done
         dbUtil = new DBUtil(loginName.getText(), passwordCode.getText(), consoleArea);
@@ -129,6 +144,12 @@ public class MainController {
 
     }
 
+    /**
+     * Logouts the user
+     * Disconnects from data base
+     * @param event
+     * @throws SQLException
+     */
     @FXML
     void onBtnLogOut(ActionEvent event) throws SQLException {
 
@@ -153,6 +174,11 @@ public class MainController {
 
     private boolean isLogged = false;
 
+    /**
+     * Shows window where user can send new package
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void onBtnNewPackage(ActionEvent event) throws IOException {
 
@@ -165,6 +191,11 @@ public class MainController {
 
     }
 
+    /**
+     * Goes to new window where new user can make an account
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void onBtnSaveUser(ActionEvent event) throws IOException{
         scenePackage = new Scene(loadFXML("/fxml/signIn"), 600, 400);
@@ -174,6 +205,12 @@ public class MainController {
         ((Node)(event.getSource())).getScene().getWindow().hide();
     }
 
+    /**
+     * Finds packages with given date
+     * @param event
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @FXML
     void onFindDate(ActionEvent event) throws SQLException, ClassNotFoundException {
 
@@ -190,6 +227,12 @@ public class MainController {
         }
     }
 
+    /**
+     * Finds packages with given status
+     * @param event
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @FXML
     void onFindStatus(ActionEvent event) throws SQLException, ClassNotFoundException{
 

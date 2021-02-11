@@ -18,6 +18,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+/**
+ * Makes window where user can send new package
+ */
 public class UserController {
 
     @FXML
@@ -88,6 +91,12 @@ public class UserController {
         ((Node)(event.getSource())).getScene().getWindow().hide();
     }
 
+    /**
+     * Sends package
+     * @param event
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @FXML
     void onBtnSend(ActionEvent event) throws SQLException, ClassNotFoundException {
 

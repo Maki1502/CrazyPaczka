@@ -6,6 +6,9 @@ import javafx.scene.control.TextArea;
 
 import java.sql.*;
 
+/**
+ * Have functions with statements used in a data base
+ */
 public class PaczkiDAO {
 
     private DBUtil dbUtil;
@@ -52,29 +55,6 @@ public class PaczkiDAO {
             customerViews.add(cv);
         }
         return customerViews;
-    }
-
-    private ObservableList<Shipments> getShipmentsList(ResultSet rs) throws SQLException{
-        ObservableList<Shipments> shipmentsList = FXCollections.observableArrayList();
-
-        while(rs.next()){
-            Shipments p = new Shipments();
-            p.setId(rs.getInt("shipment_id"));
-            p.setSize(rs.getObject("shipment_package_size"));
-            p.setPrice(rs.getDouble("shipment_price"));
-            p.setSendPlace(rs.getString("shipment_consignment_place"));
-            p.setRecPlace(rs.getString("shipment_reception_place"));
-            p.setStatus(rs.getObject("shipment_status"));
-            p.setConsDate(rs.getString("shipment_consignment_date"));
-            p.setShipDate(rs.getString("shipment_sending_date"));
-            p.setDeliDate(rs.getString("shipment_delivery_date"));
-            p.setRecDate(rs.getString("shipment_reception_date"));
-            p.setRecId(rs.getInt("shipment_recipient_id"));
-            p.setClientId(rs.getInt("client_id"));
-            p.setAutoAddress(rs.getString("automat_address"));
-            shipmentsList.add(p);
-        }
-        return shipmentsList;
     }
 
     private ObservableList<AdminViewPackage> getShipAdmin(ResultSet rs) throws SQLException{

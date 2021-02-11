@@ -8,6 +8,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Starts app
+ */
 public class PaczkaApp extends Application {
 
     private static Scene scene;

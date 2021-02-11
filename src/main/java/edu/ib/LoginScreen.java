@@ -16,6 +16,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+/**
+ * Shows window where new user can make an account
+ */
 public class LoginScreen {
 
     @FXML
@@ -56,6 +59,13 @@ public class LoginScreen {
 
     private DBUtil dbUtil;
 
+    /**
+     * Saves personal data and password and make account for a new user
+     * @param event - makes new account
+     * @throws IOException
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @FXML
     void makeNewAcc(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
 
@@ -93,6 +103,10 @@ public class LoginScreen {
     private static Scene scenePackage;
     Stage stage = new Stage();
 
+    /**
+     * @param event - exits window while making Main screen
+     * @throws IOException
+     */
     @FXML
     void onExit(ActionEvent event) throws IOException {
 
