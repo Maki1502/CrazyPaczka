@@ -50,9 +50,6 @@ public class AdminController {
     private TextField findIdPackage;
 
     @FXML
-    private TextField deleteIdPackage;
-
-    @FXML
     private Button btnFindIdPackage;
 
     @FXML
@@ -172,7 +169,6 @@ public class AdminController {
                 btnAdminLogOut.setDisable(false);
 
         findIdPackage.setDisable(false);
-        deleteIdPackage.setDisable(false);
         btnFindIdPackage.setDisable(false);
         packageTable.setDisable(false);
         findIdUser.setDisable(false);
