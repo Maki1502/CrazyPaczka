@@ -70,7 +70,7 @@ public class LoginScreen {
 
         if(pswrd1.equals(pswrd2)){
 
-            String selectStmt = "CALL addClient("+newName+", "+newSurname+", "+newAddress+", "+newMail+", "+newPhone+", "+pswrd1+");";
+            String selectStmt = "CALL addClient('"+newName+"', '"+newSurname+"', '"+newAddress+"', '"+newMail+"', '"+newPhone+"', '"+pswrd1+"');";
             dbUtil.dbExecuteUpdate(selectStmt);
 
             scenePackage = new Scene(loadFXML("/fxml/mainScreen"), 600, 400);
