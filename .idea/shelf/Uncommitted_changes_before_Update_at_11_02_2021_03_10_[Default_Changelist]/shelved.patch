@@ -1,0 +1,2117 @@
+Index: src/main/java/edu/ib/LoginScreen.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package edu.ib;\r\n\r\nimport java.io.IOException;\r\nimport java.net.URL;\r\nimport java.sql.SQLException;\r\nimport java.util.ResourceBundle;\r\n\r\nimport javafx.event.ActionEvent;\r\nimport javafx.fxml.FXML;\r\nimport javafx.fxml.FXMLLoader;\r\nimport javafx.scene.Node;\r\nimport javafx.scene.Parent;\r\nimport javafx.scene.Scene;\r\nimport javafx.scene.control.Button;\r\nimport javafx.scene.control.TextArea;\r\nimport javafx.scene.control.TextField;\r\nimport javafx.stage.Stage;\r\n\r\npublic class LoginScreen {\r\n\r\n    @FXML\r\n    private ResourceBundle resources;\r\n\r\n    @FXML\r\n    private URL location;\r\n\r\n    @FXML\r\n    private TextField name;\r\n\r\n    @FXML\r\n    private TextField surname;\r\n\r\n    @FXML\r\n    private TextField city;\r\n\r\n    @FXML\r\n    private TextField phone;\r\n\r\n    @FXML\r\n    private TextField mail;\r\n\r\n    @FXML\r\n    private TextField password;\r\n\r\n    @FXML\r\n    private TextField confPassword;\r\n\r\n    @FXML\r\n    private Button newAcc;\r\n\r\n    @FXML\r\n    private Button exitNew;\r\n\r\n    @FXML\r\n    private TextArea textArea;\r\n\r\n    private PaczkiDAO paczkiDAO;\r\n    private DBUtil dbUtil;\r\n\r\n    @FXML\r\n    void makeNewAcc(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {\r\n\r\n        String newName = name.getText();\r\n        String newSurname = surname.getText();\r\n        String newAddress = city.getText();\r\n        String newPhone = phone.getText();\r\n        String newMail = mail.getText();\r\n        String pswrd1 = password.getText();\r\n        String pswrd2 = confPassword.getText();\r\n\r\n        if(pswrd1.equals(pswrd2)){\r\n\r\n            String selectStmt = \"CALL addClient(\"+newName+\", \"+newSurname+\", \"+newAddress+\", \"+newMail+\", \"+newPhone+\", \"+pswrd1+\");\";\r\n            dbUtil.dbExecuteUpdate(selectStmt);\r\n\r\n            scenePackage = new Scene(loadFXML(\"/fxml/mainScreen\"), 600, 400);\r\n            stage.setScene(scenePackage);\r\n            stage.setTitle(\"Main screen\");\r\n            stage.show();\r\n            ((Node)(event.getSource())).getScene().getWindow().hide();\r\n\r\n        }else{\r\n            String error = \"Wrong password!\";\r\n            confPassword.setText(error);\r\n        }\r\n\r\n    }\r\n\r\n    private static Scene scenePackage;\r\n    Stage stage = new Stage();\r\n\r\n    @FXML\r\n    void onExit(ActionEvent event) throws IOException {\r\n\r\n        scenePackage = new Scene(loadFXML(\"/fxml/mainScreen\"), 600, 400);\r\n        stage.setScene(scenePackage);\r\n        stage.setTitle(\"Main screen\");\r\n        stage.show();\r\n        ((Node)(event.getSource())).getScene().getWindow().hide();\r\n\r\n    }\r\n\r\n    @FXML\r\n    void initialize() throws SQLException, ClassNotFoundException {\r\n\r\n        dbUtil = new DBUtil(\"username\", \"password\", textArea);\r\n        dbUtil.dbConnect();\r\n\r\n        assert name != null : \"fx:id=\\\"name\\\" was not injected: check your FXML file 'signIn.fxml'.\";\r\n        assert surname != null : \"fx:id=\\\"surname\\\" was not injected: check your FXML file 'signIn.fxml'.\";\r\n        assert city != null : \"fx:id=\\\"city\\\" was not injected: check your FXML file 'signIn.fxml'.\";\r\n        assert phone != null : \"fx:id=\\\"phone\\\" was not injected: check your FXML file 'signIn.fxml'.\";\r\n        assert mail != null : \"fx:id=\\\"mail\\\" was not injected: check your FXML file 'signIn.fxml'.\";\r\n        assert password != null : \"fx:id=\\\"password\\\" was not injected: check your FXML file 'signIn.fxml'.\";\r\n        assert confPassword != null : \"fx:id=\\\"confPassword\\\" was not injected: check your FXML file 'signIn.fxml'.\";\r\n        assert newAcc != null : \"fx:id=\\\"newAcc\\\" was not injected: check your FXML file 'signIn.fxml'.\";\r\n        assert exitNew != null : \"fx:id=\\\"exitNew\\\" was not injected: check your FXML file 'signIn.fxml'.\";\r\n        assert textArea != null : \"fx:id=\\\"textArea\\\" was not injected: check your FXML file 'signIn.fxml'.\";\r\n\r\n    }\r\n\r\n    private static Parent loadFXML(String fxml) throws IOException {\r\n        FXMLLoader fxmlLoader = new FXMLLoader(PaczkaApp.class.getResource(fxml + \".fxml\"));\r\n        return fxmlLoader.load();\r\n    }\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/edu/ib/LoginScreen.java b/src/main/java/edu/ib/LoginScreen.java
+--- a/src/main/java/edu/ib/LoginScreen.java	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
++++ b/src/main/java/edu/ib/LoginScreen.java	(date 1613009125248)
+@@ -60,30 +60,44 @@
+     @FXML
+     void makeNewAcc(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
+ 
+-        String newName = name.getText();
+-        String newSurname = surname.getText();
+-        String newAddress = city.getText();
+-        String newPhone = phone.getText();
+-        String newMail = mail.getText();
+-        String pswrd1 = password.getText();
+-        String pswrd2 = confPassword.getText();
++        if (passwordsMatches()) {
++
+ 
+-        if(pswrd1.equals(pswrd2)){
++            try {
++                String selectStmt = "CALL addClient(' " + name.getText() + " ', ' " + surname.getText() + " ', ' " + city.getText() + " ', ' " + phone.getText() + " ', ' " + mail.getText() + " ',' " + password.getText() + " ');";
++                dbUtil.dbExecuteUpdate(selectStmt);
+ 
+-            String selectStmt = "CALL addClient("+newName+", "+newSurname+", "+newAddress+", "+newMail+", "+newPhone+", "+pswrd1+");";
+-            dbUtil.dbExecuteUpdate(selectStmt);
++                selectStmt = "CREATE USER '" + mail.getText() + "'@'localhost' IDENTIFIED BY '" + password.getText() + "';";
++                dbUtil.dbExecuteUpdate(selectStmt);
++
++                selectStmt = "GRANT select on paczkomat *.* TO '" + mail.getText() + "'@'localhost';";
++                dbUtil.dbExecuteUpdate(selectStmt);
++
++                selectStmt = "GRANT EXECUTE ON PROCEDURE paczkomat.OrderAShipment TO '" + mail.getText() + "'@'localhost';";
++                dbUtil.dbExecuteUpdate(selectStmt);
+ 
+-            scenePackage = new Scene(loadFXML("/fxml/mainScreen"), 600, 400);
+-            stage.setScene(scenePackage);
+-            stage.setTitle("Main screen");
+-            stage.show();
+-            ((Node)(event.getSource())).getScene().getWindow().hide();
++                selectStmt = "GRANT EXECUTE ON PROCEDURE paczkomat.PickUpPackage TO '" + mail.getText() + "'@'localhost';";
++                dbUtil.dbExecuteUpdate(selectStmt);
++
++                scenePackage = new Scene(loadFXML("/fxml/mainScreen"), 600, 400);
++                stage.setScene(scenePackage);
++                stage.setTitle("Main screen");
++                stage.show();
++                ((Node) (event.getSource())).getScene().getWindow().hide();
+ 
+-        }else{
+-            String error = "Wrong password!";
+-            confPassword.setText(error);
++            } catch (SQLException error) {
++                throw error;
++            }
++
+         }
++    }
+ 
++    private boolean passwordsMatches() {
++
++        //check if password confirmation matches
++        if (password.getText() == confPassword.getText()) {
++            return true;
++        } else return false;
+     }
+ 
+     private static Scene scenePackage;
+@@ -96,14 +110,14 @@
+         stage.setScene(scenePackage);
+         stage.setTitle("Main screen");
+         stage.show();
+-        ((Node)(event.getSource())).getScene().getWindow().hide();
++        ((Node) (event.getSource())).getScene().getWindow().hide();
+ 
+     }
+ 
+     @FXML
+     void initialize() throws SQLException, ClassNotFoundException {
+ 
+-        dbUtil = new DBUtil("username", "password", textArea);
++        dbUtil = new DBUtil("root2", "qwerty", textArea);
+         dbUtil.dbConnect();
+ 
+         assert name != null : "fx:id=\"name\" was not injected: check your FXML file 'signIn.fxml'.";
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+deleted file mode 100644
+--- a/.idea/vcs.xml	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
++++ /dev/null	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
+@@ -1,6 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="VcsDirectoryMappings">
+-    <mapping directory="" vcs="Git" />
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+deleted file mode 100644
+--- a/.idea/misc.xml	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
++++ /dev/null	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
+@@ -1,14 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="ExternalStorageConfigurationManager" enabled="true" />
+-  <component name="MavenProjectsManager">
+-    <option name="originalFiles">
+-      <list>
+-        <option value="$PROJECT_DIR$/pom.xml" />
+-      </list>
+-    </option>
+-  </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="15" project-jdk-type="JavaSDK">
+-    <output url="file://$PROJECT_DIR$/out" />
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_10_02_2021_13_18__Default_Changelist_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_10_02_2021_13_18__Default_Changelist_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_10_02_2021_13_18__Default_Changelist_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_10_02_2021_13_18__Default_Changelist_.xml	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
++++ /dev/null	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
+@@ -1,14 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_10_02_2021_13_18_[Default_Changelist]" date="1612959517639" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_02_2021_13_18_[Default_Changelist]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 10.02.2021 13:18 [Default Changelist]" />
+-  <binary>
+-    <option name="BEFORE_PATH" value="target/classes/edu/ib/UserController.class" />
+-    <option name="AFTER_PATH" value="target/classes/edu/ib/UserController.class" />
+-    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_02_2021_13_18_[Default_Changelist]/UserController.class" />
+-  </binary>
+-  <binary>
+-    <option name="BEFORE_PATH" value="target/classes/edu/ib/loginScreen.class" />
+-    <option name="AFTER_PATH" value="target/classes/edu/ib/loginScreen.class" />
+-    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_02_2021_13_18_[Default_Changelist]/loginScreen.class" />
+-  </binary>
+-</changelist>
+\ No newline at end of file
+Index: .idea/dataSources.local.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/dataSources.local.xml b/.idea/dataSources.local.xml
+deleted file mode 100644
+--- a/.idea/dataSources.local.xml	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
++++ /dev/null	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
+@@ -1,19 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="dataSourceStorageLocal">
+-    <data-source name="paczkomat@localhost" uuid="3aa96040-9e6b-4c86-b4d9-f4fb5f862e76">
+-      <database-info product="MySQL" version="8.0.23" jdbc-version="4.2" driver-name="MySQL Connector/J" driver-version="mysql-connector-java-8.0.21 (Revision: 33f65445a1bcc544eb0120491926484da168f199)" dbms="MYSQL" exact-version="8.0.23" exact-driver-version="8.0">
+-        <extra-name-characters>#@</extra-name-characters>
+-        <identifier-quote-string>`</identifier-quote-string>
+-      </database-info>
+-      <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower" />
+-      <secret-storage>master_key</secret-storage>
+-      <user-name>Maki</user-name>
+-      <schema-mapping>
+-        <introspection-scope>
+-          <node kind="schema" qname="@" />
+-        </introspection-scope>
+-      </schema-mapping>
+-    </data-source>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/uiDesigner.xml
+===================================================================
+diff --git a/.idea/uiDesigner.xml b/.idea/uiDesigner.xml
+deleted file mode 100644
+--- a/.idea/uiDesigner.xml	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
++++ /dev/null	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
+@@ -1,124 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="Palette2">
+-    <group name="Swing">
+-      <item class="com.intellij.uiDesigner.HSpacer" tooltip-text="Horizontal Spacer" icon="/com/intellij/uiDesigner/icons/hspacer.png" removable="false" auto-create-binding="false" can-attach-label="false">
+-        <default-constraints vsize-policy="1" hsize-policy="6" anchor="0" fill="1" />
+-      </item>
+-      <item class="com.intellij.uiDesigner.VSpacer" tooltip-text="Vertical Spacer" icon="/com/intellij/uiDesigner/icons/vspacer.png" removable="false" auto-create-binding="false" can-attach-label="false">
+-        <default-constraints vsize-policy="6" hsize-policy="1" anchor="0" fill="2" />
+-      </item>
+-      <item class="javax.swing.JPanel" icon="/com/intellij/uiDesigner/icons/panel.png" removable="false" auto-create-binding="false" can-attach-label="false">
+-        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3" />
+-      </item>
+-      <item class="javax.swing.JScrollPane" icon="/com/intellij/uiDesigner/icons/scrollPane.png" removable="false" auto-create-binding="false" can-attach-label="true">
+-        <default-constraints vsize-policy="7" hsize-policy="7" anchor="0" fill="3" />
+-      </item>
+-      <item class="javax.swing.JButton" icon="/com/intellij/uiDesigner/icons/button.png" removable="false" auto-create-binding="true" can-attach-label="false">
+-        <default-constraints vsize-policy="0" hsize-policy="3" anchor="0" fill="1" />
+-        <initial-values>
+-          <property name="text" value="Button" />
+-        </initial-values>
+-      </item>
+-      <item class="javax.swing.JRadioButton" icon="/com/intellij/uiDesigner/icons/radioButton.png" removable="false" auto-create-binding="true" can-attach-label="false">
+-        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
+-        <initial-values>
+-          <property name="text" value="RadioButton" />
+-        </initial-values>
+-      </item>
+-      <item class="javax.swing.JCheckBox" icon="/com/intellij/uiDesigner/icons/checkBox.png" removable="false" auto-create-binding="true" can-attach-label="false">
+-        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
+-        <initial-values>
+-          <property name="text" value="CheckBox" />
+-        </initial-values>
+-      </item>
+-      <item class="javax.swing.JLabel" icon="/com/intellij/uiDesigner/icons/label.png" removable="false" auto-create-binding="false" can-attach-label="false">
+-        <default-constraints vsize-policy="0" hsize-policy="0" anchor="8" fill="0" />
+-        <initial-values>
+-          <property name="text" value="Label" />
+-        </initial-values>
+-      </item>
+-      <item class="javax.swing.JTextField" icon="/com/intellij/uiDesigner/icons/textField.png" removable="false" auto-create-binding="true" can-attach-label="true">
+-        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
+-          <preferred-size width="150" height="-1" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JPasswordField" icon="/com/intellij/uiDesigner/icons/passwordField.png" removable="false" auto-create-binding="true" can-attach-label="true">
+-        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
+-          <preferred-size width="150" height="-1" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JFormattedTextField" icon="/com/intellij/uiDesigner/icons/formattedTextField.png" removable="false" auto-create-binding="true" can-attach-label="true">
+-        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
+-          <preferred-size width="150" height="-1" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JTextArea" icon="/com/intellij/uiDesigner/icons/textArea.png" removable="false" auto-create-binding="true" can-attach-label="true">
+-        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
+-          <preferred-size width="150" height="50" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JTextPane" icon="/com/intellij/uiDesigner/icons/textPane.png" removable="false" auto-create-binding="true" can-attach-label="true">
+-        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
+-          <preferred-size width="150" height="50" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JEditorPane" icon="/com/intellij/uiDesigner/icons/editorPane.png" removable="false" auto-create-binding="true" can-attach-label="true">
+-        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
+-          <preferred-size width="150" height="50" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JComboBox" icon="/com/intellij/uiDesigner/icons/comboBox.png" removable="false" auto-create-binding="true" can-attach-label="true">
+-        <default-constraints vsize-policy="0" hsize-policy="2" anchor="8" fill="1" />
+-      </item>
+-      <item class="javax.swing.JTable" icon="/com/intellij/uiDesigner/icons/table.png" removable="false" auto-create-binding="true" can-attach-label="false">
+-        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
+-          <preferred-size width="150" height="50" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JList" icon="/com/intellij/uiDesigner/icons/list.png" removable="false" auto-create-binding="true" can-attach-label="false">
+-        <default-constraints vsize-policy="6" hsize-policy="2" anchor="0" fill="3">
+-          <preferred-size width="150" height="50" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JTree" icon="/com/intellij/uiDesigner/icons/tree.png" removable="false" auto-create-binding="true" can-attach-label="false">
+-        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
+-          <preferred-size width="150" height="50" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JTabbedPane" icon="/com/intellij/uiDesigner/icons/tabbedPane.png" removable="false" auto-create-binding="true" can-attach-label="false">
+-        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
+-          <preferred-size width="200" height="200" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JSplitPane" icon="/com/intellij/uiDesigner/icons/splitPane.png" removable="false" auto-create-binding="false" can-attach-label="false">
+-        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
+-          <preferred-size width="200" height="200" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JSpinner" icon="/com/intellij/uiDesigner/icons/spinner.png" removable="false" auto-create-binding="true" can-attach-label="true">
+-        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
+-      </item>
+-      <item class="javax.swing.JSlider" icon="/com/intellij/uiDesigner/icons/slider.png" removable="false" auto-create-binding="true" can-attach-label="false">
+-        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
+-      </item>
+-      <item class="javax.swing.JSeparator" icon="/com/intellij/uiDesigner/icons/separator.png" removable="false" auto-create-binding="false" can-attach-label="false">
+-        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3" />
+-      </item>
+-      <item class="javax.swing.JProgressBar" icon="/com/intellij/uiDesigner/icons/progressbar.png" removable="false" auto-create-binding="true" can-attach-label="false">
+-        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1" />
+-      </item>
+-      <item class="javax.swing.JToolBar" icon="/com/intellij/uiDesigner/icons/toolbar.png" removable="false" auto-create-binding="false" can-attach-label="false">
+-        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1">
+-          <preferred-size width="-1" height="20" />
+-        </default-constraints>
+-      </item>
+-      <item class="javax.swing.JToolBar$Separator" icon="/com/intellij/uiDesigner/icons/toolbarSeparator.png" removable="false" auto-create-binding="false" can-attach-label="false">
+-        <default-constraints vsize-policy="0" hsize-policy="0" anchor="0" fill="1" />
+-      </item>
+-      <item class="javax.swing.JScrollBar" icon="/com/intellij/uiDesigner/icons/scrollbar.png" removable="false" auto-create-binding="true" can-attach-label="false">
+-        <default-constraints vsize-policy="6" hsize-policy="0" anchor="0" fill="2" />
+-      </item>
+-    </group>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/jarRepositories.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/jarRepositories.xml b/.idea/jarRepositories.xml
+deleted file mode 100644
+--- a/.idea/jarRepositories.xml	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
++++ /dev/null	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
+@@ -1,20 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="RemoteRepositoriesConfiguration">
+-    <remote-repository>
+-      <option name="id" value="central" />
+-      <option name="name" value="Central Repository" />
+-      <option name="url" value="https://repo.maven.apache.org/maven2" />
+-    </remote-repository>
+-    <remote-repository>
+-      <option name="id" value="central" />
+-      <option name="name" value="Maven Central repository" />
+-      <option name="url" value="https://repo1.maven.org/maven2" />
+-    </remote-repository>
+-    <remote-repository>
+-      <option name="id" value="jboss.community" />
+-      <option name="name" value="JBoss Community repository" />
+-      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+-    </remote-repository>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/dataSources.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/dataSources.xml b/.idea/dataSources.xml
+deleted file mode 100644
+--- a/.idea/dataSources.xml	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
++++ /dev/null	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
+@@ -1,15 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+-    <data-source source="LOCAL" name="paczkomat@localhost" uuid="3aa96040-9e6b-4c86-b4d9-f4fb5f862e76">
+-      <driver-ref>mysql.8</driver-ref>
+-      <synchronize>true</synchronize>
+-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+-      <jdbc-url>jdbc:mysql://localhost:3306/paczkomat</jdbc-url>
+-      <working-dir>$ProjectFileDir$</working-dir>
+-      <driver-properties>
+-        <property name="serverTimezone" value="CET" />
+-      </driver-properties>
+-    </data-source>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_10_02_2021_13_18_[Default_Changelist]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_10_02_2021_13_18_[Default_Changelist]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_10_02_2021_13_18_[Default_Changelist]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_10_02_2021_13_18_[Default_Changelist]/shelved.patch	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
++++ /dev/null	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
+@@ -1,286 +0,0 @@
+-Index: .idea/.gitignore
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/.gitignore b/.idea/dataSources/.gitignore
+-rename from .idea/.gitignore
+-rename to .idea/dataSources/.gitignore
+---- a/.idea/.gitignore	(revision 9856b30318bacbc74bee1534ca1f7346fc028115)
+-+++ b/.idea/dataSources/.gitignore	(date 1612940846515)
+-@@ -1,5 +1,5 @@
+- # Default ignored files
+--/shelf/
+-+/.idea/shelf/
+- /workspace.xml
+- # Datasource local storage ignored files
+- /../../../../../:\IntelliJ\projects\CrazyPaczka\.idea/dataSources/
+-Index: src/main/java/edu/ib/AdminController.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package edu.ib;\r\n\r\nimport java.io.IOException;\r\nimport java.net.URL;\r\nimport java.sql.SQLException;\r\nimport java.util.ResourceBundle;\r\n\r\nimport javafx.beans.property.*;\r\nimport javafx.collections.ObservableList;\r\nimport javafx.event.ActionEvent;\r\nimport javafx.fxml.FXML;\r\nimport javafx.fxml.FXMLLoader;\r\nimport javafx.scene.Node;\r\nimport javafx.scene.Parent;\r\nimport javafx.scene.Scene;\r\nimport javafx.scene.control.*;\r\nimport javafx.stage.Stage;\r\n\r\npublic class AdminController {\r\n\r\n    @FXML\r\n    private ResourceBundle resources;\r\n\r\n    @FXML\r\n    private URL location;\r\n\r\n    @FXML\r\n    private TextField adminName;\r\n\r\n    @FXML\r\n    private PasswordField AdminPasswordCode;\r\n\r\n    @FXML\r\n    private Button btnAdminLogIn;\r\n\r\n    @FXML\r\n    private Button btnAdminLogOut;\r\n\r\n    @FXML\r\n    private TextArea AdminConsoleArea;\r\n\r\n    @FXML\r\n    private TextField findIdPackage;\r\n\r\n    @FXML\r\n    private TextField deleteIdPackage;\r\n\r\n    @FXML\r\n    private Button btnFindIdPackage;\r\n\r\n    @FXML\r\n    private Button btnDeleteIdPackage;\r\n\r\n    @FXML\r\n    private TableView<PackageView> packageTable;\r\n\r\n    @FXML\r\n    private TableColumn<PackageView, IntegerProperty> idCol;\r\n\r\n    @FXML\r\n    private TableColumn<PackageView, StringProperty> shipDateCol;\r\n\r\n    @FXML\r\n    private TableColumn<PackageView, StringProperty> recDateCol;\r\n\r\n    @FXML\r\n    private TableColumn<PackageView, IntegerProperty> sendCol;\r\n\r\n    @FXML\r\n    private TableColumn<PackageView, StringProperty> recCol;\r\n\r\n    @FXML\r\n    private TableColumn<PackageView, StringProperty> fromCol;\r\n\r\n    @FXML\r\n    private TableColumn<PackageView, StringProperty> toCol;\r\n\r\n    @FXML\r\n    private TableColumn<PackageView, DoubleProperty> priceCol;\r\n\r\n    @FXML\r\n    private TableColumn<PackageView, ObjectProperty> statusCol;\r\n\r\n    @FXML\r\n    private TextField findIdUser;\r\n\r\n    @FXML\r\n    private TextField deleteIdUser;\r\n\r\n    @FXML\r\n    private Button btnFindIdUser;\r\n\r\n    @FXML\r\n    private Button btnDeleteIdUser;\r\n\r\n    @FXML\r\n    private TableView<UserView> packageTable1;\r\n\r\n    @FXML\r\n    private TableColumn<UserView, IntegerProperty> userIdCol;\r\n\r\n    @FXML\r\n    private TableColumn<UserView, StringProperty> nameCol;\r\n\r\n    @FXML\r\n    private TableColumn<UserView, StringProperty> surnameCol;\r\n\r\n    @FXML\r\n    private TableColumn<UserView, StringProperty> cityCol;\r\n\r\n    @FXML\r\n    private TableColumn<UserView, StringProperty> mailCol;\r\n\r\n    @FXML\r\n    private TableColumn<UserView, StringProperty> phoneCol;\r\n\r\n    private DBUtil dbUtil;\r\n    private PaczkiDAO paczkiDAO;\r\n\r\n    private static Scene scenePackage;\r\n    Stage stage = new Stage();\r\n\r\n    @FXML\r\n    void onBtnDeleteIdPackage(ActionEvent event) {\r\n        //work in progress\r\n    }\r\n\r\n    @FXML\r\n    void onBtnDeleteIdUser(ActionEvent event) {\r\n        //work in progress\r\n    }\r\n\r\n    @FXML\r\n    void onBtnFindIdPackage(ActionEvent event) throws SQLException, ClassNotFoundException{\r\n        try{\r\n            if(!findIdPackage.getText().equals(null)){\r\n                packageTable.getItems().clear();\r\n                ObservableList<PackageView> wineData = paczkiDAO.findAdminPackage(findIdPackage.getText());\r\n                packageTable.setItems(wineData);\r\n                packageTable.setPlaceholder(new Label(\"No data to display\"));\r\n            }\r\n        }catch (SQLException e){\r\n            AdminConsoleArea.appendText(\"Error 200 \\n\");\r\n            throw e;\r\n        }\r\n    }\r\n\r\n    @FXML\r\n    void onBtnFindIdUser(ActionEvent event) throws SQLException, ClassNotFoundException{\r\n        try{\r\n            if(!findIdUser.getText().equals(null)){\r\n                packageTable1.getItems().clear();\r\n                ObservableList<UserView> wineData = paczkiDAO.findAdminClients(findIdUser.getText());\r\n                packageTable1.setItems(wineData);\r\n                packageTable1.setPlaceholder(new Label(\"No data to display\"));\r\n            }\r\n        }catch (SQLException e){\r\n            AdminConsoleArea.appendText(\"Error 100 \\n\");\r\n            throw e;\r\n        }\r\n    }\r\n    UserView userView = new UserView();\r\n\r\n    @FXML\r\n    void onBtnLogIn(ActionEvent event) throws SQLException, ClassNotFoundException {\r\n        dbUtil = new DBUtil(adminName.getText(), AdminPasswordCode.getText(), AdminConsoleArea);\r\n        paczkiDAO = new PaczkiDAO(dbUtil, AdminConsoleArea);\r\n\r\n        dbUtil.dbConnect();\r\n\r\n        AdminConsoleArea.appendText(\"Access granted for user \\\"\"+adminName.getText()+\"\\\".\"+\"\\n\");\r\n        btnAdminLogIn.setDisable(true);\r\n        btnAdminLogOut.setDisable(false);\r\n\r\n        findIdPackage.setDisable(false);\r\n        deleteIdPackage.setDisable(false);\r\n        btnFindIdPackage.setDisable(false);\r\n        btnDeleteIdPackage.setDisable(false);\r\n        packageTable.setDisable(false);\r\n        findIdUser.setDisable(false);\r\n        deleteIdUser.setDisable(false);\r\n        btnFindIdUser.setDisable(false);\r\n        deleteIdUser.setDisable(false);\r\n        btnDeleteIdUser.setDisable(false);\r\n        packageTable1.setDisable(false);\r\n\r\n       try{\r\n            packageTable.getItems().clear();\r\n            packageTable1.getItems().clear();\r\n\r\n            ObservableList<UserView> viewUserAdmin = paczkiDAO.showAdminClients();\r\n            ObservableList<PackageView> viewPackageAdmin = paczkiDAO.showAdminPackage();\r\n\r\n            packageTable.setItems(viewPackageAdmin);\r\n            packageTable1.setItems(viewUserAdmin);\r\n\r\n            packageTable.setPlaceholder(new Label(\"No data to display\"));\r\n            packageTable1.setPlaceholder(new Label(\"No data to display\"));\r\n\r\n        }catch (SQLException e){\r\n            AdminConsoleArea.appendText(\"Error occurred while getting data from DB. \\n\");\r\n        }\r\n    }\r\n\r\n    @FXML\r\n    void onBtnLogOut(ActionEvent event) throws IOException, SQLException {\r\n\r\n        dbUtil.dbDisconnect();\r\n        btnAdminLogIn.setDisable(false);\r\n\r\n        btnAdminLogOut.setDisable(true);\r\n        findIdPackage.setDisable(true);\r\n        deleteIdPackage.setDisable(true);\r\n        btnFindIdPackage.setDisable(true);\r\n        btnDeleteIdPackage.setDisable(true);\r\n        packageTable.setDisable(true);\r\n        findIdUser.setDisable(true);\r\n        deleteIdUser.setDisable(true);\r\n        btnFindIdUser.setDisable(true);\r\n        deleteIdUser.setDisable(true);\r\n        btnDeleteIdUser.setDisable(true);\r\n        packageTable1.setDisable(true);\r\n\r\n\r\n        scenePackage = new Scene(loadFXML(\"/fxml/mainScreen\"), 600, 400);\r\n        stage.setScene(scenePackage);\r\n        stage.setTitle(\"Main screen\");\r\n        stage.show();\r\n        ((Node)(event.getSource())).getScene().getWindow().hide();\r\n\r\n    }\r\n\r\n    @FXML\r\n    void initialize() {\r\n        assert adminName != null : \"fx:id=\\\"adminName\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert AdminPasswordCode != null : \"fx:id=\\\"AdminPasswordCode\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert btnAdminLogIn != null : \"fx:id=\\\"btnAdminLogIn\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert btnAdminLogOut != null : \"fx:id=\\\"btnAdminLogOut\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert AdminConsoleArea != null : \"fx:id=\\\"AdminConsoleArea\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert findIdPackage != null : \"fx:id=\\\"findIdPackage\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert deleteIdPackage != null : \"fx:id=\\\"deleteIdPackage\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert btnFindIdPackage != null : \"fx:id=\\\"btnFindIdPackage\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert btnDeleteIdPackage != null : \"fx:id=\\\"btnDeleteIdPackage\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert packageTable != null : \"fx:id=\\\"packageTable\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert idCol != null : \"fx:id=\\\"idCol\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert shipDateCol != null : \"fx:id=\\\"shipDateCol\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert recDateCol != null : \"fx:id=\\\"recDateCol\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert sendCol != null : \"fx:id=\\\"sendCol\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert recCol != null : \"fx:id=\\\"recCol\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert fromCol != null : \"fx:id=\\\"fromCol\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert toCol != null : \"fx:id=\\\"toCol\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert priceCol != null : \"fx:id=\\\"priceCol\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert statusCol != null : \"fx:id=\\\"statusCol\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert findIdUser != null : \"fx:id=\\\"findIdUser\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert deleteIdUser != null : \"fx:id=\\\"deleteIdUser\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert btnFindIdUser != null : \"fx:id=\\\"btnFindIdUser\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert btnDeleteIdUser != null : \"fx:id=\\\"btnDeleteIdUser\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert packageTable1 != null : \"fx:id=\\\"packageTable1\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert userIdCol != null : \"fx:id=\\\"userIdCol\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert nameCol != null : \"fx:id=\\\"nameCol\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert surnameCol != null : \"fx:id=\\\"surnameCol\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert cityCol != null : \"fx:id=\\\"cityCol\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert mailCol != null : \"fx:id=\\\"mailCol\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n        assert phoneCol != null : \"fx:id=\\\"phoneCol\\\" was not injected: check your FXML file 'techScreen.fxml'.\";\r\n\r\n\r\n        btnAdminLogOut.setDisable(true);\r\n        findIdPackage.setDisable(true);\r\n        deleteIdPackage.setDisable(true);\r\n        btnFindIdPackage.setDisable(true);\r\n        btnDeleteIdPackage.setDisable(true);\r\n        packageTable.setDisable(true);\r\n        findIdUser.setDisable(true);\r\n        deleteIdUser.setDisable(true);\r\n        btnFindIdUser.setDisable(true);\r\n        deleteIdUser.setDisable(true);\r\n        btnDeleteIdUser.setDisable(true);\r\n        packageTable1.setDisable(true);\r\n\r\n    }\r\n\r\n    private static Parent loadFXML(String fxml) throws IOException {\r\n        FXMLLoader fxmlLoader = new FXMLLoader(PaczkaApp.class.getResource(fxml + \".fxml\"));\r\n        return fxmlLoader.load();\r\n    }\r\n}\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/edu/ib/AdminController.java b/src/main/java/edu/ib/AdminController.java
+---- a/src/main/java/edu/ib/AdminController.java	(revision 9856b30318bacbc74bee1534ca1f7346fc028115)
+-+++ b/src/main/java/edu/ib/AdminController.java	(date 1612946007716)
+-@@ -148,12 +148,11 @@
+-     @FXML
+-     void onBtnFindIdUser(ActionEvent event) throws SQLException, ClassNotFoundException{
+-         try{
+--            if(!findIdUser.getText().equals(null)){
+-                 packageTable1.getItems().clear();
+-                 ObservableList<UserView> wineData = paczkiDAO.findAdminClients(findIdUser.getText());
+-                 packageTable1.setItems(wineData);
+-                 packageTable1.setPlaceholder(new Label("No data to display"));
+--            }
+-+
+-         }catch (SQLException e){
+-             AdminConsoleArea.appendText("Error 100 \n");
+-             throw e;
+-@@ -229,7 +228,12 @@
+-         ((Node)(event.getSource())).getScene().getWindow().hide();
+- 
+-     }
+--
+-+    private void populateOrdersToFirstTable(ObservableList<PackageView> packageData) {
+-+        packageTable.setItems(packageData);
+-+    }
+-+    private void populateOrdersToSecondTable(ObservableList<UserView> userData) {
+-+        packageTable1.setItems(userData);
+-+    }
+-     @FXML
+-     void initialize() {
+-         assert adminName != null : "fx:id=\"adminName\" was not injected: check your FXML file 'techScreen.fxml'.";
+-Index: src/main/java/edu/ib/PaczkiDAO.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package edu.ib;\r\n\r\nimport javafx.collections.FXCollections;\r\nimport javafx.collections.ObservableList;\r\nimport javafx.scene.control.TextArea;\r\n\r\nimport java.sql.*;\r\n\r\npublic class PaczkiDAO {\r\n\r\n    private DBUtil dbUtil;\r\n    private TextArea consoleTextArea;\r\n\r\n    public PaczkiDAO(DBUtil dbUtil, TextArea consoleTextArea) {\r\n        this.dbUtil = dbUtil;\r\n        this.consoleTextArea = consoleTextArea;\r\n    }\r\n\r\n    /*private ObservableList<Automats> getAutomatsList(ResultSet rs) throws SQLException{\r\n        ObservableList<Automats> automatsList = FXCollections.observableArrayList();\r\n\r\n        while(rs.next()){\r\n            Automats a = new Automats();\r\n            a.setAddress(rs.getString(\"automat_address\"));\r\n            a.setsAmount(rs.getInt(\"S_lockers_amount\"));\r\n            a.setmAmount(rs.getInt(\"M_lockers_amount\"));\r\n            a.setlAmount(rs.getInt(\"L_lockers_amount\"));\r\n        }\r\n        return automatsList;\r\n    }*/\r\n\r\n    /*private ObservableList<Clients> getSendersList(ResultSet rs) throws SQLException{\r\n\r\n        ObservableList<Clients> sendersList = FXCollections.observableArrayList();\r\n\r\n        while(rs.next()){\r\n\r\n            Clients s = new Clients();\r\n            s.setId(rs.getInt(\"client_id\"));\r\n            s.setName(rs.getString(\"client_name\"));\r\n            s.setSurname(rs.getString(\"client_surname\"));\r\n            s.setAddress(rs.getString(\"client_address\"));\r\n            s.setEmail(rs.getString(\"client_email\"));\r\n            s.setPhone_number(rs.getString(\"client_phone_number\"));\r\n            s.setPassword(rs.getString(\"client_password\"));\r\n            sendersList.add(s);\r\n        }\r\n        return sendersList;\r\n    }*/\r\n\r\n    private ObservableList<CustomerView> getCustomerView(ResultSet rs) throws SQLException{\r\n\r\n        ObservableList<CustomerView> customerViews = FXCollections.observableArrayList();\r\n\r\n        while (rs.next()){\r\n\r\n            CustomerView cv = new CustomerView();\r\n            cv.setId(rs.getInt(\"ID\"));\r\n            cv.setName(rs.getString(\"recipient\"));\r\n            cv.setStatus(rs.getObject(\"ShipmentStatus\"));\r\n            cv.setConsDate(rs.getString(\"ConsignmentDate\"));\r\n            cv.setRecDate(rs.getString(\"ReceptionDate\"));\r\n            cv.setSize(rs.getObject(\"Size\"));\r\n            cv.setAddress(rs.getString(\"s.automat_address\"));\r\n            customerViews.add(cv);\r\n        }\r\n        return customerViews;\r\n    }\r\n\r\n    private ObservableList<UserView> getUsers(ResultSet rs) throws SQLException{\r\n\r\n        ObservableList<UserView> sendersList = FXCollections.observableArrayList();\r\n\r\n        while(rs.next()){\r\n\r\n           UserView u = new UserView();\r\n            u.setId(rs.getInt(\"ID\"));\r\n            u.setName(rs.getString(\"clName\"));\r\n            u.setSurname(rs.getString(\"clSurname\"));\r\n            u.setAddress(rs.getString(\"address\"));\r\n            u.setEmail(rs.getString(\"mail\"));\r\n            u.setPhone_number(rs.getString(\"PhNumber\"));\r\n            sendersList.add(u);\r\n        }\r\n        return sendersList;\r\n    }\r\n\r\n    private ObservableList<PackageView> getPackages(ResultSet rs) throws SQLException{\r\n\r\n        ObservableList<PackageView> packageViews = FXCollections.observableArrayList();\r\n        while (rs.next()){\r\n            PackageView p = new PackageView();\r\n            p.setId(rs.getInt(\"ID\"));\r\n            p.setConsDate(rs.getString(\"ConsDate\"));\r\n            p.setRecDate(rs.getString(\"RecDate\"));\r\n            p.setClId(rs.getInt(\"SenderId\"));\r\n            p.setRecId(rs.getString(\"ReceiverId\"));\r\n            p.setPrice(rs.getDouble(\"Price\"));\r\n            p.setStatus(rs.getObject(\"packStatus\"));\r\n            packageViews.add(p);\r\n        }\r\n        return packageViews;\r\n    }\r\n\r\n    /*private ObservableList<Shipments> getShipmentsList(ResultSet rs) throws SQLException{\r\n        ObservableList<Shipments> shipmentsList = FXCollections.observableArrayList();\r\n\r\n        while(rs.next()){\r\n            Shipments p = new Shipments();\r\n            p.setId(rs.getInt(\"shipment_id\"));\r\n            p.setSize(rs.getObject(\"shipment_package_size\"));\r\n            p.setPrice(rs.getDouble(\"shipment_price\"));\r\n            p.setSendPlace(rs.getString(\"shipment_sending_place\"));\r\n            p.setRecPlace(rs.getString(\"shipment_reception_place\"));\r\n            p.setStatus(rs.getObject(\"shipment_status\"));\r\n            p.setConsDate(rs.getString(\"shipment_consignment_date\"));\r\n            p.setShipDate(rs.getString(\"shipment_sending_date\"));\r\n            p.setDeliDate(rs.getString(\"shipment_delivery_date\"));\r\n            p.setRecDate(rs.getString(\"shipment_reception_date\"));\r\n            p.setRecId(rs.getInt(\"shipment_recipient_id\"));\r\n            p.setClientId(rs.getInt(\"client_id\"));\r\n            p.setAutoAddress(rs.getString(\"automat_address\"));\r\n        }\r\n        return shipmentsList;\r\n    }*/\r\n\r\n\r\n    public ObservableList<CustomerView> showClientData() throws SQLException, ClassNotFoundException{\r\n        String selectStmt = \"SELECT * FROM CustomerView;\";\r\n        try{\r\n            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);\r\n\r\n            ObservableList<CustomerView> customerViews = getCustomerView(resultSet);\r\n            consoleTextArea.appendText(selectStmt+\"\\n\");\r\n\r\n            printResultSet(resultSet);\r\n\r\n            return customerViews;\r\n        }catch (SQLException e){\r\n            consoleTextArea.appendText(\"Error \\n\");\r\n            throw e;\r\n        }\r\n    }\r\n\r\n    public ObservableList<CustomerView> findClientByData(String findData) throws SQLException, ClassNotFoundException{\r\n        String selectStmt = \"SELECT * FROM CustomerView WHERE ConsignmentDate like %'\"+findData+\"%' OR ReceptionDate like %'\"+findData+\"%';\";\r\n        try{\r\n            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);\r\n\r\n            ObservableList<CustomerView> customerViews = getCustomerView(resultSet);\r\n            consoleTextArea.appendText(selectStmt+\"\\n\");\r\n\r\n            printResultSet(resultSet);\r\n\r\n            return customerViews;\r\n        }catch (SQLException e){\r\n            consoleTextArea.appendText(\"Error \\n\");\r\n            throw e;\r\n        }\r\n    }\r\n\r\n    public ObservableList<CustomerView> findClientByStatus(String findStatus) throws SQLException, ClassNotFoundException{\r\n        String selectStmt = \"SELECT * FROM CustomerView WHERE ShipmentStatus like %'\"+findStatus+\"%';\";\r\n        try{\r\n            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);\r\n\r\n            ObservableList<CustomerView> customerViews = getCustomerView(resultSet);\r\n            consoleTextArea.appendText(selectStmt+\"\\n\");\r\n\r\n            printResultSet(resultSet);\r\n\r\n            return customerViews;\r\n        }catch (SQLException e){\r\n            consoleTextArea.appendText(\"Error \\n\");\r\n            throw e;\r\n        }\r\n    }\r\n\r\n    public ObservableList<UserView> showAdminClients() throws SQLException, ClassNotFoundException{\r\n        String selectStmt = \"SELECT * FROM AdminViewUser;\";\r\n        try{\r\n            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);\r\n\r\n            ObservableList<UserView> clientsList = getUsers(resultSet);\r\n            consoleTextArea.appendText(selectStmt+\"\\n\");\r\n\r\n            printResultSet(resultSet);\r\n\r\n            return clientsList;\r\n        }catch (SQLException e){\r\n            consoleTextArea.appendText(\"Error1 \\n\");\r\n            throw e;\r\n        }\r\n    }\r\n\r\n    public ObservableList<UserView> findAdminClients(String findUser) throws SQLException, ClassNotFoundException{\r\n        String selectStmt = \"SELECT * FROM AdminViewUser WHERE ID like \"+findUser+\";\";\r\n        try{\r\n            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);\r\n            ObservableList<UserView> clientsList = getUsers(resultSet);\r\n            consoleTextArea.appendText(selectStmt+\"\\n\");\r\n            printResultSet(resultSet);\r\n\r\n            return clientsList;\r\n        }catch (SQLException e){\r\n            consoleTextArea.appendText(\"Error1.2 \\n\");\r\n            throw e;\r\n        }\r\n    }\r\n\r\n    public ObservableList<PackageView> showAdminPackage() throws SQLException, ClassNotFoundException{\r\n        String selectStmt = \"SELECT * FROM AdminViewPackage;\";\r\n        try{\r\n            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);\r\n            ObservableList<PackageView> packageViews = getPackages(resultSet);\r\n            consoleTextArea.appendText(selectStmt+\"\\n\");\r\n\r\n            return packageViews;\r\n        }catch (SQLException e){\r\n            consoleTextArea.appendText(\"Error2 \\n\");\r\n            throw e;\r\n        }\r\n    }\r\n\r\n    public ObservableList<PackageView> findAdminPackage(String findPackage) throws SQLException, ClassNotFoundException{\r\n        String selectStmt = \"SELECT * FROM AdminViewPackage WHERE ID like '%\"+findPackage+\"%';\";\r\n        try{\r\n            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);\r\n            ObservableList<PackageView> packageViews = getPackages(resultSet);\r\n            consoleTextArea.appendText(selectStmt+\"\\n\");\r\n\r\n            return packageViews;\r\n        }catch (SQLException e){\r\n            consoleTextArea.appendText(\"Error2.2 \\n\");\r\n            throw e;\r\n        }\r\n    }\r\n\r\n\r\n\r\n\r\n\r\n    public static void printResultSet(ResultSet resultSet) throws SQLException {\r\n\r\n        ResultSetMetaData rsmd = resultSet.getMetaData(); // metadane o zapytaniu\r\n        int columnsNumber = rsmd.getColumnCount(); // liczba kolumn\r\n        resultSet.beforeFirst();\r\n        while (resultSet.next()) {  // wyswietlenie nazw kolumn i wartosci w rzedach\r\n\r\n            for (int i = 1; i <= columnsNumber; i++) {\r\n\r\n                if (i > 1)\r\n                    System.out.print(\",  \");\r\n\r\n                String columnValue = resultSet.getString(i);\r\n                System.out.print(rsmd.getColumnName(i) + \": \" + columnValue);\r\n            }\r\n\r\n            System.out.println(\"\");\r\n        }\r\n\r\n        System.out.println(\"\");\r\n\r\n    }\r\n}\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/edu/ib/PaczkiDAO.java b/src/main/java/edu/ib/PaczkiDAO.java
+---- a/src/main/java/edu/ib/PaczkiDAO.java	(revision 9856b30318bacbc74bee1534ca1f7346fc028115)
+-+++ b/src/main/java/edu/ib/PaczkiDAO.java	(date 1612945351005)
+-@@ -2,6 +2,7 @@
+- 
+- import javafx.collections.FXCollections;
+- import javafx.collections.ObservableList;
+-+import javafx.scene.control.TableView;
+- import javafx.scene.control.TextArea;
+- 
+- import java.sql.*;
+-@@ -237,9 +238,6 @@
+-     }
+- 
+- 
+--
+--
+--
+-     public static void printResultSet(ResultSet resultSet) throws SQLException {
+- 
+-         ResultSetMetaData rsmd = resultSet.getMetaData(); // metadane o zapytaniu
+-Index: .idea/dataSources.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"DataSourceManagerImpl\" format=\"xml\" multifile-model=\"true\">\r\n    <data-source source=\"LOCAL\" name=\"MySQL - paczkomat@localhost\" uuid=\"cbcb222d-85a7-4b85-9b68-2a63910e0359\">\r\n      <driver-ref>mysql.8</driver-ref>\r\n      <synchronize>true</synchronize>\r\n      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>\r\n      <jdbc-url>jdbc:mysql://localhost:3306/paczkomat</jdbc-url>\r\n      <working-dir>$ProjectFileDir$</working-dir>\r\n      <driver-properties>\r\n        <property name=\"serverTimezone\" value=\"CET\" />\r\n      </driver-properties>\r\n    </data-source>\r\n  </component>\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/dataSources.xml b/.idea/dataSources.xml
+---- a/.idea/dataSources.xml	(revision 9856b30318bacbc74bee1534ca1f7346fc028115)
+-+++ b/.idea/dataSources.xml	(date 1612941865169)
+-@@ -1,14 +1,14 @@
+- <?xml version="1.0" encoding="UTF-8"?>
+- <project version="4">
+-   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+--    <data-source source="LOCAL" name="MySQL - paczkomat@localhost" uuid="cbcb222d-85a7-4b85-9b68-2a63910e0359">
+-+    <data-source source="LOCAL" name="paczkomat@localhost" uuid="5c40d8da-3bf7-4184-b2a9-35f2651415b2">
+-       <driver-ref>mysql.8</driver-ref>
+-       <synchronize>true</synchronize>
+-       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+-       <jdbc-url>jdbc:mysql://localhost:3306/paczkomat</jdbc-url>
+-       <working-dir>$ProjectFileDir$</working-dir>
+-       <driver-properties>
+--        <property name="serverTimezone" value="CET" />
+-+        <property name="serverTimezone" value="UTC" />
+-       </driver-properties>
+-     </data-source>
+-   </component>
+-Index: .idea/dataSources/compiler.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/dataSources/compiler.xml b/.idea/dataSources/compiler.xml
+-new file mode 100644
+---- /dev/null	(date 1612941527963)
+-+++ b/.idea/dataSources/compiler.xml	(date 1612941527963)
+-@@ -0,0 +1,18 @@
+-+<?xml version="1.0" encoding="UTF-8"?>
+-+<project version="4">
+-+  <component name="CompilerConfiguration">
+-+    <annotationProcessing>
+-+      <profile name="Maven default annotation processors profile" enabled="true">
+-+        <sourceOutputDir name="target/generated-sources/annotations" />
+-+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+-+        <outputRelativeToContentRoot value="true" />
+-+        <module name="CrazyPaczka" />
+-+      </profile>
+-+    </annotationProcessing>
+-+  </component>
+-+  <component name="JavacSettings">
+-+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+-+      <module name="CrazyPaczka" options="--add-exports java.sql.rowset/com.sun.rowset=ALL-UNNAMED" />
+-+    </option>
+-+  </component>
+-+</project>
+-\ No newline at end of file
+-Index: .idea/dataSources/jarRepositories.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/dataSources/jarRepositories.xml b/.idea/dataSources/jarRepositories.xml
+-new file mode 100644
+---- /dev/null	(date 1612121076069)
+-+++ b/.idea/dataSources/jarRepositories.xml	(date 1612121076069)
+-@@ -0,0 +1,20 @@
+-+<?xml version="1.0" encoding="UTF-8"?>
+-+<project version="4">
+-+  <component name="RemoteRepositoriesConfiguration">
+-+    <remote-repository>
+-+      <option name="id" value="central" />
+-+      <option name="name" value="Central Repository" />
+-+      <option name="url" value="https://repo.maven.apache.org/maven2" />
+-+    </remote-repository>
+-+    <remote-repository>
+-+      <option name="id" value="central" />
+-+      <option name="name" value="Maven Central repository" />
+-+      <option name="url" value="https://repo1.maven.org/maven2" />
+-+    </remote-repository>
+-+    <remote-repository>
+-+      <option name="id" value="jboss.community" />
+-+      <option name="name" value="JBoss Community repository" />
+-+      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+-+    </remote-repository>
+-+  </component>
+-+</project>
+-\ No newline at end of file
+-Index: .idea/dataSources/misc.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/dataSources/misc.xml b/.idea/dataSources/misc.xml
+-new file mode 100644
+---- /dev/null	(date 1612121076069)
+-+++ b/.idea/dataSources/misc.xml	(date 1612121076069)
+-@@ -0,0 +1,14 @@
+-+<?xml version="1.0" encoding="UTF-8"?>
+-+<project version="4">
+-+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+-+  <component name="MavenProjectsManager">
+-+    <option name="originalFiles">
+-+      <list>
+-+        <option value="$PROJECT_DIR$/pom.xml" />
+-+      </list>
+-+    </option>
+-+  </component>
+-+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="15" project-jdk-type="JavaSDK">
+-+    <output url="file://$PROJECT_DIR$/out" />
+-+  </component>
+-+</project>
+-\ No newline at end of file
+-Index: .idea/vcs.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"VcsDirectoryMappings\">\r\n    <mapping directory=\"$PROJECT_DIR$\" vcs=\"Git\" />\r\n  </component>\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+---- a/.idea/vcs.xml	(revision 9856b30318bacbc74bee1534ca1f7346fc028115)
+-+++ b/.idea/vcs.xml	(date 1612941816405)
+-@@ -1,6 +1,6 @@
+- <?xml version="1.0" encoding="UTF-8"?>
+- <project version="4">
+-   <component name="VcsDirectoryMappings">
+--    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+-+    <mapping directory="" vcs="Git" />
+-   </component>
+- </project>
+-\ No newline at end of file
+-Index: .idea/dataSources/vcs.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/dataSources/vcs.xml b/.idea/dataSources/vcs.xml
+-new file mode 100644
+---- /dev/null	(date 1612121076070)
+-+++ b/.idea/dataSources/vcs.xml	(date 1612121076070)
+-@@ -0,0 +1,6 @@
+-+<?xml version="1.0" encoding="UTF-8"?>
+-+<project version="4">
+-+  <component name="VcsDirectoryMappings">
+-+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+-+  </component>
+-+</project>
+-\ No newline at end of file
+-Index: .idea/dataSources/dataSources.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/dataSources/dataSources.xml b/.idea/dataSources/dataSources.xml
+-new file mode 100644
+---- /dev/null	(date 1612836328692)
+-+++ b/.idea/dataSources/dataSources.xml	(date 1612836328692)
+-@@ -0,0 +1,15 @@
+-+<?xml version="1.0" encoding="UTF-8"?>
+-+<project version="4">
+-+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+-+    <data-source source="LOCAL" name="MySQL - paczkomat@localhost" uuid="cbcb222d-85a7-4b85-9b68-2a63910e0359">
+-+      <driver-ref>mysql.8</driver-ref>
+-+      <synchronize>true</synchronize>
+-+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+-+      <jdbc-url>jdbc:mysql://localhost:3306/paczkomat</jdbc-url>
+-+      <working-dir>$ProjectFileDir$</working-dir>
+-+      <driver-properties>
+-+        <property name="serverTimezone" value="CET" />
+-+      </driver-properties>
+-+    </data-source>
+-+  </component>
+-+</project>
+-\ No newline at end of file
+-Index: .idea/compiler.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"CompilerConfiguration\">\r\n    <annotationProcessing>\r\n      <profile name=\"Maven default annotation processors profile\" enabled=\"true\">\r\n        <sourceOutputDir name=\"target/generated-sources/annotations\" />\r\n        <sourceTestOutputDir name=\"target/generated-test-sources/test-annotations\" />\r\n        <outputRelativeToContentRoot value=\"true\" />\r\n        <module name=\"CrazyPaczka\" />\r\n      </profile>\r\n    </annotationProcessing>\r\n  </component>\r\n  <component name=\"JavacSettings\">\r\n    <option name=\"ADDITIONAL_OPTIONS_OVERRIDE\">\r\n      <module name=\"CrazyPaczka\" options=\"--add-exports java.sql.rowset/com.sun.rowset=ALL-UNNAMED\" />\r\n    </option>\r\n  </component>\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+---- a/.idea/compiler.xml	(revision 9856b30318bacbc74bee1534ca1f7346fc028115)
+-+++ b/.idea/compiler.xml	(date 1612941828592)
+-@@ -1,15 +1,5 @@
+- <?xml version="1.0" encoding="UTF-8"?>
+- <project version="4">
+--  <component name="CompilerConfiguration">
+--    <annotationProcessing>
+--      <profile name="Maven default annotation processors profile" enabled="true">
+--        <sourceOutputDir name="target/generated-sources/annotations" />
+--        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+--        <outputRelativeToContentRoot value="true" />
+--        <module name="CrazyPaczka" />
+--      </profile>
+--    </annotationProcessing>
+--  </component>
+-   <component name="JavacSettings">
+-     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+-       <module name="CrazyPaczka" options="--add-exports java.sql.rowset/com.sun.rowset=ALL-UNNAMED" />
+-diff --git a/.idea/uiDesigner.xml b/.idea/dataSources/uiDesigner.xml
+-rename from .idea/uiDesigner.xml
+-rename to .idea/dataSources/uiDesigner.xml
+Index: .idea/dataSources/5c40d8da-3bf7-4184-b2a9-35f2651415b2.xml
+===================================================================
+diff --git a/.idea/dataSources/5c40d8da-3bf7-4184-b2a9-35f2651415b2.xml b/.idea/dataSources/5c40d8da-3bf7-4184-b2a9-35f2651415b2.xml
+deleted file mode 100644
+--- a/.idea/dataSources/5c40d8da-3bf7-4184-b2a9-35f2651415b2.xml	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
++++ /dev/null	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
+@@ -1,923 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<dataSource name="paczkomat@localhost">
+-  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.20">
+-    <root id="1">
+-      <ServerVersion>8.0.23</ServerVersion>
+-      <DefaultEngine>InnoDB</DefaultEngine>
+-      <DefaultTmpEngine>InnoDB</DefaultTmpEngine>
+-      <DefaultCasing>lower/lower</DefaultCasing>
+-    </root>
+-    <schema id="2" parent="1" name="information_schema">
+-      <Collation>utf8_general_ci</Collation>
+-    </schema>
+-    <schema id="3" parent="1" name="mysql">
+-      <Collation>utf8mb4_0900_ai_ci</Collation>
+-    </schema>
+-    <schema id="4" parent="1" name="paczkomat">
+-      <Current>1</Current>
+-      <Collation>utf8mb4_0900_ai_ci</Collation>
+-    </schema>
+-    <schema id="5" parent="1" name="performance_schema">
+-      <Collation>utf8mb4_0900_ai_ci</Collation>
+-    </schema>
+-    <schema id="6" parent="1" name="sys">
+-      <Collation>utf8mb4_0900_ai_ci</Collation>
+-    </schema>
+-    <schema id="7" parent="1" name="tennis_rackets">
+-      <Collation>utf8mb4_0900_ai_ci</Collation>
+-    </schema>
+-    <collation id="8" parent="1" name="armscii8_bin">
+-      <Charset>armscii8</Charset>
+-    </collation>
+-    <collation id="9" parent="1" name="armscii8_general_ci">
+-      <Charset>armscii8</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="10" parent="1" name="ascii_bin">
+-      <Charset>ascii</Charset>
+-    </collation>
+-    <collation id="11" parent="1" name="ascii_general_ci">
+-      <Charset>ascii</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="12" parent="1" name="big5_bin">
+-      <Charset>big5</Charset>
+-    </collation>
+-    <collation id="13" parent="1" name="big5_chinese_ci">
+-      <Charset>big5</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="14" parent="1" name="binary">
+-      <Charset>binary</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="15" parent="1" name="cp1250_bin">
+-      <Charset>cp1250</Charset>
+-    </collation>
+-    <collation id="16" parent="1" name="cp1250_croatian_ci">
+-      <Charset>cp1250</Charset>
+-    </collation>
+-    <collation id="17" parent="1" name="cp1250_czech_cs">
+-      <Charset>cp1250</Charset>
+-    </collation>
+-    <collation id="18" parent="1" name="cp1250_general_ci">
+-      <Charset>cp1250</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="19" parent="1" name="cp1250_polish_ci">
+-      <Charset>cp1250</Charset>
+-    </collation>
+-    <collation id="20" parent="1" name="cp1251_bin">
+-      <Charset>cp1251</Charset>
+-    </collation>
+-    <collation id="21" parent="1" name="cp1251_bulgarian_ci">
+-      <Charset>cp1251</Charset>
+-    </collation>
+-    <collation id="22" parent="1" name="cp1251_general_ci">
+-      <Charset>cp1251</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="23" parent="1" name="cp1251_general_cs">
+-      <Charset>cp1251</Charset>
+-    </collation>
+-    <collation id="24" parent="1" name="cp1251_ukrainian_ci">
+-      <Charset>cp1251</Charset>
+-    </collation>
+-    <collation id="25" parent="1" name="cp1256_bin">
+-      <Charset>cp1256</Charset>
+-    </collation>
+-    <collation id="26" parent="1" name="cp1256_general_ci">
+-      <Charset>cp1256</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="27" parent="1" name="cp1257_bin">
+-      <Charset>cp1257</Charset>
+-    </collation>
+-    <collation id="28" parent="1" name="cp1257_general_ci">
+-      <Charset>cp1257</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="29" parent="1" name="cp1257_lithuanian_ci">
+-      <Charset>cp1257</Charset>
+-    </collation>
+-    <collation id="30" parent="1" name="cp850_bin">
+-      <Charset>cp850</Charset>
+-    </collation>
+-    <collation id="31" parent="1" name="cp850_general_ci">
+-      <Charset>cp850</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="32" parent="1" name="cp852_bin">
+-      <Charset>cp852</Charset>
+-    </collation>
+-    <collation id="33" parent="1" name="cp852_general_ci">
+-      <Charset>cp852</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="34" parent="1" name="cp866_bin">
+-      <Charset>cp866</Charset>
+-    </collation>
+-    <collation id="35" parent="1" name="cp866_general_ci">
+-      <Charset>cp866</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="36" parent="1" name="cp932_bin">
+-      <Charset>cp932</Charset>
+-    </collation>
+-    <collation id="37" parent="1" name="cp932_japanese_ci">
+-      <Charset>cp932</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="38" parent="1" name="dec8_bin">
+-      <Charset>dec8</Charset>
+-    </collation>
+-    <collation id="39" parent="1" name="dec8_swedish_ci">
+-      <Charset>dec8</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="40" parent="1" name="eucjpms_bin">
+-      <Charset>eucjpms</Charset>
+-    </collation>
+-    <collation id="41" parent="1" name="eucjpms_japanese_ci">
+-      <Charset>eucjpms</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="42" parent="1" name="euckr_bin">
+-      <Charset>euckr</Charset>
+-    </collation>
+-    <collation id="43" parent="1" name="euckr_korean_ci">
+-      <Charset>euckr</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="44" parent="1" name="gb18030_bin">
+-      <Charset>gb18030</Charset>
+-    </collation>
+-    <collation id="45" parent="1" name="gb18030_chinese_ci">
+-      <Charset>gb18030</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="46" parent="1" name="gb18030_unicode_520_ci">
+-      <Charset>gb18030</Charset>
+-    </collation>
+-    <collation id="47" parent="1" name="gb2312_bin">
+-      <Charset>gb2312</Charset>
+-    </collation>
+-    <collation id="48" parent="1" name="gb2312_chinese_ci">
+-      <Charset>gb2312</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="49" parent="1" name="gbk_bin">
+-      <Charset>gbk</Charset>
+-    </collation>
+-    <collation id="50" parent="1" name="gbk_chinese_ci">
+-      <Charset>gbk</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="51" parent="1" name="geostd8_bin">
+-      <Charset>geostd8</Charset>
+-    </collation>
+-    <collation id="52" parent="1" name="geostd8_general_ci">
+-      <Charset>geostd8</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="53" parent="1" name="greek_bin">
+-      <Charset>greek</Charset>
+-    </collation>
+-    <collation id="54" parent="1" name="greek_general_ci">
+-      <Charset>greek</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="55" parent="1" name="hebrew_bin">
+-      <Charset>hebrew</Charset>
+-    </collation>
+-    <collation id="56" parent="1" name="hebrew_general_ci">
+-      <Charset>hebrew</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="57" parent="1" name="hp8_bin">
+-      <Charset>hp8</Charset>
+-    </collation>
+-    <collation id="58" parent="1" name="hp8_english_ci">
+-      <Charset>hp8</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="59" parent="1" name="keybcs2_bin">
+-      <Charset>keybcs2</Charset>
+-    </collation>
+-    <collation id="60" parent="1" name="keybcs2_general_ci">
+-      <Charset>keybcs2</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="61" parent="1" name="koi8r_bin">
+-      <Charset>koi8r</Charset>
+-    </collation>
+-    <collation id="62" parent="1" name="koi8r_general_ci">
+-      <Charset>koi8r</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="63" parent="1" name="koi8u_bin">
+-      <Charset>koi8u</Charset>
+-    </collation>
+-    <collation id="64" parent="1" name="koi8u_general_ci">
+-      <Charset>koi8u</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="65" parent="1" name="latin1_bin">
+-      <Charset>latin1</Charset>
+-    </collation>
+-    <collation id="66" parent="1" name="latin1_danish_ci">
+-      <Charset>latin1</Charset>
+-    </collation>
+-    <collation id="67" parent="1" name="latin1_general_ci">
+-      <Charset>latin1</Charset>
+-    </collation>
+-    <collation id="68" parent="1" name="latin1_general_cs">
+-      <Charset>latin1</Charset>
+-    </collation>
+-    <collation id="69" parent="1" name="latin1_german1_ci">
+-      <Charset>latin1</Charset>
+-    </collation>
+-    <collation id="70" parent="1" name="latin1_german2_ci">
+-      <Charset>latin1</Charset>
+-    </collation>
+-    <collation id="71" parent="1" name="latin1_spanish_ci">
+-      <Charset>latin1</Charset>
+-    </collation>
+-    <collation id="72" parent="1" name="latin1_swedish_ci">
+-      <Charset>latin1</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="73" parent="1" name="latin2_bin">
+-      <Charset>latin2</Charset>
+-    </collation>
+-    <collation id="74" parent="1" name="latin2_croatian_ci">
+-      <Charset>latin2</Charset>
+-    </collation>
+-    <collation id="75" parent="1" name="latin2_czech_cs">
+-      <Charset>latin2</Charset>
+-    </collation>
+-    <collation id="76" parent="1" name="latin2_general_ci">
+-      <Charset>latin2</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="77" parent="1" name="latin2_hungarian_ci">
+-      <Charset>latin2</Charset>
+-    </collation>
+-    <collation id="78" parent="1" name="latin5_bin">
+-      <Charset>latin5</Charset>
+-    </collation>
+-    <collation id="79" parent="1" name="latin5_turkish_ci">
+-      <Charset>latin5</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="80" parent="1" name="latin7_bin">
+-      <Charset>latin7</Charset>
+-    </collation>
+-    <collation id="81" parent="1" name="latin7_estonian_cs">
+-      <Charset>latin7</Charset>
+-    </collation>
+-    <collation id="82" parent="1" name="latin7_general_ci">
+-      <Charset>latin7</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="83" parent="1" name="latin7_general_cs">
+-      <Charset>latin7</Charset>
+-    </collation>
+-    <collation id="84" parent="1" name="macce_bin">
+-      <Charset>macce</Charset>
+-    </collation>
+-    <collation id="85" parent="1" name="macce_general_ci">
+-      <Charset>macce</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="86" parent="1" name="macroman_bin">
+-      <Charset>macroman</Charset>
+-    </collation>
+-    <collation id="87" parent="1" name="macroman_general_ci">
+-      <Charset>macroman</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="88" parent="1" name="sjis_bin">
+-      <Charset>sjis</Charset>
+-    </collation>
+-    <collation id="89" parent="1" name="sjis_japanese_ci">
+-      <Charset>sjis</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="90" parent="1" name="swe7_bin">
+-      <Charset>swe7</Charset>
+-    </collation>
+-    <collation id="91" parent="1" name="swe7_swedish_ci">
+-      <Charset>swe7</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="92" parent="1" name="tis620_bin">
+-      <Charset>tis620</Charset>
+-    </collation>
+-    <collation id="93" parent="1" name="tis620_thai_ci">
+-      <Charset>tis620</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="94" parent="1" name="ucs2_bin">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="95" parent="1" name="ucs2_croatian_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="96" parent="1" name="ucs2_czech_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="97" parent="1" name="ucs2_danish_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="98" parent="1" name="ucs2_esperanto_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="99" parent="1" name="ucs2_estonian_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="100" parent="1" name="ucs2_general_ci">
+-      <Charset>ucs2</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="101" parent="1" name="ucs2_general_mysql500_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="102" parent="1" name="ucs2_german2_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="103" parent="1" name="ucs2_hungarian_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="104" parent="1" name="ucs2_icelandic_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="105" parent="1" name="ucs2_latvian_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="106" parent="1" name="ucs2_lithuanian_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="107" parent="1" name="ucs2_persian_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="108" parent="1" name="ucs2_polish_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="109" parent="1" name="ucs2_roman_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="110" parent="1" name="ucs2_romanian_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="111" parent="1" name="ucs2_sinhala_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="112" parent="1" name="ucs2_slovak_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="113" parent="1" name="ucs2_slovenian_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="114" parent="1" name="ucs2_spanish2_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="115" parent="1" name="ucs2_spanish_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="116" parent="1" name="ucs2_swedish_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="117" parent="1" name="ucs2_turkish_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="118" parent="1" name="ucs2_unicode_520_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="119" parent="1" name="ucs2_unicode_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="120" parent="1" name="ucs2_vietnamese_ci">
+-      <Charset>ucs2</Charset>
+-    </collation>
+-    <collation id="121" parent="1" name="ujis_bin">
+-      <Charset>ujis</Charset>
+-    </collation>
+-    <collation id="122" parent="1" name="ujis_japanese_ci">
+-      <Charset>ujis</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="123" parent="1" name="utf16_bin">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="124" parent="1" name="utf16_croatian_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="125" parent="1" name="utf16_czech_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="126" parent="1" name="utf16_danish_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="127" parent="1" name="utf16_esperanto_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="128" parent="1" name="utf16_estonian_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="129" parent="1" name="utf16_general_ci">
+-      <Charset>utf16</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="130" parent="1" name="utf16_german2_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="131" parent="1" name="utf16_hungarian_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="132" parent="1" name="utf16_icelandic_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="133" parent="1" name="utf16_latvian_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="134" parent="1" name="utf16_lithuanian_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="135" parent="1" name="utf16_persian_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="136" parent="1" name="utf16_polish_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="137" parent="1" name="utf16_roman_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="138" parent="1" name="utf16_romanian_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="139" parent="1" name="utf16_sinhala_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="140" parent="1" name="utf16_slovak_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="141" parent="1" name="utf16_slovenian_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="142" parent="1" name="utf16_spanish2_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="143" parent="1" name="utf16_spanish_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="144" parent="1" name="utf16_swedish_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="145" parent="1" name="utf16_turkish_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="146" parent="1" name="utf16_unicode_520_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="147" parent="1" name="utf16_unicode_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="148" parent="1" name="utf16_vietnamese_ci">
+-      <Charset>utf16</Charset>
+-    </collation>
+-    <collation id="149" parent="1" name="utf16le_bin">
+-      <Charset>utf16le</Charset>
+-    </collation>
+-    <collation id="150" parent="1" name="utf16le_general_ci">
+-      <Charset>utf16le</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="151" parent="1" name="utf32_bin">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="152" parent="1" name="utf32_croatian_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="153" parent="1" name="utf32_czech_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="154" parent="1" name="utf32_danish_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="155" parent="1" name="utf32_esperanto_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="156" parent="1" name="utf32_estonian_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="157" parent="1" name="utf32_general_ci">
+-      <Charset>utf32</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="158" parent="1" name="utf32_german2_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="159" parent="1" name="utf32_hungarian_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="160" parent="1" name="utf32_icelandic_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="161" parent="1" name="utf32_latvian_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="162" parent="1" name="utf32_lithuanian_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="163" parent="1" name="utf32_persian_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="164" parent="1" name="utf32_polish_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="165" parent="1" name="utf32_roman_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="166" parent="1" name="utf32_romanian_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="167" parent="1" name="utf32_sinhala_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="168" parent="1" name="utf32_slovak_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="169" parent="1" name="utf32_slovenian_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="170" parent="1" name="utf32_spanish2_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="171" parent="1" name="utf32_spanish_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="172" parent="1" name="utf32_swedish_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="173" parent="1" name="utf32_turkish_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="174" parent="1" name="utf32_unicode_520_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="175" parent="1" name="utf32_unicode_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="176" parent="1" name="utf32_vietnamese_ci">
+-      <Charset>utf32</Charset>
+-    </collation>
+-    <collation id="177" parent="1" name="utf8_bin">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="178" parent="1" name="utf8_croatian_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="179" parent="1" name="utf8_czech_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="180" parent="1" name="utf8_danish_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="181" parent="1" name="utf8_esperanto_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="182" parent="1" name="utf8_estonian_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="183" parent="1" name="utf8_general_ci">
+-      <Charset>utf8</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="184" parent="1" name="utf8_general_mysql500_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="185" parent="1" name="utf8_german2_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="186" parent="1" name="utf8_hungarian_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="187" parent="1" name="utf8_icelandic_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="188" parent="1" name="utf8_latvian_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="189" parent="1" name="utf8_lithuanian_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="190" parent="1" name="utf8_persian_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="191" parent="1" name="utf8_polish_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="192" parent="1" name="utf8_roman_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="193" parent="1" name="utf8_romanian_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="194" parent="1" name="utf8_sinhala_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="195" parent="1" name="utf8_slovak_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="196" parent="1" name="utf8_slovenian_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="197" parent="1" name="utf8_spanish2_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="198" parent="1" name="utf8_spanish_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="199" parent="1" name="utf8_swedish_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="200" parent="1" name="utf8_tolower_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="201" parent="1" name="utf8_turkish_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="202" parent="1" name="utf8_unicode_520_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="203" parent="1" name="utf8_unicode_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="204" parent="1" name="utf8_vietnamese_ci">
+-      <Charset>utf8</Charset>
+-    </collation>
+-    <collation id="205" parent="1" name="utf8mb4_0900_ai_ci">
+-      <Charset>utf8mb4</Charset>
+-      <DefaultForCharset>1</DefaultForCharset>
+-    </collation>
+-    <collation id="206" parent="1" name="utf8mb4_0900_as_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="207" parent="1" name="utf8mb4_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="208" parent="1" name="utf8mb4_0900_bin">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="209" parent="1" name="utf8mb4_bin">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="210" parent="1" name="utf8mb4_croatian_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="211" parent="1" name="utf8mb4_cs_0900_ai_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="212" parent="1" name="utf8mb4_cs_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="213" parent="1" name="utf8mb4_czech_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="214" parent="1" name="utf8mb4_da_0900_ai_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="215" parent="1" name="utf8mb4_da_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="216" parent="1" name="utf8mb4_danish_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="217" parent="1" name="utf8mb4_de_pb_0900_ai_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="218" parent="1" name="utf8mb4_de_pb_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="219" parent="1" name="utf8mb4_eo_0900_ai_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="220" parent="1" name="utf8mb4_eo_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="221" parent="1" name="utf8mb4_es_0900_ai_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="222" parent="1" name="utf8mb4_es_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="223" parent="1" name="utf8mb4_es_trad_0900_ai_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="224" parent="1" name="utf8mb4_es_trad_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="225" parent="1" name="utf8mb4_esperanto_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="226" parent="1" name="utf8mb4_estonian_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="227" parent="1" name="utf8mb4_et_0900_ai_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="228" parent="1" name="utf8mb4_et_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="229" parent="1" name="utf8mb4_general_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="230" parent="1" name="utf8mb4_german2_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="231" parent="1" name="utf8mb4_hr_0900_ai_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="232" parent="1" name="utf8mb4_hr_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="233" parent="1" name="utf8mb4_hu_0900_ai_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="234" parent="1" name="utf8mb4_hu_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="235" parent="1" name="utf8mb4_hungarian_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="236" parent="1" name="utf8mb4_icelandic_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="237" parent="1" name="utf8mb4_is_0900_ai_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="238" parent="1" name="utf8mb4_is_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="239" parent="1" name="utf8mb4_ja_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="240" parent="1" name="utf8mb4_ja_0900_as_cs_ks">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="241" parent="1" name="utf8mb4_la_0900_ai_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="242" parent="1" name="utf8mb4_la_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="243" parent="1" name="utf8mb4_latvian_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="244" parent="1" name="utf8mb4_lithuanian_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="245" parent="1" name="utf8mb4_lt_0900_ai_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="246" parent="1" name="utf8mb4_lt_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="247" parent="1" name="utf8mb4_lv_0900_ai_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="248" parent="1" name="utf8mb4_lv_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="249" parent="1" name="utf8mb4_persian_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="250" parent="1" name="utf8mb4_pl_0900_ai_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="251" parent="1" name="utf8mb4_pl_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="252" parent="1" name="utf8mb4_polish_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="253" parent="1" name="utf8mb4_ro_0900_ai_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="254" parent="1" name="utf8mb4_ro_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="255" parent="1" name="utf8mb4_roman_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="256" parent="1" name="utf8mb4_romanian_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="257" parent="1" name="utf8mb4_ru_0900_ai_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="258" parent="1" name="utf8mb4_ru_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="259" parent="1" name="utf8mb4_sinhala_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="260" parent="1" name="utf8mb4_sk_0900_ai_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="261" parent="1" name="utf8mb4_sk_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="262" parent="1" name="utf8mb4_sl_0900_ai_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="263" parent="1" name="utf8mb4_sl_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="264" parent="1" name="utf8mb4_slovak_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="265" parent="1" name="utf8mb4_slovenian_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="266" parent="1" name="utf8mb4_spanish2_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="267" parent="1" name="utf8mb4_spanish_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="268" parent="1" name="utf8mb4_sv_0900_ai_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="269" parent="1" name="utf8mb4_sv_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="270" parent="1" name="utf8mb4_swedish_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="271" parent="1" name="utf8mb4_tr_0900_ai_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="272" parent="1" name="utf8mb4_tr_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="273" parent="1" name="utf8mb4_turkish_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="274" parent="1" name="utf8mb4_unicode_520_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="275" parent="1" name="utf8mb4_unicode_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="276" parent="1" name="utf8mb4_vi_0900_ai_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="277" parent="1" name="utf8mb4_vi_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="278" parent="1" name="utf8mb4_vietnamese_ci">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <collation id="279" parent="1" name="utf8mb4_zh_0900_as_cs">
+-      <Charset>utf8mb4</Charset>
+-    </collation>
+-    <user id="280" parent="1" name="Maki">
+-      <Host>localhost</Host>
+-      <ObjectGrants>SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,RELOAD,SHUTDOWN,PROCESS,FILE,REFERENCES,INDEX,ALTER,SHOW DATABASES,SUPER,CREATE TEMPORARY TABLES,LOCK TABLES,EXECUTE,REPLICATION SLAVE,REPLICATION CLIENT,CREATE VIEW,SHOW VIEW,CREATE ROUTINE,ALTER ROUTINE,CREATE USER,EVENT,TRIGGER,CREATE TABLESPACE!
+-</ObjectGrants>
+-    </user>
+-    <user id="281" parent="1" name="mysql.infoschema">
+-      <Host>localhost</Host>
+-      <ObjectGrants>SELECT
+-SYSTEM_USER
+-</ObjectGrants>
+-    </user>
+-    <user id="282" parent="1" name="mysql.session">
+-      <Host>localhost</Host>
+-      <ObjectGrants>SHUTDOWN,SUPER
+-BACKUP_ADMIN,CLONE_ADMIN,CONNECTION_ADMIN,PERSIST_RO_VARIABLES_ADMIN,SESSION_VARIABLES_ADMIN,SYSTEM_USER,SYSTEM_VARIABLES_ADMIN
+-SELECT|performance_schema
+-SELECT|mysql.user
+-</ObjectGrants>
+-    </user>
+-    <user id="283" parent="1" name="mysql.sys">
+-      <Host>localhost</Host>
+-      <ObjectGrants>SYSTEM_USER
+-TRIGGER|sys
+-SELECT|sys.sys_config
+-</ObjectGrants>
+-    </user>
+-    <user id="284" parent="1" name="root">
+-      <Host>localhost</Host>
+-      <ObjectGrants>SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,RELOAD,SHUTDOWN,PROCESS,FILE,REFERENCES,INDEX,ALTER,SHOW DATABASES,SUPER,CREATE TEMPORARY TABLES,LOCK TABLES,EXECUTE,REPLICATION SLAVE,REPLICATION CLIENT,CREATE VIEW,SHOW VIEW,CREATE ROUTINE,ALTER ROUTINE,CREATE USER,EVENT,TRIGGER,CREATE TABLESPACE,CREATE ROLE,DROP ROLE!
+-</ObjectGrants>
+-    </user>
+-    <user id="285" parent="1" name="username">
+-      <Host>localhost</Host>
+-      <ObjectGrants>EXECUTE,CREATE ROUTINE,ALTER ROUTINE
+-</ObjectGrants>
+-    </user>
+-  </database-model>
+-</dataSource>
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+deleted file mode 100644
+--- a/.idea/workspace.xml	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
++++ /dev/null	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
+@@ -1,455 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="AutoImportSettings">
+-    <option name="autoReloadType" value="SELECTIVE" />
+-  </component>
+-  <component name="ChangeListManager">
+-    <list default="true" id="8edd7339-9291-44f7-8314-b01bd8987617" name="Default Changelist" comment="">
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/5c40d8da-3bf7-4184-b2a9-35f2651415b2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/5c40d8da-3bf7-4184-b2a9-35f2651415b2.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/5c40d8da-3bf7-4184-b2a9-35f2651415b2/storage_v2/_src_/schema/paczkomat.VKSShQ.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/5c40d8da-3bf7-4184-b2a9-35f2651415b2/storage_v2/_src_/schema/paczkomat.VKSShQ.zip" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ib/LoginScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ib/LoginScreen.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ib/PaczkiDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ib/PaczkiDAO.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ib/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ib/UserController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/signIn.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/signIn.fxml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/target/classes/fxml/signIn.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fxml/signIn.fxml" afterDir="false" />
+-    </list>
+-    <option name="SHOW_DIALOG" value="false" />
+-    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+-    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+-    <option name="LAST_RESOLUTION" value="IGNORE" />
+-  </component>
+-  <component name="FileTemplateManagerImpl">
+-    <option name="RECENT_TEMPLATES">
+-      <list>
+-        <option value="JavaFXApplication" />
+-        <option value="FxmlFile" />
+-        <option value="Class" />
+-      </list>
+-    </option>
+-  </component>
+-  <component name="Git.Settings">
+-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+-  </component>
+-  <component name="ProjectId" id="1nhC64w6SI0IhB0Qu0hSUtD6JYF" />
+-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+-  <component name="ProjectViewState">
+-    <option name="hideEmptyMiddlePackages" value="true" />
+-    <option name="showLibraryContents" value="true" />
+-  </component>
+-  <component name="PropertiesComponent">
+-    <property name="DatabaseDriversLRU" value="mysql" />
+-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+-    <property name="WebServerToolWindowFactoryState" value="false" />
+-    <property name="aspect.path.notification.shown" value="true" />
+-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Downloads/FX_JDBC2020 (1)/FX_JDBC2020" />
+-    <property name="project.structure.last.edited" value="SDKs" />
+-    <property name="project.structure.proportion" value="0.15" />
+-    <property name="project.structure.side.proportion" value="0.40114942" />
+-    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+-  </component>
+-  <component name="RecentsManager">
+-    <key name="MoveFile.RECENT_KEYS">
+-      <recent name="D:\IntelliJ\projects\CrazyPaczka\src\main\resources\fxml" />
+-    </key>
+-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+-      <recent name="" />
+-    </key>
+-  </component>
+-  <component name="RunManager">
+-    <configuration name="PaczkaApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+-      <option name="MAIN_CLASS_NAME" value="edu.ib.PaczkaApp" />
+-      <module name="CrazyPaczka" />
+-      <option name="VM_PARAMETERS" value="--module-path $PROJECT_DIR$/../../../Downloads/openjfx-11.0.2_windows-x64_bin-sdk/javafx-sdk-11.0.2/lib --add-modules=javafx.controls,javafx.fxml" />
+-      <method v="2">
+-        <option name="Make" enabled="true" />
+-      </method>
+-    </configuration>
+-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+-      <option name="arquillianRunConfiguration">
+-        <value>
+-          <option name="containerStateName" value="" />
+-        </value>
+-      </option>
+-      <option name="TEST_OBJECT" value="class" />
+-      <method v="2">
+-        <option name="Make" enabled="true" />
+-      </method>
+-    </configuration>
+-    <recent_temporary>
+-      <list>
+-        <item itemvalue="Application.PaczkaApp" />
+-      </list>
+-    </recent_temporary>
+-  </component>
+-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+-  <component name="TaskManager">
+-    <task active="true" id="Default" summary="Default task">
+-      <changelist id="8edd7339-9291-44f7-8314-b01bd8987617" name="Default Changelist" comment="" />
+-      <created>1611832758103</created>
+-      <option name="number" value="Default" />
+-      <option name="presentableId" value="Default" />
+-      <updated>1611832758103</updated>
+-      <workItem from="1611832759414" duration="35017000" />
+-      <workItem from="1612020757366" duration="5532000" />
+-      <workItem from="1612048734340" duration="2707000" />
+-      <workItem from="1612122197130" duration="960000" />
+-      <workItem from="1612192868923" duration="476000" />
+-      <workItem from="1612193372746" duration="1283000" />
+-      <workItem from="1612434696911" duration="2624000" />
+-      <workItem from="1612519055073" duration="358000" />
+-      <workItem from="1612651421370" duration="78696000" />
+-      <workItem from="1612953244688" duration="15635000" />
+-      <workItem from="1612969592255" duration="21593000" />
+-    </task>
+-    <task id="LOCAL-00001" summary="First commit">
+-      <created>1611860243625</created>
+-      <option name="number" value="00001" />
+-      <option name="presentableId" value="LOCAL-00001" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1611860243625</updated>
+-    </task>
+-    <task id="LOCAL-00002" summary="Database util">
+-      <created>1611873623069</created>
+-      <option name="number" value="00002" />
+-      <option name="presentableId" value="LOCAL-00002" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1611873623069</updated>
+-    </task>
+-    <task id="LOCAL-00003" summary="Tablice">
+-      <created>1611876131245</created>
+-      <option name="number" value="00003" />
+-      <option name="presentableId" value="LOCAL-00003" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1611876131245</updated>
+-    </task>
+-    <task id="LOCAL-00004" summary="cachedRowSetWrapper class">
+-      <created>1611878907374</created>
+-      <option name="number" value="00004" />
+-      <option name="presentableId" value="LOCAL-00004" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1611878907374</updated>
+-    </task>
+-    <task id="LOCAL-00005" summary="very basic starting app">
+-      <created>1611879073391</created>
+-      <option name="number" value="00005" />
+-      <option name="presentableId" value="LOCAL-00005" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1611879073391</updated>
+-    </task>
+-    <task id="LOCAL-00006" summary="Enum out">
+-      <created>1611881915666</created>
+-      <option name="number" value="00006" />
+-      <option name="presentableId" value="LOCAL-00006" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1611881915666</updated>
+-    </task>
+-    <task id="LOCAL-00007" summary="First serious commit?">
+-      <created>1611882240610</created>
+-      <option name="number" value="00007" />
+-      <option name="presentableId" value="LOCAL-00007" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1611882240610</updated>
+-    </task>
+-    <task id="LOCAL-00008" summary="First commit">
+-      <created>1611883122038</created>
+-      <option name="number" value="00008" />
+-      <option name="presentableId" value="LOCAL-00008" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1611883122038</updated>
+-    </task>
+-    <task id="LOCAL-00009" summary="First commit">
+-      <created>1611883170439</created>
+-      <option name="number" value="00009" />
+-      <option name="presentableId" value="LOCAL-00009" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1611883170439</updated>
+-    </task>
+-    <task id="LOCAL-00010" summary="main">
+-      <created>1611949232599</created>
+-      <option name="number" value="00010" />
+-      <option name="presentableId" value="LOCAL-00010" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1611949232599</updated>
+-    </task>
+-    <task id="LOCAL-00011" summary="yet a new change">
+-      <created>1611955038759</created>
+-      <option name="number" value="00011" />
+-      <option name="presentableId" value="LOCAL-00011" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1611955038759</updated>
+-    </task>
+-    <task id="LOCAL-00012" summary="yet a new change">
+-      <created>1611955075831</created>
+-      <option name="number" value="00012" />
+-      <option name="presentableId" value="LOCAL-00012" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1611955075831</updated>
+-    </task>
+-    <task id="LOCAL-00013" summary="new changes in tables">
+-      <created>1612026543364</created>
+-      <option name="number" value="00013" />
+-      <option name="presentableId" value="LOCAL-00013" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612026543364</updated>
+-    </task>
+-    <task id="LOCAL-00014" summary="changing windows">
+-      <created>1612051446153</created>
+-      <option name="number" value="00014" />
+-      <option name="presentableId" value="LOCAL-00014" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612051446153</updated>
+-    </task>
+-    <task id="LOCAL-00015" summary="changing windows">
+-      <created>1612696062708</created>
+-      <option name="number" value="00015" />
+-      <option name="presentableId" value="LOCAL-00015" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612696062708</updated>
+-    </task>
+-    <task id="LOCAL-00016" summary="views">
+-      <created>1612728214645</created>
+-      <option name="number" value="00016" />
+-      <option name="presentableId" value="LOCAL-00016" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612728214645</updated>
+-    </task>
+-    <task id="LOCAL-00017" summary="views">
+-      <created>1612731096834</created>
+-      <option name="number" value="00017" />
+-      <option name="presentableId" value="LOCAL-00017" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612731096834</updated>
+-    </task>
+-    <task id="LOCAL-00018" summary="still not working X.X">
+-      <created>1612735630132</created>
+-      <option name="number" value="00018" />
+-      <option name="presentableId" value="LOCAL-00018" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612735630132</updated>
+-    </task>
+-    <task id="LOCAL-00019" summary="it's alive">
+-      <created>1612741164646</created>
+-      <option name="number" value="00019" />
+-      <option name="presentableId" value="LOCAL-00019" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612741164646</updated>
+-    </task>
+-    <task id="LOCAL-00020" summary="it's alive">
+-      <created>1612741266650</created>
+-      <option name="number" value="00020" />
+-      <option name="presentableId" value="LOCAL-00020" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612741266650</updated>
+-    </task>
+-    <task id="LOCAL-00021" summary="MainSreeen">
+-      <created>1612743619285</created>
+-      <option name="number" value="00021" />
+-      <option name="presentableId" value="LOCAL-00021" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612743619285</updated>
+-    </task>
+-    <task id="LOCAL-00022" summary="not workin' yet again">
+-      <created>1612749441089</created>
+-      <option name="number" value="00022" />
+-      <option name="presentableId" value="LOCAL-00022" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612749441089</updated>
+-    </task>
+-    <task id="LOCAL-00023" summary="not workin' yet again">
+-      <created>1612816954243</created>
+-      <option name="number" value="00023" />
+-      <option name="presentableId" value="LOCAL-00023" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612816954243</updated>
+-    </task>
+-    <task id="LOCAL-00024" summary="smth workin', but mostly broken">
+-      <created>1612834649564</created>
+-      <option name="number" value="00024" />
+-      <option name="presentableId" value="LOCAL-00024" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612834649564</updated>
+-    </task>
+-    <task id="LOCAL-00025" summary="not workin' a little bit less">
+-      <created>1612861540106</created>
+-      <option name="number" value="00025" />
+-      <option name="presentableId" value="LOCAL-00025" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612861540106</updated>
+-    </task>
+-    <task id="LOCAL-00026" summary="it's working!">
+-      <created>1612863326595</created>
+-      <option name="number" value="00026" />
+-      <option name="presentableId" value="LOCAL-00026" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612863326595</updated>
+-    </task>
+-    <task id="LOCAL-00027" summary="it's working!">
+-      <created>1612865008637</created>
+-      <option name="number" value="00027" />
+-      <option name="presentableId" value="LOCAL-00027" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612865008637</updated>
+-    </task>
+-    <task id="LOCAL-00028" summary="it's working!">
+-      <created>1612873218052</created>
+-      <option name="number" value="00028" />
+-      <option name="presentableId" value="LOCAL-00028" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612873218052</updated>
+-    </task>
+-    <task id="LOCAL-00029" summary="it's working!">
+-      <created>1612874087749</created>
+-      <option name="number" value="00029" />
+-      <option name="presentableId" value="LOCAL-00029" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612874087749</updated>
+-    </task>
+-    <task id="LOCAL-00030" summary="customerView">
+-      <created>1612874730566</created>
+-      <option name="number" value="00030" />
+-      <option name="presentableId" value="LOCAL-00030" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612874730566</updated>
+-    </task>
+-    <task id="LOCAL-00031" summary="customerView">
+-      <created>1612877616617</created>
+-      <option name="number" value="00031" />
+-      <option name="presentableId" value="LOCAL-00031" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612877616617</updated>
+-    </task>
+-    <task id="LOCAL-00032" summary="customerView">
+-      <created>1612894368749</created>
+-      <option name="number" value="00032" />
+-      <option name="presentableId" value="LOCAL-00032" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612894368749</updated>
+-    </task>
+-    <task id="LOCAL-00033" summary="customerView">
+-      <created>1612899717291</created>
+-      <option name="number" value="00033" />
+-      <option name="presentableId" value="LOCAL-00033" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612899717291</updated>
+-    </task>
+-    <task id="LOCAL-00034" summary="customerView">
+-      <created>1612902529117</created>
+-      <option name="number" value="00034" />
+-      <option name="presentableId" value="LOCAL-00034" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612902529117</updated>
+-    </task>
+-    <task id="LOCAL-00035" summary="part done">
+-      <created>1612903715301</created>
+-      <option name="number" value="00035" />
+-      <option name="presentableId" value="LOCAL-00035" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612903715301</updated>
+-    </task>
+-    <task id="LOCAL-00036" summary="tableView is working">
+-      <created>1612958117523</created>
+-      <option name="number" value="00036" />
+-      <option name="presentableId" value="LOCAL-00036" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612958117523</updated>
+-    </task>
+-    <task id="LOCAL-00037" summary="AdminUserView - done">
+-      <created>1612964367858</created>
+-      <option name="number" value="00037" />
+-      <option name="presentableId" value="LOCAL-00037" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612964367858</updated>
+-    </task>
+-    <task id="LOCAL-00038" summary="admin is working">
+-      <created>1612965366633</created>
+-      <option name="number" value="00038" />
+-      <option name="presentableId" value="LOCAL-00038" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612965366633</updated>
+-    </task>
+-    <task id="LOCAL-00039" summary="clientView">
+-      <created>1612966980605</created>
+-      <option name="number" value="00039" />
+-      <option name="presentableId" value="LOCAL-00039" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612966980605</updated>
+-    </task>
+-    <task id="LOCAL-00040" summary="clientView">
+-      <created>1612991488030</created>
+-      <option name="number" value="00040" />
+-      <option name="presentableId" value="LOCAL-00040" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612991488030</updated>
+-    </task>
+-    <task id="LOCAL-00041" summary="clientView">
+-      <created>1612991520245</created>
+-      <option name="number" value="00041" />
+-      <option name="presentableId" value="LOCAL-00041" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612991520245</updated>
+-    </task>
+-    <task id="LOCAL-00042" summary="clientView">
+-      <created>1612992751583</created>
+-      <option name="number" value="00042" />
+-      <option name="presentableId" value="LOCAL-00042" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612992751583</updated>
+-    </task>
+-    <task id="LOCAL-00043" summary="another commit">
+-      <created>1612993348998</created>
+-      <option name="number" value="00043" />
+-      <option name="presentableId" value="LOCAL-00043" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1612993348998</updated>
+-    </task>
+-    <task id="LOCAL-00044" summary="another commit">
+-      <created>1613000529201</created>
+-      <option name="number" value="00044" />
+-      <option name="presentableId" value="LOCAL-00044" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1613000529201</updated>
+-    </task>
+-    <option name="localTasksCounter" value="45" />
+-    <servers />
+-  </component>
+-  <component name="TypeScriptGeneratedFilesManager">
+-    <option name="version" value="3" />
+-  </component>
+-  <component name="VcsManagerConfiguration">
+-    <MESSAGE value="Tablice" />
+-    <MESSAGE value="cachedRowSetWrapper class" />
+-    <MESSAGE value="very basic starting app" />
+-    <MESSAGE value="Enum out" />
+-    <MESSAGE value="First serious commit?" />
+-    <MESSAGE value="First commit" />
+-    <MESSAGE value="main" />
+-    <MESSAGE value="yet a new change" />
+-    <MESSAGE value="new changes in tables" />
+-    <MESSAGE value="changing windows" />
+-    <MESSAGE value="views" />
+-    <MESSAGE value="still not working X.X" />
+-    <MESSAGE value="it's alive" />
+-    <MESSAGE value="MainSreeen" />
+-    <MESSAGE value="not workin' yet again" />
+-    <MESSAGE value="smth workin', but mostly broken" />
+-    <MESSAGE value="not workin' a little bit less" />
+-    <MESSAGE value="it's working!" />
+-    <MESSAGE value="customerView" />
+-    <MESSAGE value="part done" />
+-    <MESSAGE value="tableView is working" />
+-    <MESSAGE value="AdminUserView - done" />
+-    <MESSAGE value="admin is working" />
+-    <MESSAGE value="clientView" />
+-    <MESSAGE value="another commit" />
+-    <option name="LAST_COMMIT_MESSAGE" value="another commit" />
+-  </component>
+-  <component name="XSLT-Support.FileAssociations.UIState">
+-    <expand />
+-    <select />
+-  </component>
+-</project>
+\ No newline at end of file
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+deleted file mode 100644
+--- a/.idea/compiler.xml	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
++++ /dev/null	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
+@@ -1,8 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="JavacSettings">
+-    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+-      <module name="CrazyPaczka" options="--add-exports java.sql.rowset/com.sun.rowset=ALL-UNNAMED" />
+-    </option>
+-  </component>
+-</project>
+\ No newline at end of file
+Index: target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>D:\\IntelliJ\\projects\\CrazyPaczka\\src\\main\\java\\edu\\ib\\Shipments.java\r\nD:\\IntelliJ\\projects\\CrazyPaczka\\src\\main\\java\\edu\\ib\\PaczkiDAO.java\r\nD:\\IntelliJ\\projects\\CrazyPaczka\\src\\main\\java\\edu\\ib\\Automats.java\r\nD:\\IntelliJ\\projects\\CrazyPaczka\\src\\main\\java\\edu\\ib\\Senders.java\r\nD:\\IntelliJ\\projects\\CrazyPaczka\\src\\main\\java\\edu\\ib\\DBUtil.java\r\nD:\\IntelliJ\\projects\\CrazyPaczka\\src\\main\\java\\edu\\ib\\PaczkaApp.java\r\nD:\\IntelliJ\\projects\\CrazyPaczka\\src\\main\\java\\edu\\ib\\CachedRowSetWrapper.java\r\nD:\\IntelliJ\\projects\\CrazyPaczka\\src\\main\\java\\edu\\ib\\Recipients.java\r\nD:\\IntelliJ\\projects\\CrazyPaczka\\src\\main\\java\\edu\\ib\\AdminController.java\r\nD:\\IntelliJ\\projects\\CrazyPaczka\\src\\main\\java\\edu\\ib\\LoginUserController.java\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst b/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+--- a/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst	(revision fbdf598ef6e516eaaa0a06819b01217bdf2bc87a)
++++ b/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst	(date 1613004863203)
+@@ -1,10 +1,14 @@
+-D:\IntelliJ\projects\CrazyPaczka\src\main\java\edu\ib\Shipments.java
+-D:\IntelliJ\projects\CrazyPaczka\src\main\java\edu\ib\PaczkiDAO.java
+-D:\IntelliJ\projects\CrazyPaczka\src\main\java\edu\ib\Automats.java
+-D:\IntelliJ\projects\CrazyPaczka\src\main\java\edu\ib\Senders.java
+-D:\IntelliJ\projects\CrazyPaczka\src\main\java\edu\ib\DBUtil.java
+-D:\IntelliJ\projects\CrazyPaczka\src\main\java\edu\ib\PaczkaApp.java
+-D:\IntelliJ\projects\CrazyPaczka\src\main\java\edu\ib\CachedRowSetWrapper.java
+-D:\IntelliJ\projects\CrazyPaczka\src\main\java\edu\ib\Recipients.java
+-D:\IntelliJ\projects\CrazyPaczka\src\main\java\edu\ib\AdminController.java
+-D:\IntelliJ\projects\CrazyPaczka\src\main\java\edu\ib\LoginUserController.java
++C:\Users\andrz\Documents\GitHub\CrazyPaczka\src\main\java\edu\ib\LoginScreen.java
++C:\Users\andrz\Documents\GitHub\CrazyPaczka\src\main\java\edu\ib\Clients.java
++C:\Users\andrz\Documents\GitHub\CrazyPaczka\src\main\java\edu\ib\DBUtil.java
++C:\Users\andrz\Documents\GitHub\CrazyPaczka\src\main\java\edu\ib\TemporaryClients.java
++C:\Users\andrz\Documents\GitHub\CrazyPaczka\src\main\java\edu\ib\AdminViewPackage.java
++C:\Users\andrz\Documents\GitHub\CrazyPaczka\src\main\java\edu\ib\AdminController.java
++C:\Users\andrz\Documents\GitHub\CrazyPaczka\src\main\java\edu\ib\Automats.java
++C:\Users\andrz\Documents\GitHub\CrazyPaczka\src\main\java\edu\ib\MainController.java
++C:\Users\andrz\Documents\GitHub\CrazyPaczka\src\main\java\edu\ib\Shipments.java
++C:\Users\andrz\Documents\GitHub\CrazyPaczka\src\main\java\edu\ib\PaczkaApp.java
++C:\Users\andrz\Documents\GitHub\CrazyPaczka\src\main\java\edu\ib\UserController.java
++C:\Users\andrz\Documents\GitHub\CrazyPaczka\src\main\java\edu\ib\CachedRowSetWrapper.java
++C:\Users\andrz\Documents\GitHub\CrazyPaczka\src\main\java\edu\ib\PaczkiDAO.java
++C:\Users\andrz\Documents\GitHub\CrazyPaczka\src\main\java\edu\ib\CustomerView.java
