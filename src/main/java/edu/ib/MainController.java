@@ -161,7 +161,6 @@ public class MainController {
         stage.setScene(scenePackage);
         stage.setTitle("New package");
         stage.show();
-        ((Node)(event.getSource())).getScene().getWindow().hide();
 
     }
 

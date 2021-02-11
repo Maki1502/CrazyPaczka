@@ -64,11 +64,6 @@
                         <Insets bottom="10.0" left="35.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="btnPackages" mnemonicParsing="false" onAction="#onBtnPackages" text="Packages">
-                     <VBox.margin>
-                        <Insets left="34.0" />
-                     </VBox.margin>
-                  </Button>
                </children>
             </VBox>
          </children></AnchorPane>
@@ -103,14 +98,10 @@
                                                 <Insets left="20.0" right="20.0" />
                                              </GridPane.margin>
                                           </TextField>
-                                          <TextField fx:id="deleteIdPackage" promptText="ID" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                             <GridPane.margin>
-                                                <Insets left="20.0" right="20.0" />
-                                             </GridPane.margin>
-                                          </TextField>
-                                          <Label text="DELETE PACKAGE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                           <Button fx:id="btnFindIdPackage" mnemonicParsing="false" onAction="#onBtnFindIdPackage" text="FIND" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                                          <Button fx:id="btnDeleteIdPackage" mnemonicParsing="false" onAction="#onBtnDeleteIdPackage" text="DELETE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                                          <Button fx:id="btnOnMyWay" mnemonicParsing="false" onAction="#onBtnOnMyWay" text="OnMyWay" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                          <Button fx:id="btnArrived" mnemonicParsing="false" onAction="#onBtnArrived" text="Arrived" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                          <Button fx:id="btnReceived" mnemonicParsing="false" onAction="#onBtnReceived" text="Received" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
                                        </children>
                                     </GridPane>
                                     <TableView fx:id="packageTable" editable="true" layoutX="-1.0" layoutY="155.0" prefHeight="90.0" prefWidth="658.0">
@@ -142,9 +133,8 @@
                           <items>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                  <children>
-                                    <GridPane layoutX="69.0" layoutY="12.0" prefHeight="98.0" prefWidth="518.0">
+                                    <GridPane layoutX="196.0" layoutY="13.0" prefHeight="98.0" prefWidth="265.0">
                                        <columnConstraints>
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                        </columnConstraints>
                                        <rowConstraints>
@@ -163,14 +153,7 @@
                                                 <Insets left="20.0" right="20.0" />
                                              </GridPane.margin>
                                           </TextField>
-                                          <TextField fx:id="deleteIdUser" promptText="ID" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                             <GridPane.margin>
-                                                <Insets left="20.0" right="20.0" />
-                                             </GridPane.margin>
-                                          </TextField>
-                                          <Label text="DELETE USER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                           <Button fx:id="btnFindIdUser" mnemonicParsing="false" onAction="#onBtnFindIdUser" text="FIND" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                                          <Button fx:id="btnDeleteIdUser" mnemonicParsing="false" onAction="#onBtnDeleteIdUser" text="DELETE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
                                        </children>
                                     </GridPane>
                                  </children>
