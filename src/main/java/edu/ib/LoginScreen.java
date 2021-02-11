@@ -108,7 +108,7 @@ public class LoginScreen {
     @FXML
     void initialize() throws SQLException, ClassNotFoundException {
 
-        dbUtil = new DBUtil("root", "A5bd62z0abc", textArea);
+        dbUtil = new DBUtil("root2", "qwerty", textArea);
         dbUtil.dbConnect();
 
         assert name != null : "fx:id=\"name\" was not injected: check your FXML file 'signIn.fxml'.";

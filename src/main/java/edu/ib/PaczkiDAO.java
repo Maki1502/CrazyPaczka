@@ -43,7 +43,7 @@ public class PaczkiDAO {
 
             CustomerView cv = new CustomerView();
             cv.setId(rs.getInt("ID"));
-            cv.setName(rs.getString("recipient"));
+            cv.setName(rs.getString("mail"));
             cv.setStatus(rs.getString("ShipmentStatus"));
             cv.setConsDate(rs.getString("ConsignmentDate"));
             cv.setRecDate(rs.getString("ReceptionDate"));
@@ -96,8 +96,8 @@ public class PaczkiDAO {
         return shipmentsView;
     }
 
-    public ObservableList<CustomerView> showClientData() throws SQLException, ClassNotFoundException{
-        String selectStmt = "SELECT * FROM CustomerView;";
+    public ObservableList<CustomerView> showClientData(String name) throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM CustomerView WHERE mail like '"+name+"';";
         try{
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
 
@@ -111,8 +111,8 @@ public class PaczkiDAO {
         }
     }
 
-    public ObservableList<CustomerView> findClientByData(String findData) throws SQLException, ClassNotFoundException{
-        String selectStmt = "SELECT * FROM CustomerView WHERE ConsignmentDate like '%"+findData+"%' OR ReceptionDate like '%"+findData+"%';";
+    public ObservableList<CustomerView> findClientByData(String findData, String name) throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM CustomerView WHERE mail like '"+name+"' AND ConsignmentDate like '%"+findData+"%' OR ReceptionDate like '%"+findData+"%';";
         try{
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
 
@@ -126,8 +126,8 @@ public class PaczkiDAO {
         }
     }
 
-    public ObservableList<CustomerView> findClientByStatus(String findStatus) throws SQLException, ClassNotFoundException{
-        String selectStmt = "SELECT * FROM CustomerView WHERE ShipmentStatus like '%"+findStatus+"%';";
+    public ObservableList<CustomerView> findClientByStatus(String findStatus, String name) throws SQLException, ClassNotFoundException{
+        String selectStmt = "SELECT * FROM CustomerView WHERE ShipmentStatus like '%"+findStatus+"%' AND mail like '"+name+"';";
         try{
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
 

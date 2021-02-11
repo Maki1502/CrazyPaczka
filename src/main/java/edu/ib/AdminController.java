@@ -2,7 +2,6 @@ package edu.ib;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
@@ -42,9 +41,6 @@ public class AdminController {
 
     @FXML
     private Button btnStats;
-
-    @FXML
-    private Button btnPackages;
 
     @FXML
     private TextField findIdPackage;
@@ -157,11 +153,9 @@ public class AdminController {
     void onBtnLogIn(ActionEvent event) throws SQLException, ClassNotFoundException {
         dbUtil = new DBUtil(adminName.getText(), AdminPasswordCode.getText(), AdminConsoleArea);
         paczkiDAO = new PaczkiDAO(dbUtil, AdminConsoleArea);
-        boolean isAdmin = dbUtil.getUserName().contains("AdminSCP");
-        String selectStmt = "SELECT client_password FROM clients WHERE client_email like '%"+adminName.getText()+"%';";
+        boolean isAdmin = adminName.getText().contains("AdminSCP");
         try{
-            ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
-            if((isAdmin)&&(resultSet == AdminPasswordCode)) {
+            if(isAdmin) {
                 dbUtil.dbConnect();
 
                 AdminConsoleArea.appendText("Access granted for user \"" + adminName.getText() + "\"." + "\n");
@@ -174,6 +168,10 @@ public class AdminController {
         findIdUser.setDisable(false);
         btnFindIdUser.setDisable(false);
         packageTable1.setDisable(false);
+        btnStats.setDisable(false);
+        btnOnMyWay.setDisable(false);
+        btnArrived.setDisable(false);
+        btnReceived.setDisable(false);
 
                 try {
                     packageTable.getItems().clear();

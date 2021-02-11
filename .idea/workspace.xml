@@ -4,12 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8edd7339-9291-44f7-8314-b01bd8987617" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+    <list default="true" id="8edd7339-9291-44f7-8314-b01bd8987617" name="Default Changelist" comment="it's all comin' together">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e04b8b04-3923-44d5-809f-7d1b484b42ce.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e04b8b04-3923-44d5-809f-7d1b484b42ce.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ib/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ib/AdminController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/ib/LoginScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ib/LoginScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ib/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ib/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/ib/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/ib/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ib/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ib/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ib/PaczkiDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ib/PaczkiDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/ib/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/ib/AdminController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/ib/MainController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/ib/MainController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/ib/PaczkiDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/ib/PaczkiDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/ib/loginScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/ib/loginScreen.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,14 +104,7 @@
       <workItem from="1612519055073" duration="358000" />
       <workItem from="1612651421370" duration="78696000" />
       <workItem from="1612953244688" duration="15635000" />
-      <workItem from="1612969592255" duration="36782000" />
-    </task>
-    <task id="LOCAL-00002" summary="Database util">
-      <created>1611873623069</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1611873623069</updated>
+      <workItem from="1612969592255" duration="39491000" />
     </task>
     <task id="LOCAL-00003" summary="Tablice">
       <created>1611876131245</created>
@@ -444,7 +442,14 @@
       <option name="project" value="LOCAL" />
       <updated>1613020207452</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="it's all comin' together">
+      <created>1613034458925</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1613034458925</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

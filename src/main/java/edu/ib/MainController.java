@@ -120,7 +120,7 @@ public class MainController {
 
         try{
             userDataTable.getItems().clear();
-            ObservableList<CustomerView> viewCustomer = paczkiDAO.showClientData();
+            ObservableList<CustomerView> viewCustomer = paczkiDAO.showClientData(loginName.getText());
             userDataTable.setItems(viewCustomer);
             userDataTable.setPlaceholder(new Label("No data to display"));
         }catch (SQLException e){
@@ -156,7 +156,7 @@ public class MainController {
     @FXML
     void onBtnNewPackage(ActionEvent event) throws IOException {
 
-        isLogged = true; //nwm czm nie dziala
+        isLogged = true;
 
         scenePackage = new Scene(loadFXML("/fxml/screen"), 600, 400);
         stage.setScene(scenePackage);
@@ -180,7 +180,7 @@ public class MainController {
         try {
             if(!findDate.getText().equals(null)){
                 userDataTable.getItems().clear();
-                ObservableList<CustomerView> wineData = paczkiDAO.findClientByData(findDate.getText());
+                ObservableList<CustomerView> wineData = paczkiDAO.findClientByData(findDate.getText(), loginName.getText());
                 userDataTable.setItems(wineData);
                 userDataTable.setPlaceholder(new Label("No data to display"));
             }
@@ -196,7 +196,7 @@ public class MainController {
         try {
             if(!findStatus.getText().equals(null)){
                 userDataTable.getItems().clear();
-                ObservableList<CustomerView> wineData = paczkiDAO.findClientByStatus(findStatus.getText());
+                ObservableList<CustomerView> wineData = paczkiDAO.findClientByStatus(findStatus.getText(), loginName.getText());
                 userDataTable.setItems(wineData);
                 userDataTable.setPlaceholder(new Label("No data to display"));
             }
@@ -281,7 +281,7 @@ public class MainController {
 
             try{
                 userDataTable.getItems().clear();
-                ObservableList<CustomerView> viewCustomer = paczkiDAO.showClientData();
+                ObservableList<CustomerView> viewCustomer = paczkiDAO.showClientData(loginName.getText());
                 userDataTable.setItems(viewCustomer);
                 userDataTable.setPlaceholder(new Label("No data to display"));
             }catch (SQLException e){
