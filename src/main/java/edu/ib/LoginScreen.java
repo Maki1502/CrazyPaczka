@@ -54,7 +54,6 @@ public class LoginScreen {
     @FXML
     private TextArea textArea;
 
-    private PaczkiDAO paczkiDAO;
     private DBUtil dbUtil;
 
     @FXML

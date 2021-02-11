@@ -4,17 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8edd7339-9291-44f7-8314-b01bd8987617" name="Default Changelist" comment="it's all comin' together">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e04b8b04-3923-44d5-809f-7d1b484b42ce.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/e04b8b04-3923-44d5-809f-7d1b484b42ce.xml" afterDir="false" />
+    <list default="true" id="8edd7339-9291-44f7-8314-b01bd8987617" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ib/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ib/AdminController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/ib/LoginScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ib/LoginScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ib/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ib/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ib/PaczkiDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ib/PaczkiDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/ib/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/ib/AdminController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/ib/MainController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/ib/MainController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/ib/PaczkiDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/ib/PaczkiDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/ib/loginScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/ib/loginScreen.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,14 +96,7 @@
       <workItem from="1612519055073" duration="358000" />
       <workItem from="1612651421370" duration="78696000" />
       <workItem from="1612953244688" duration="15635000" />
-      <workItem from="1612969592255" duration="39491000" />
-    </task>
-    <task id="LOCAL-00003" summary="Tablice">
-      <created>1611876131245</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1611876131245</updated>
+      <workItem from="1612969592255" duration="40608000" />
     </task>
     <task id="LOCAL-00004" summary="cachedRowSetWrapper class">
       <created>1611878907374</created>
@@ -449,14 +434,20 @@
       <option name="project" value="LOCAL" />
       <updated>1613034458925</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="last commit">
+      <created>1613037231294</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1613037231294</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Enum out" />
     <MESSAGE value="First serious commit?" />
     <MESSAGE value="First commit" />
     <MESSAGE value="main" />
@@ -481,7 +472,8 @@
     <MESSAGE value="smth workin'" />
     <MESSAGE value="added admin mode" />
     <MESSAGE value="it's all comin' together" />
-    <option name="LAST_COMMIT_MESSAGE" value="it's all comin' together" />
+    <MESSAGE value="last commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="last commit" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
