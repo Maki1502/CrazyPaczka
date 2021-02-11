@@ -95,7 +95,6 @@ public class LoginScreen {
             String error = "Wrong password!";
             confPassword.setText(error);
         }
-
     }
 
     private static Scene scenePackage;

@@ -56,7 +56,13 @@ public class AdminController {
     private Button btnFindIdPackage;
 
     @FXML
-    private Button btnDeleteIdPackage;
+    private Button btnOnMyWay;
+
+    @FXML
+    private Button btnArrived;
+
+    @FXML
+    private Button btnReceived;
 
     @FXML
     private TableView<AdminViewPackage> packageTable;
@@ -92,13 +98,7 @@ public class AdminController {
     private TextField findIdUser;
 
     @FXML
-    private TextField deleteIdUser;
-
-    @FXML
     private Button btnFindIdUser;
-
-    @FXML
-    private Button btnDeleteIdUser;
 
     @FXML
     private TableView<Clients> packageTable1;
@@ -126,16 +126,6 @@ public class AdminController {
 
     private static Scene scenePackage;
     Stage stage = new Stage();
-
-    @FXML
-    void onBtnDeleteIdPackage(ActionEvent event) {
-        //work in progress
-    }
-
-    @FXML
-    void onBtnDeleteIdUser(ActionEvent event) {
-        //work in progress
-    }
 
     @FXML
     void onBtnFindIdPackage(ActionEvent event) throws SQLException, ClassNotFoundException{
@@ -181,17 +171,17 @@ public class AdminController {
                 btnAdminLogIn.setDisable(true);
                 btnAdminLogOut.setDisable(false);
 
-                findIdPackage.setDisable(false);
-                deleteIdPackage.setDisable(false);
-                btnFindIdPackage.setDisable(false);
-                btnDeleteIdPackage.setDisable(false);
-                packageTable.setDisable(false);
-                findIdUser.setDisable(false);
-                deleteIdUser.setDisable(false);
-                btnFindIdUser.setDisable(false);
-                deleteIdUser.setDisable(false);
-                btnDeleteIdUser.setDisable(false);
-                packageTable1.setDisable(false);
+        findIdPackage.setDisable(false);
+        deleteIdPackage.setDisable(false);
+        btnFindIdPackage.setDisable(false);
+        btnDeleteIdPackage.setDisable(false);
+        packageTable.setDisable(false);
+        findIdUser.setDisable(false);
+        deleteIdUser.setDisable(false);
+        btnFindIdUser.setDisable(false);
+        deleteIdUser.setDisable(false);
+        btnDeleteIdUser.setDisable(false);
+        packageTable1.setDisable(false);
 
                 try {
                     packageTable.getItems().clear();
@@ -223,16 +213,15 @@ public class AdminController {
 
         btnAdminLogOut.setDisable(true);
         findIdPackage.setDisable(true);
-        deleteIdPackage.setDisable(true);
         btnFindIdPackage.setDisable(true);
-        btnDeleteIdPackage.setDisable(true);
         packageTable.setDisable(true);
         findIdUser.setDisable(true);
-        deleteIdUser.setDisable(true);
         btnFindIdUser.setDisable(true);
-        deleteIdUser.setDisable(true);
-        btnDeleteIdUser.setDisable(true);
         packageTable1.setDisable(true);
+        btnStats.setDisable(true);
+        btnOnMyWay.setDisable(true);
+        btnArrived.setDisable(true);
+        btnReceived.setDisable(true);
 
 
         scenePackage = new Scene(loadFXML("/fxml/mainScreen"), 600, 400);
@@ -244,13 +233,35 @@ public class AdminController {
     }
 
     @FXML
-    void onBtnPackages(ActionEvent event) {
-
+    void onBtnOnMyWay(ActionEvent event) throws SQLException, ClassNotFoundException {
+        if(!findIdPackage.getText().equals(null)) {
+            String selectStmt = "CALL SendPackage('" + findIdPackage.getText() + "');";
+            dbUtil.dbExecuteUpdate(selectStmt);
+        }
     }
 
     @FXML
-    void onBtnStats(ActionEvent event) {
+    void onBtnArrived(ActionEvent event) throws SQLException, ClassNotFoundException {
+        if(!findIdPackage.getText().equals(null)) {
+            String selectStmt = "CALL DeliverPackage('" + findIdPackage.getText() + "');";
+            dbUtil.dbExecuteUpdate(selectStmt);
+        }
+    }
 
+    @FXML
+    void onBtnReceived(ActionEvent event) throws SQLException, ClassNotFoundException {
+        if(!findIdPackage.getText().equals(null)) {
+            String selectStmt = "CALL PickUpPackage('" + findIdPackage.getText() + "');";
+            dbUtil.dbExecuteUpdate(selectStmt);
+        }
+    }
+
+    @FXML
+    void onBtnStats(ActionEvent event) throws IOException {
+        scenePackage = new Scene(loadFXML("/fxml/stats"), 600, 400);
+        stage.setScene(scenePackage);
+        stage.setTitle("Statistics");
+        stage.show();
     }
 
     @FXML
@@ -261,11 +272,11 @@ public class AdminController {
         assert btnAdminLogOut != null : "fx:id=\"btnAdminLogOut\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert AdminConsoleArea != null : "fx:id=\"AdminConsoleArea\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert btnStats != null : "fx:id=\"btnStats\" was not injected: check your FXML file 'techScreen.fxml'.";
-        assert btnPackages != null : "fx:id=\"btnPackages\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert findIdPackage != null : "fx:id=\"findIdPackage\" was not injected: check your FXML file 'techScreen.fxml'.";
-        assert deleteIdPackage != null : "fx:id=\"deleteIdPackage\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert btnFindIdPackage != null : "fx:id=\"btnFindIdPackage\" was not injected: check your FXML file 'techScreen.fxml'.";
-        assert btnDeleteIdPackage != null : "fx:id=\"btnDeleteIdPackage\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert btnOnMyWay != null : "fx:id=\"btnOnMyWay\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert btnArrived != null : "fx:id=\"btnArrived\" was not injected: check your FXML file 'techScreen.fxml'.";
+        assert btnReceived != null : "fx:id=\"btnReceived\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert packageTable != null : "fx:id=\"packageTable\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert idCol != null : "fx:id=\"idCol\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert shipDateCol != null : "fx:id=\"shipDateCol\" was not injected: check your FXML file 'techScreen.fxml'.";
@@ -277,9 +288,7 @@ public class AdminController {
         assert priceCol != null : "fx:id=\"priceCol\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert statusCol != null : "fx:id=\"statusCol\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert findIdUser != null : "fx:id=\"findIdUser\" was not injected: check your FXML file 'techScreen.fxml'.";
-        assert deleteIdUser != null : "fx:id=\"deleteIdUser\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert btnFindIdUser != null : "fx:id=\"btnFindIdUser\" was not injected: check your FXML file 'techScreen.fxml'.";
-        assert btnDeleteIdUser != null : "fx:id=\"btnDeleteIdUser\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert packageTable1 != null : "fx:id=\"packageTable1\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert userIdCol != null : "fx:id=\"userIdCol\" was not injected: check your FXML file 'techScreen.fxml'.";
         assert nameCol != null : "fx:id=\"nameCol\" was not injected: check your FXML file 'techScreen.fxml'.";
@@ -337,20 +346,17 @@ public class AdminController {
                 new PropertyValueFactory<Clients, String>("phone_number")
         );
 
-
-
         btnAdminLogOut.setDisable(true);
         findIdPackage.setDisable(true);
-        deleteIdPackage.setDisable(true);
         btnFindIdPackage.setDisable(true);
-        btnDeleteIdPackage.setDisable(true);
         packageTable.setDisable(true);
         findIdUser.setDisable(true);
-        deleteIdUser.setDisable(true);
         btnFindIdUser.setDisable(true);
-        deleteIdUser.setDisable(true);
-        btnDeleteIdUser.setDisable(true);
         packageTable1.setDisable(true);
+        btnStats.setDisable(true);
+        btnOnMyWay.setDisable(true);
+        btnArrived.setDisable(true);
+        btnReceived.setDisable(true);
 
     }
 
