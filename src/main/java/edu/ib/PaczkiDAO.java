@@ -2,7 +2,6 @@ package edu.ib;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 
 import java.sql.*;
@@ -15,19 +14,6 @@ public class PaczkiDAO {
     public PaczkiDAO(DBUtil dbUtil, TextArea consoleTextArea) {
         this.dbUtil = dbUtil;
         this.consoleTextArea = consoleTextArea;
-    }
-
-    private ObservableList<Automats> getAutomatsList(ResultSet rs) throws SQLException{
-        ObservableList<Automats> automatsList = FXCollections.observableArrayList();
-
-        while(rs.next()){
-            Automats a = new Automats();
-            a.setAddress(rs.getString("automat_address"));
-            a.setsAmount(rs.getInt("S_lockers_amount"));
-            a.setmAmount(rs.getInt("M_lockers_amount"));
-            a.setlAmount(rs.getInt("L_lockers_amount"));
-        }
-        return automatsList;
     }
 
     private ObservableList<Clients> getSendersList(ResultSet rs) throws SQLException{
@@ -118,8 +104,6 @@ public class PaczkiDAO {
             ObservableList<CustomerView> customerViews = getCustomerView(resultSet);
             consoleTextArea.appendText(selectStmt+"\n");
 
-            printResultSet(resultSet);
-
             return customerViews;
         }catch (SQLException e){
             consoleTextArea.appendText("Error \n");
@@ -134,8 +118,6 @@ public class PaczkiDAO {
 
             ObservableList<CustomerView> customerViews = getCustomerView(resultSet);
             consoleTextArea.appendText(selectStmt+"\n");
-
-            printResultSet(resultSet);
 
             return customerViews;
         }catch (SQLException e){
@@ -152,8 +134,6 @@ public class PaczkiDAO {
             ObservableList<CustomerView> customerViews = getCustomerView(resultSet);
             consoleTextArea.appendText(selectStmt+"\n");
 
-            printResultSet(resultSet);
-
             return customerViews;
         }catch (SQLException e){
             consoleTextArea.appendText("Error \n");
@@ -169,8 +149,6 @@ public class PaczkiDAO {
             ObservableList<Clients> clientsList = getSendersList(resultSet);
             consoleTextArea.appendText(selectStmt+"\n");
 
-            printResultSet(resultSet);
-
             return clientsList;
         }catch (SQLException e){
             consoleTextArea.appendText("Error1 \n");
@@ -184,7 +162,6 @@ public class PaczkiDAO {
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
             ObservableList<Clients> clientsList = getSendersList(resultSet);
             consoleTextArea.appendText(selectStmt+"\n");
-            printResultSet(resultSet);
 
             return clientsList;
         }catch (SQLException e){
@@ -200,7 +177,6 @@ public class PaczkiDAO {
             ObservableList<AdminViewPackage> packageViews = getShipAdmin(resultSet);
             consoleTextArea.appendText(selectStmt+"\n");
 
-            printResultSet(resultSet);
             return packageViews;
         }catch (SQLException e){
             consoleTextArea.appendText("Error2 \n");
@@ -214,35 +190,11 @@ public class PaczkiDAO {
             ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
             ObservableList<AdminViewPackage> packageViews = getShipAdmin(resultSet);
             consoleTextArea.appendText(selectStmt+"\n");
-            printResultSet(resultSet);
 
             return packageViews;
         }catch (SQLException e){
             consoleTextArea.appendText("Error2.2 \n");
             throw e;
         }
-    }
-
-    public static void printResultSet(ResultSet resultSet) throws SQLException {
-
-        ResultSetMetaData rsmd = resultSet.getMetaData(); // metadane o zapytaniu
-        int columnsNumber = rsmd.getColumnCount(); // liczba kolumn
-        resultSet.beforeFirst();
-        while (resultSet.next()) {  // wyswietlenie nazw kolumn i wartosci w rzedach
-
-            for (int i = 1; i <= columnsNumber; i++) {
-
-                if (i > 1)
-                    System.out.print(",  ");
-
-                String columnValue = resultSet.getString(i);
-                System.out.print(rsmd.getColumnName(i) + ": " + columnValue);
-            }
-
-            System.out.println("");
-        }
-
-        System.out.println("");
-
     }
 }

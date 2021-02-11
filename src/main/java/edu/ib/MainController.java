@@ -260,8 +260,6 @@ public class MainController {
         btnFindStatus.setDisable(true);
         userDataTable.setDisable(true);
 
-        consoleArea.appendText(String.valueOf(isLogged));
-
         if(isLogged == true){
 
             dbUtil = new DBUtil(loginName.getText(), passwordCode.getText(), consoleArea);

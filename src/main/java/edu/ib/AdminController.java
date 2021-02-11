@@ -121,7 +121,7 @@ public class AdminController {
     @FXML
     private TableColumn<Clients, String> phoneCol;
 
-    private DBUtil dbUtil;
+    public static DBUtil dbUtil;
     private PaczkiDAO paczkiDAO;
 
     private static Scene scenePackage;
@@ -174,13 +174,9 @@ public class AdminController {
         findIdPackage.setDisable(false);
         deleteIdPackage.setDisable(false);
         btnFindIdPackage.setDisable(false);
-        btnDeleteIdPackage.setDisable(false);
         packageTable.setDisable(false);
         findIdUser.setDisable(false);
-        deleteIdUser.setDisable(false);
         btnFindIdUser.setDisable(false);
-        deleteIdUser.setDisable(false);
-        btnDeleteIdUser.setDisable(false);
         packageTable1.setDisable(false);
 
                 try {
@@ -224,7 +220,7 @@ public class AdminController {
         btnReceived.setDisable(true);
 
 
-        scenePackage = new Scene(loadFXML("/fxml/mainScreen"), 600, 400);
+        scenePackage = new Scene(loadFXML("/fxml/mainScreen"), 720,400);
         stage.setScene(scenePackage);
         stage.setTitle("Main screen");
         stage.show();

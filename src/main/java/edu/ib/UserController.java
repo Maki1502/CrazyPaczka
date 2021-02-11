@@ -2,6 +2,8 @@ package edu.ib;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -82,36 +84,74 @@ public class UserController {
     Stage stage = new Stage();
 
     @FXML
-    void onBtnExit(ActionEvent event) throws IOException {
-        scenePackage = new Scene(loadFXML("/fxml/mainScreen"), 600, 400);
-        stage.setScene(scenePackage);
-        stage.setTitle("Main screen");
-        stage.show();
+    void onBtnExit(ActionEvent event) {
         ((Node)(event.getSource())).getScene().getWindow().hide();
     }
 
     @FXML
-    void onBtnSend(ActionEvent event) {
+    void onBtnSend(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        //tutaj podpiac sendPackage
+        String m1 = senderMail.getText();
+
+        String n2 = recipientName.getText();
+        String s2 = recipientSurname.getText();
+        String c2 = recipientCity.getText();
+        String t2 = recipientTel.getText();
+        String m2 = recipientMail.getText();
+
+        String price = null;
+
+        if(chkS.isSelected()){
+            price = "S";
+        }else if(chkM.isSelected()){
+            price = "M";
+        }else if(chkL.isSelected()){
+            price = "L";
+        }
+
+        if(!senderName.getText().equals(null) && !senderSurname.getText().equals(null) && !senderCity.getText().equals(null)
+                && !senderTel.getText().equals(null) && !senderMail.getText().equals(null)
+        && !recipientName.getText().equals(null) && !recipientSurname.getText().equals(null) && !recipientCity.getText().equals(null)
+        && !recipientTel.getText().equals(null) && !recipientMail.getText().equals(null)) {
+            String selectStmt = "CALL OrderAShipment('"+m1+"', '"+n2+"', '"+s2+"', '"+c2+"', '"+t2+"', '"+m2+"', '"+price+"');";
+            dbUtil.dbExecuteUpdate(selectStmt);
+        }
 
     }
 
     @FXML
-    void onChkL(ActionEvent event) {
+    void onChkL(ActionEvent event) throws SQLException, ClassNotFoundException {
 
-        //tych chyba nie trzeba uzywac, tylko w send dac, ze jak ten wcisniety to taki rozmiar
+        String selectStmt = "select returnPrice('L');";
+        ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
+        resultSet.next();
+        seePrice.clear();
+        chkS.setSelected(false);
+        chkM.setSelected(false);
+        seePrice.appendText(resultSet.getString(1));
 
     }
 
     @FXML
-    void onChkM(ActionEvent event) {
-
+    void onChkM(ActionEvent event) throws SQLException, ClassNotFoundException {
+        String selectStmt = "select returnPrice('M');";
+        ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
+        resultSet.next();
+        seePrice.clear();
+        chkS.setSelected(false);
+        chkL.setSelected(false);
+        seePrice.appendText(resultSet.getString(1));
     }
 
     @FXML
-    void onChkS(ActionEvent event) {
-
+    void onChkS(ActionEvent event) throws SQLException, ClassNotFoundException {
+        String selectStmt = "select returnPrice('S');";
+        ResultSet resultSet = dbUtil.dbExecuteQuery(selectStmt);
+        resultSet.next();
+        seePrice.clear();
+        chkL.setSelected(false);
+        chkM.setSelected(false);
+        seePrice.appendText(resultSet.getString(1));
     }
 
     @FXML

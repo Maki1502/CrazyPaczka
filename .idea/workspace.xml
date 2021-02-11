@@ -4,17 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8edd7339-9291-44f7-8314-b01bd8987617" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/ib/StatsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/fxml/stats.fxml" afterDir="false" />
+    <list default="true" id="8edd7339-9291-44f7-8314-b01bd8987617" name="Default Changelist" comment="added admin mode">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/ib/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ib/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ib/LoginScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ib/LoginScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/ib/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ib/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/techScreen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/techScreen.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ib/PaczkiDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ib/PaczkiDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ib/StatsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ib/StatsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ib/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ib/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/stats.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/stats.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/edu/ib/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/ib/AdminController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/edu/ib/MainController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/ib/MainController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fxml/techScreen.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fxml/techScreen.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/ib/PaczkiDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/ib/PaczkiDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/ib/StatsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/ib/StatsController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/ib/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/ib/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/ib/loginScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/ib/loginScreen.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +107,7 @@
       <workItem from="1612519055073" duration="358000" />
       <workItem from="1612651421370" duration="78696000" />
       <workItem from="1612953244688" duration="15635000" />
-      <workItem from="1612969592255" duration="28012000" />
+      <workItem from="1612969592255" duration="33964000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <created>1611860243625</created>
@@ -435,14 +438,20 @@
       <option name="project" value="LOCAL" />
       <updated>1613009444402</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="added admin mode">
+      <created>1613013838005</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1613013838005</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="cachedRowSetWrapper class" />
     <MESSAGE value="very basic starting app" />
     <MESSAGE value="Enum out" />
     <MESSAGE value="First serious commit?" />
@@ -467,7 +476,8 @@
     <MESSAGE value="clientView" />
     <MESSAGE value="another commit" />
     <MESSAGE value="smth workin'" />
-    <option name="LAST_COMMIT_MESSAGE" value="smth workin'" />
+    <MESSAGE value="added admin mode" />
+    <option name="LAST_COMMIT_MESSAGE" value="added admin mode" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
